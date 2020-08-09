@@ -1,0 +1,21 @@
+.form {
+    height: auto;
+    margin-top: 2em;
+    width: 100%;
+    justify-content: center;
+    background-color: rgba(255,255,255,0.7);
+}
+
+.input_sizeForm {
+    width: 75%;
+  }
+
+  @media screen and (min-width: 64em) {
+    .input_sizeForm {
+      width: 50%;
+      flex-direction: column;
+    }
+    .form {
+        width: 50%;
+    }
+}

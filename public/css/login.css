@@ -1,0 +1,92 @@
+/* shared className */
+.height_shared {
+  height: 100vh;
+}
+
+.text_font {
+  font-family: "Rubik-regular";
+}
+
+.gray_color {
+  color: gray;
+}
+
+.loginANDsignup_background {
+  background-image: url("../img/loginANDsignup.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: auto;
+}
+
+#see_password {
+  margin-right: 2em;
+  margin-top: -3.6em;
+  height: 2em;
+}
+
+.see_passwordIcon {
+  width: 2em;
+  height: 2em;
+  opacity: 50%;
+}
+
+.see_passwordIcon:hover {
+  opacity: 100%;
+  transition: 0.2s;
+}
+
+.see_passwordContainer {
+  width: 100%;
+}
+
+.login_container {
+  width: 40em;
+  background-color: white;
+  border: 1.5px solid #333;
+}
+
+.socialmedia_buttons {
+  width: 6em;
+  height: 2em;
+}
+
+.o {
+  margin-top: -1.9em;
+}
+
+.form_loginANDsignup {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.size_formitems {
+  width: 100%;
+  height: 3em;
+  margin: 1em;
+  border: 1px solid black;
+}
+
+.login_button button {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  height: 3em;
+  width: 85%;
+}
+
+.login_button button:hover {
+  color: white;
+  background-color: #006073;
+  border: 0.1px solid #00b5bd;
+  transition: 0.5s;
+  text-decoration: none;
+}
+
+.return {
+  flex-direction: row;
+}
+
+.spanValidators {
+  margin-left: 1em;
+  margin-top: -1em;
+}
