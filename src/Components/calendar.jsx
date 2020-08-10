@@ -13,9 +13,11 @@ const Calendar = () => {
     const selectedInputDate = date => {
         setSelectedDate(date);
 
-        if (date && document.getElementById("preview_date") != null) {
+        if (date && document.getElementById("preview_date") != null && date.value != "") {
             document.getElementById("preview_date").textContent =
                 ` el día ${(date.getDate()) + "/" + (date.getMonth() + 1) + "/" + (date.getFullYear())}`
+        } else {
+            document.getElementById("preview_date").textContent = ""
         }
     };
 
@@ -28,11 +30,11 @@ const Calendar = () => {
                 selected={selectedDate}
                 onChange={selectedInputDate}
                 locale="es"
+                isClearable={selectedInputDate}
                 dateFormat="dd/MM/yyyy"
-                isClearable
                 maxDate={currentDay}
             />
-        </div >
+        </div>
     )
 }
 

@@ -51,6 +51,8 @@ class Report extends React.Component {
 
     clearHour = () => {
         document.getElementById("missing_hour").value = ""
+        document.getElementById("preview_missing_hour").textContent = ``
+
     }
 
     render() {
