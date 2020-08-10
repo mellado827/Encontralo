@@ -4,6 +4,7 @@ import SeePasswordPage1 from '../Functions/seePasswordPage1'
 import SeePasswordPage2 from '../Functions/seePasswordPage2'
 import SeePasswordPage3 from '../Functions/seePasswordPage3'
 import PasswordSyntaxisPage from '../Functions/PasswordSyntaxisPage'
+import Quit from '../Functions/quit'
 
 class Password extends React.Component {
     constructor(props) {
@@ -12,6 +13,7 @@ class Password extends React.Component {
 
     componentDidMount() {
         document.title = "Encontralo - Cambiar contraseña"
+        Quit()
     }
 
     render() {

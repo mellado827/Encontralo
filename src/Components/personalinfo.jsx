@@ -3,6 +3,7 @@ import EnableInput from '../Functions/enableInputs'
 import GoBack from '../Functions/goBack'
 import Blank from '../Functions/blank'
 import PersonalData from '../Functions/personalData'
+import Quit from '../Functions/quit'
 
 class PersonalInfo extends React.Component {
 
@@ -21,6 +22,7 @@ class PersonalInfo extends React.Component {
 
     componentDidMount() {
         document.title = "Encontralo - Datos personales"
+        Quit()
     }
 
 

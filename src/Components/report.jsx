@@ -10,6 +10,7 @@ import PetName from '../Functions/petName'
 import Race from '../Functions/race'
 import Owner from '../Functions/owner'
 import ItWas from '../Functions/itwas'
+import Quit from '../Functions/quit'
 
 class Report extends React.Component {
 
@@ -340,8 +341,7 @@ class Report extends React.Component {
         });
         PetName()
         PreviewButtonDisplay()
-        document.title = "Encontralo - Reportar desaparición"
-
+        Quit()
     }
 }
 

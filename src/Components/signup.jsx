@@ -5,6 +5,7 @@ import ValidateEmail from '../Functions/validateEmail'
 import ValidatePassword from '../Functions/validatePassword'
 import CellphoneValidation from '../Functions/cellphoneValidation'
 import finalValidationSignUp from '../Functions/finalValidationSignUp'
+import Quit from '../Functions/quit'
 
 class Signup extends React.Component {
 
@@ -23,6 +24,7 @@ class Signup extends React.Component {
 
     componentDidMount() {
         document.title = "Encontralo - Registrarse"
+        Quit()
     }
 
     render() {

@@ -1,6 +1,7 @@
 import React from 'react'
 import SeePassword from '../Functions/seePassword'
 import EmptyLoginData from '../Functions/emptyLoginData'
+import Quit from '../Functions/quit'
 
 class Login extends React.Component {
 
@@ -11,6 +12,7 @@ class Login extends React.Component {
 
     componentDidMount() {
         document.title = "Encontralo - Iniciar sesión"
+        Quit()
     }
 
     render() {

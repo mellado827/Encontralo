@@ -22,7 +22,12 @@ function previewButtonData() {
 
     document.getElementById("preview_zone").textContent = `${document.getElementById("zone").value}`
     document.getElementById("preview_place").textContent = `${document.getElementById("last_placePet").value}`
-    document.getElementById("preview_missing_hour").textContent = ` a las ${document.getElementById("missing_hour").value} `
+    if (document.getElementById("missing_hour").value != "") {
+        document.getElementById("preview_missing_hour").textContent = ` a las ${document.getElementById("missing_hour").value} `
+    } else {
+        document.getElementById("preview_missing_hour").textContent = ``
+    }
+
     document.getElementById("preview_petDescription").textContent = ` ${document.getElementById("pet_description").value} `
 
 }
