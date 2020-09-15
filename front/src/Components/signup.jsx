@@ -1,44 +1,58 @@
-import React from 'react'
+import React, { useState } from 'react'
 import SeePassword from '../Functions/seePassword'
 import UsernameValidation from '../Functions/usernameValidation'
 import ValidateEmail from '../Functions/validateEmail'
 import ValidatePassword from '../Functions/validatePassword'
 import CellphoneValidation from '../Functions/cellphoneValidation'
-import finalValidationSignUp from '../Functions/finalValidationSignUp'
-import Quit from '../Functions/quit'
+// import finalValidationSignUp from '../Functions/finalValidationSignUp'
 
-class Signup extends React.Component {
+function Signup() {
 
-    constructor() {
-        super();
-        this.state = { value: '' };
-        this.onlyNumber = this.onlyNumber.bind(this)
+    //user = state
+    //saveUser = función para guardar state
+    const [user, saveUser] = useState({
+        username: '',
+        email: '',
+        password: '',
+        cellphone: ''
+    })
+
+    //leer datos de form
+    const updateState = e => {
+        //almacenar lo que escribe
+        saveUser({
+            ...user,
+            [e.target.name]: [e.target.value]
+        })
     }
 
-    onlyNumber(e) {
-        const syntaxis = /^[0-9\b]+$/;
-        if (e.target.value === '' || syntaxis.test(e.target.value)) {
-            this.setState({ value: e.target.value })
-        }
+    document.title = "Encontralo - Registrarse"
+
+    //validar formulario 
+    const userValidator = () => {
+        const { username, email, password, cellphone } = user
+        let ok = !username.length || !email.length ||
+            !password.length || !cellphone.length
+
+        return ok
+
     }
 
-    componentDidMount() {
-        document.title = "Encontralo - Registrarse"
-        Quit()
-    }
+    return (
+        <>
 
-    render() {
-        return (
-            <div
+            <form
                 className="loginANDsignup_background height_shared d-flex justify-content-center align-items-center"
             >
                 <div className="signup_container m-2">
                     <h1 className="subtitle_fontstyle text-center m-3">Regístrate</h1>
-                    <form
+                    <div
                         className="form_loginANDsignup d-flex justify-content-left"
                         id="signup_form"
                     >
                         <input
+                            onChange={updateState}
+                            name="username"
                             type="text"
                             placeholder="Nombre de usuario"
                             className="size_formitems text_fontstyle"
@@ -48,6 +62,8 @@ class Signup extends React.Component {
 
                         <span id="validUser" className="text_font spanValidators"></span>
                         <input
+                            onChange={updateState}
+                            name="email"
                             type="email"
                             placeholder="Correo electrónico"
                             className="size_formitems text_fontstyle"
@@ -58,6 +74,8 @@ class Signup extends React.Component {
 
                         <span id="signUpEmailValid" className="text_font spanValidators"></span>
                         <input
+                            onChange={updateState}
+                            name="password"
                             type="password"
                             placeholder="Contraseña"
                             className="size_formitems text_fontstyle"
@@ -89,14 +107,16 @@ class Signup extends React.Component {
                         >
                             Su contraseña debe tener al menos 8 caracteres, una mayúscula y un
                             número.
-          </span>
+      </span>
                         <input
+                            onChange={updateState}
+                            name="cellphone"
                             type="text"
                             placeholder="Número de celular (+598)"
                             className="size_formitems text_fontstyle"
                             id="user_cellphone"
-                            value={this.state.value}
-                            onChange={this.onlyNumber}
+                            // value={this.state.value}
+                            // onChange={this.onlyNumber}
                             onKeyDown={CellphoneValidation}
                             required
                         />
@@ -106,25 +126,26 @@ class Signup extends React.Component {
                             <input type="checkbox" defaultChecked />
                             <label className="text_font not_text"
                             >Deseo recibir notificaciones sobre animales perdidos y, de
-              Encontralo, por correo electrónico.</label
+          Encontralo, por correo electrónico.</label
                             >
                         </div>
-                    </form>
+                    </div>
                     <div className="signup_button d-flex justify-content-center">
                         <button
-                            onClick={finalValidationSignUp}
                             className="call text_font signup_button d-flex justify-content-center m-1"
                             id="signup_button"
+                            disabled={userValidator()}
                         >
                             Registrarse
-                        </button>
+                    </button>
                     </div>
                 </div>
-            </div>
+            </form>
+        </>
 
-        )
+    )
 
-    }
 }
+
 
 export default Signup
