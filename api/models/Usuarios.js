@@ -10,8 +10,7 @@ const usuariosSchema = new Schema({
     email: {
         type: String,
         unique: true,
-        lowercase: true,
-        trim: true
+        lowercase: true
     },
     contrasena: {
         type: String,

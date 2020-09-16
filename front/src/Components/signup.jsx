@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import SeePassword from '../Functions/seePassword'
 import UsernameValidation from '../Functions/usernameValidation'
 import ValidateEmail from '../Functions/validateEmail'
-import ValidatePassword from '../Functions/validatePassword'
 import CellphoneValidation from '../Functions/cellphoneValidation'
+import axiosClient from '../../src/config/axios'
 // import finalValidationSignUp from '../Functions/finalValidationSignUp'
 
 function Signup() {
@@ -11,10 +11,10 @@ function Signup() {
     //user = state
     //saveUser = función para guardar state
     const [user, saveUser] = useState({
-        username: '',
+        nickname: '',
         email: '',
-        password: '',
-        cellphone: ''
+        contrasena: '',
+        celular: ''
     })
 
     //leer datos de form
@@ -22,17 +22,33 @@ function Signup() {
         //almacenar lo que escribe
         saveUser({
             ...user,
-            [e.target.name]: [e.target.value]
+            [e.target.name]: e.target.value
         })
+
+        console.log(user)
     }
+
 
     document.title = "Encontralo - Registrarse"
 
+
+    //añade en la API un usuario nuevo
+    const addUser = e => {
+        e.preventDefault()
+
+        //enviar petición a axios
+        axiosClient.post('/usuarios', user)
+            .then(res => {
+                console.log(res)
+            })
+    }
+
+
     //validar formulario 
     const userValidator = () => {
-        const { username, email, password, cellphone } = user
-        let ok = !username.length || !email.length ||
-            !password.length || !cellphone.length
+        const { nickname, email, contrasena, celular } = user
+        let ok = !nickname.length || !email.length ||
+            !contrasena.length || !celular.length
 
         return ok
 
@@ -43,6 +59,7 @@ function Signup() {
 
             <form
                 className="loginANDsignup_background height_shared d-flex justify-content-center align-items-center"
+                onSubmit={addUser}
             >
                 <div className="signup_container m-2">
                     <h1 className="subtitle_fontstyle text-center m-3">Regístrate</h1>
@@ -52,7 +69,7 @@ function Signup() {
                     >
                         <input
                             onChange={updateState}
-                            name="username"
+                            name="nickname"
                             type="text"
                             placeholder="Nombre de usuario"
                             className="size_formitems text_fontstyle"
@@ -75,12 +92,11 @@ function Signup() {
                         <span id="signUpEmailValid" className="text_font spanValidators"></span>
                         <input
                             onChange={updateState}
-                            name="password"
+                            name="contrasena"
                             type="password"
                             placeholder="Contraseña"
                             className="size_formitems text_fontstyle"
                             id="passwordLogin"
-                            onKeyDown={ValidatePassword}
                             required
                         />
 
@@ -101,16 +117,10 @@ function Signup() {
                             </button>
                         </div>
                         <span id="passwordValid" className="text_font spanValidators"></span>
-                        <span
-                            className="text-center gray_color text_font"
-                            id="passwordSyntaxisAclaration"
-                        >
-                            Su contraseña debe tener al menos 8 caracteres, una mayúscula y un
-                            número.
-      </span>
+
                         <input
                             onChange={updateState}
-                            name="cellphone"
+                            name="celular"
                             type="text"
                             placeholder="Número de celular (+598)"
                             className="size_formitems text_fontstyle"
