@@ -152,7 +152,7 @@ class Report extends React.Component {
                             </form>
 
                             <div className="last_timeseen d-flex flex-column mt-4">
-                                <label className="mt-4 text-center">Fecha de desaparición</label>
+                                <label className="mt-4 text-center">Fecha</label>
                                 {<Calendar />}
                                 <label className="mt-4">Hora</label>
                                 <div>

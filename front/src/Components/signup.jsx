@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
 import SeePassword from '../Functions/seePassword'
-import UsernameValidation from '../Functions/usernameValidation'
-import ValidateEmail from '../Functions/validateEmail'
-import CellphoneValidation from '../Functions/cellphoneValidation'
 import axiosClient from '../../src/config/axios'
-// import finalValidationSignUp from '../Functions/finalValidationSignUp'
+import Swal from 'sweetalert2'
 
 function Signup() {
 
@@ -17,30 +14,52 @@ function Signup() {
         celular: ''
     })
 
-    //leer datos de form
+
+    // leer los datos del formulario
     const updateState = e => {
-        //almacenar lo que escribe
+        // Almacenar lo que el usuario escribe en el state
         saveUser({
+            // obtener una copia del state actual
             ...user,
             [e.target.name]: e.target.value
         })
 
-        console.log(user)
     }
-
 
     document.title = "Encontralo - Registrarse"
 
 
     //añade en la API un usuario nuevo
     const addUser = e => {
-        e.preventDefault()
+        e.preventDefault();
 
-        //enviar petición a axios
+        // enviar petición
         axiosClient.post('/usuarios', user)
             .then(res => {
-                console.log(res)
-            })
+
+                console.log(res.data.mensaje)
+
+                if (res.data.mensaje === "Usuario ya registrado") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Hubo un error',
+                        text: 'Usuario ya registrado',
+                    })
+                } else {
+                    Swal.fire(
+                        '¡Ya eres parte de Encontralo',
+                        res.data.mensaje,
+                        'success'
+                    )
+                }
+
+
+
+            }
+
+
+
+            );
     }
 
 
@@ -74,10 +93,8 @@ function Signup() {
                             placeholder="Nombre de usuario"
                             className="size_formitems text_fontstyle"
                             id="username"
-                            onKeyDown={UsernameValidation}
                         />
 
-                        <span id="validUser" className="text_font spanValidators"></span>
                         <input
                             onChange={updateState}
                             name="email"
@@ -85,11 +102,9 @@ function Signup() {
                             placeholder="Correo electrónico"
                             className="size_formitems text_fontstyle"
                             id="emailSignUp"
-                            onKeyDown={ValidateEmail}
                             required
                         />
 
-                        <span id="signUpEmailValid" className="text_font spanValidators"></span>
                         <input
                             onChange={updateState}
                             name="contrasena"
@@ -116,7 +131,6 @@ function Signup() {
                                 />
                             </button>
                         </div>
-                        <span id="passwordValid" className="text_font spanValidators"></span>
 
                         <input
                             onChange={updateState}
@@ -125,13 +139,9 @@ function Signup() {
                             placeholder="Número de celular (+598)"
                             className="size_formitems text_fontstyle"
                             id="user_cellphone"
-                            // value={this.state.value}
-                            // onChange={this.onlyNumber}
-                            onKeyDown={CellphoneValidation}
                             required
                         />
 
-                        <span id="cellphoneValid" className="text_font spanValidators"></span>
                         <div className="signup_notifications m-1">
                             <input type="checkbox" defaultChecked />
                             <label className="text_font not_text"

@@ -1,4 +1,6 @@
 const Usuarios = require('../models/Usuarios')
+const Swal = require('sweetalert2')
+const { Code } = require('mongodb')
 
 //Nuevo usuario
 exports.nuevoUsuario = async (req, res, next) => {
@@ -10,24 +12,23 @@ exports.nuevoUsuario = async (req, res, next) => {
         res.json({ mensaje: 'Se agregó un nuevo usuario' })
 
     } catch (error) {
-        //si hay un error
-        console.log(error)
-        next()
+
+        if (error.code === 11000) {
+            res.json({ mensaje: 'Usuario ya registrado' });
+        }
     }
 
 }
 
 //Mostrar clientes
 
-exports.mostrarUsuarios = async (req, res, next) => {
+exports.mostrarUsuarios = async (req, res) => {
     try {
-
         const usuarios = await Usuarios.find({})
         res.json(usuarios)
 
     } catch (error) {
         console.log(error)
-        next()
     }
 }
 

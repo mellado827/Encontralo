@@ -10,14 +10,22 @@ mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost/encontralo', {
     useNewUrlParser: true
 })
+// crear el servidor
+const app = express();
 
-const app = express()
+// habilitar bodyparser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+// Habilitar cors
+app.use(cors());
 
-app.use(cors())
+// Rutas de la app
+app.use('/', routes());
 
-app.use('/', routes())
+// carpeta publica
+app.use(express.static('images'));
 
-app.listen(5000)
+// puerto
+app.listen(5000);
+
