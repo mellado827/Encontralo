@@ -17,7 +17,8 @@ const usuariosSchema = new Schema({
         trim: true
     },
     celular: {
-        type: Number
+        type: Number,
+        unique: true
     }
 })
 

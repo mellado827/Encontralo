@@ -1,6 +1,4 @@
 const Usuarios = require('../models/Usuarios')
-const Swal = require('sweetalert2')
-const { Code } = require('mongodb')
 
 //Nuevo usuario
 exports.nuevoUsuario = async (req, res, next) => {
@@ -9,12 +7,16 @@ exports.nuevoUsuario = async (req, res, next) => {
     try {
         //almacenar el registro
         await usuario.save()
-        res.json({ mensaje: 'Se agregó un nuevo usuario' })
+        res.json({ mensaje: 'Registro exitoso' })
 
     } catch (error) {
 
         if (error.code === 11000) {
-            res.json({ mensaje: 'Usuario ya registrado' });
+            res.json({
+                mensaje: error.keyValue.nickname ? `El usuario ${error.keyValue.nickname} está registrado` : `Hubo un error` &&
+                    error.keyValue.email ? `El email ${error.keyValue.email} está registrado` : `Hubo un error` &&
+                        error.keyValue.celular ? `El número ${error.keyValue.celular} está registrado` : `Hubo un error`
+            })
         }
     }
 

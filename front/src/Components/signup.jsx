@@ -5,6 +5,7 @@ import Swal from 'sweetalert2'
 
 function Signup() {
 
+
     //user = state
     //saveUser = función para guardar state
     const [user, saveUser] = useState({
@@ -37,19 +38,25 @@ function Signup() {
         axiosClient.post('/usuarios', user)
             .then(res => {
 
-                console.log(res.data.mensaje)
-
-                if (res.data.mensaje === "Usuario ya registrado") {
+                if (res.data.mensaje.includes("registrado")) {
                     Swal.fire({
-                        icon: 'error',
                         title: 'Hubo un error',
-                        text: 'Usuario ya registrado',
+                        icon: 'error',
+                        text: res.data.mensaje,
+                        customClass: {
+                            content: 'text_fontstyle'
+                        }
                     })
                 } else {
-                    Swal.fire(
-                        '¡Ya eres parte de Encontralo',
-                        res.data.mensaje,
-                        'success'
+                    Swal.fire({
+                        title: '¡Ya eres parte de Encontralo!',
+                        text: res.data.mensaje,
+                        icon: 'success',
+                        customClass: {
+                            content: 'text_fontstyle'
+                        }
+                    }
+
                     )
                 }
 
@@ -62,6 +69,18 @@ function Signup() {
             );
     }
 
+
+    window.addEventListener("load", function () {
+        document.getElementById("user_cellphone").addEventListener("keypress", justNumbers, false);
+    });
+
+    //Solo números
+    function justNumbers(e) {
+        var key = window.event ? e.which : e.keyCode;
+        if (key < 48 || key > 57) {
+            e.preventDefault();
+        }
+    }
 
     //validar formulario 
     const userValidator = () => {
@@ -77,6 +96,7 @@ function Signup() {
         <>
 
             <form
+                id="user_for"
                 className="loginANDsignup_background height_shared d-flex justify-content-center align-items-center"
                 onSubmit={addUser}
             >
@@ -139,16 +159,11 @@ function Signup() {
                             placeholder="Número de celular (+598)"
                             className="size_formitems text_fontstyle"
                             id="user_cellphone"
+                            maxLength="9"
                             required
+                        // onKeyDown={valideKey(evt)}
                         />
 
-                        <div className="signup_notifications m-1">
-                            <input type="checkbox" defaultChecked />
-                            <label className="text_font not_text"
-                            >Deseo recibir notificaciones sobre animales perdidos y, de
-          Encontralo, por correo electrónico.</label
-                            >
-                        </div>
                     </div>
                     <div className="signup_button d-flex justify-content-center">
                         <button
