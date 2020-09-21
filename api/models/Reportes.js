@@ -29,10 +29,10 @@ const reportesSchema = new Schema({
         enum: ['Macho', 'Hembra'],
         required: true
     },
-    // imagen: {
-    //     type: String,
-    //     required: true
-    // },
+    imagen: {
+        type: String,
+        // required: true
+    },
     descripcion: {
         type: String,
         trim: true,
@@ -64,14 +64,14 @@ const reportesSchema = new Schema({
         trim: true,
         required: true
     },
-    // nombreUsuario: {
-    //     type: String,
-    //     trim: true
-    // },
-    // descripcionResponsable: {
-    //     type: String,
-    //     trim: true
-    // },
+    nombreUsuario: {
+        type: String,
+        trim: true
+    },
+    descripcionUsuario: {
+        type: String,
+        trim: true
+    },
 })
 
 module.exports = mongoose.model('Reportes', reportesSchema)

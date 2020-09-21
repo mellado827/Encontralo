@@ -6,16 +6,19 @@ import PreviewButtonDisplay from '../Functions/previewButtonDisplay'
 import PreviewButtonData from '../Functions/previewButtonData'
 import PetSex from '../Functions/petSex'
 import Chips from '../Functions/chips'
-import $ from 'jquery'
 import PetName from '../Functions/petName'
 import Race from '../Functions/race'
 import Owner from '../Functions/owner'
 import ItWas from '../Functions/itwas'
-import Quit from '../Functions/quit'
 import axiosClient from '../../src/config/axios'
 import Swal from 'sweetalert2'
 
 function Report() {
+
+
+    window.onbeforeunload = function () {
+        return "";
+    };
 
     const [report, saveReport] = useState({
         tipoMascota: '',
@@ -23,6 +26,7 @@ function Report() {
         raza: '',
         nombre: '',
         sexo: '',
+        imagen: '',
         descripcion: '',
         tieneChip: '',
         // fecha: ''
@@ -30,10 +34,9 @@ function Report() {
         departamento: '',
         localidad: '',
         lugar: '',
-        // nombreUsuario: ''
+        nombreUsuario: '',
+        descripcionUsuario: ''
     })
-
-    const history = useHistory();
 
     const updateState = e => {
         saveReport({
@@ -42,9 +45,35 @@ function Report() {
         })
     }
 
-    const redirect = () => {
-        history.push("/");
+
+    const [imagePreview, setImagePreview] = useState('https://www.amerikickkansas.com/wp-content/uploads/2017/04/default-image-620x600.jpg');
+
+
+    const removeImage = e => {
+        e.preventDefault()
+        setImagePreview('https://www.amerikickkansas.com/wp-content/uploads/2017/04/default-image-620x600.jpg')
+        document.getElementById("file_attachment").value = ""
     }
+
+    const readImage = e => {
+        let reader = new FileReader()
+        reader.readAsDataURL(e.target.files[0])
+        reader.onload = () => {
+            if (reader.readyState === 2) {
+                setImagePreview(reader.result)
+            }
+            setImagePreview(reader.result)
+        }
+    }
+
+    const clearHour = e => {
+        e.preventDefault()
+        document.getElementById("missing_hour").value = ""
+        document.getElementById("preview_missing_hour").textContent = ``
+
+    }
+
+
 
 
     //validar reporte
@@ -60,91 +89,79 @@ function Report() {
     //añadir reporte
     const addReport = e => {
         e.preventDefault()
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: "Un reporte se puede modificar después de haber sido creado, pero los datos modificados quedarán en el sitio, no al dinfundirse.",
-            icon: 'warning',
-            customClass: {
-                content: 'text_fontstyle'
-            },
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            confirmButtonColor: '#267888',
-            cancelButtonColor: '#e04f5f',
-            confirmButtonText: 'Si, quiero reportar!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axiosClient.post('/reportes', report)
-                    .then(res => {
-                        if (res.status === 200) {
-                            Swal.fire({
-                                title: '¡Reporte hecho satisfactoriamente!',
-                                text: `¡Mucha suerte y no te rindas! Puedes ver el reporte realizado en la sección "Buscar un animal perdido" o "Mis Casos"`,
-                                icon: 'success',
-                                customClass: {
-                                    content: 'text_fontstyle'
-                                }
-                            })
-                            setTimeout(() => {
-                                redirect()
-                            }, 3000);
+
+        const formData = new FormData()
+        formData.append('tipoMascota', report.tipoMascota)
+        formData.append('estado', report.estado)
+        formData.append('raza', report.raza)
+        formData.append('nombre', report.nombre)
+        formData.append('sexo', report.sexo)
+        formData.append('imagen', imagePreview)
+        formData.append('descripcion', report.descripcion)
+        formData.append('tieneChip', report.tieneChip)
+        formData.append('hora', report.hora)
+        formData.append('departamento', report.departamento)
+        formData.append('localidad', report.localidad)
+        formData.append('lugar', report.lugar)
+        formData.append('nombreUsuario', report.nombreUsuario)
+        formData.append('descripcionUsuario', report.descripcionUsuario)
+
+        try {
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Un reporte puede ser modificado después de haber sido creado, pero la información modificada quedaría en el sitio, no al difundirse el reporte.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, quiero reportar!',
+                cancelButtonText: 'Cancelar',
+                customClass: {
+                    content: 'text_fontstyle'
+                }
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+
+                    const res = await axiosClient.post('/reportes', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
                         }
                     })
 
 
+                    console.log(res)
 
-            }
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Reporte realizado!',
+                        text: '¡Suerte y no te  rindas! Puedes ver el reporte en "Buscar un animal perdido" o "Mis Casos"',
+                        customClass: {
+                            content: 'text_fontstyle'
+                        }
+                    })
+                }
+            })
 
 
-        })
+
+        } catch (error) {
+
+            Swal.fire({
+                title: 'Hubo un error',
+                text: `Inténtalo de nuevo más tarde`,
+                icon: 'error',
+                customClass: {
+                    content: 'text_fontstyle'
+                }
+            })
+        }
+
 
 
     }
 
 
-    // constructor() {
-    //     super();
-
-    //     this.state = {
-    //         petDog: 'https://www.amerikickkansas.com/wp-content/uploads/2017/04/default-image-620x600.jpg'
-    //     }
-    // }
-
-    // imageHandler = (e) => {
-    //     const reader = new FileReader();
-    //     reader.onload = () => {
-    //         if (reader.readyState === 2) {
-    //             this.setState({ petDog: reader.result })
-    //         }
-    //         if (document.getElementById("pet_type").value !== "selection" &&
-    //             document.getElementById("itwas").value !== "selection" &&
-    //             document.getElementById("pet_sex").value !== "selection" &&
-    //             document.getElementById("pet_description").value !== "" &&
-    //             (document.getElementById("chipAfirmative").checked == true ||
-    //                 document.getElementById("chipUncertain").checked == true ||
-    //                 document.getElementById("chipNegative").checked == true) &&
-    //             document.getElementById("select_departament").value != "selection" &&
-    //             document.getElementById("zone").value !== "" &&
-    //             document.getElementById("last_placePet").value != "") {
-    //             document.getElementById("preview_button").style.display = "block"
-    //         }
-    //     }
-    //     reader.readAsDataURL(e.target.files[0])
-    // }
-
-    // removeImage = () => {
-    //     this.setState({ petDog: 'https://www.amerikickkansas.com/wp-content/uploads/2017/04/default-image-620x600.jpg' })
-    //     document.getElementById("file_attachment").value = ""
-    //     document.getElementById("preview_button").style.display = "none";
-    // }
-
-    // clearHour = () => {
-    //     document.getElementById("missing_hour").value = ""
-    //     document.getElementById("preview_missing_hour").textContent = ``
-
-    // }
-
-    // const { petDog } = this.state
     return (
         <>
             <Navbar />
@@ -219,19 +236,23 @@ function Report() {
                                 type="file"
                                 id="file_attachment"
                                 accept="image/*"
-                            // onChange={this.imageHandler} 
+                                // onChange={imageHandler}
+                                onChange={readImage}
+                                name="imagen"
                             />
                             <div className="petpic_container d-flex justify-content-center">
                                 <img
-                                    // src={petDog} 
+
+                                    src={imagePreview}
                                     alt=""
                                     id="img"
                                     className="petphoto_width">
                                 </img>
                                 <button
-                                    // onClick={this.removeImage} 
+                                    type="button"
                                     id="close_button_petimage"
                                     className="close_button button_removeimage"
+                                    onClick={removeImage}
                                 >
                                     <img src="../img/close.png" className="close_button margin_cb_report"></img>
                                 </button>
@@ -280,8 +301,9 @@ function Report() {
                                     onChange={PreviewButtonData, updateState}
                                 />
                                 <button
+                                    type="button"
                                     className="clear_hour"
-                                // onClick={this.clearHour}
+                                    onClick={clearHour}
                                 >
                                     x
                                 </button>
@@ -308,7 +330,7 @@ function Report() {
                                 <option value="Lavalleja">Lavalleja</option>
                                 <option value="Maldonado">Maldonado</option>
                                 <option value="Montevideo">Montevideo</option>
-                                <option value="Paysandu">Paysandú</option>
+                                <option value="Paysandú">Paysandú</option>
                                 <option value="Río Negro">Río Negro</option>
                                 <option value="Rocha">Rocha</option>
                                 <option value="Salto">Salto</option>
@@ -357,7 +379,7 @@ function Report() {
                             type="text"
                             className="text_fontstyle"
                             id="owner_name"
-                        // onChange={updateState}
+                            onChange={updateState}
                         />
 
                         <label className="mt-4 text_fontstyle"> <u>Usuario</u> <strong></strong></label>
@@ -377,9 +399,10 @@ function Report() {
                         <label className="mt-4 text_fontstyle">Descripción</label>
                         <textarea
                             rows="10"
+                            name="descripcionUsuario"
                             className="text_fontstyle" id="owner_description"
                             placeholder="Ofrezco recompensa, si me llaman y no contesto llamen a este número: 094124356, etc."
-                            onChange={Owner}
+                            onChange={Owner, updateState}
                         >
                         </textarea>
                         <div className="report_buttons d-flex justify-content-around">
@@ -428,12 +451,12 @@ function Report() {
                             <div className="slideshow-container">
 
                                 <div className="petpic_container d-flex justify-content-center">
-                                    <img
-                                        // src={petDog} 
+                                    {/* <img
+                                        src={imageDefault}
                                         alt=""
                                         id="img"
                                         className="petphoto_width">
-                                    </img>
+                                    </img> */}
                                 </div>
 
                                 <p className="text_fontstyle">
@@ -480,7 +503,6 @@ function Report() {
         </>
     )
 
+
 }
-
-
 export default Report

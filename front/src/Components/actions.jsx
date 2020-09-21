@@ -5,7 +5,7 @@ const Actions = () => (
     <div className="calltoaction" id="calltoaction">
         <h1 className="title_fontstyle text-center p-5">¿Qué deseas hacer?</h1>
         <div className="calltoaction_buttons text_fontstyle">
-            <a href="/">
+            <a href="/reportar">
                 <button className="text_fontstyle m-3 cta_bottonsstyle" >
                     Reportar desaparición
                 </button>

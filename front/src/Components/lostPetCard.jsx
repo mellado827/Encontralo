@@ -23,16 +23,16 @@ function LostPetCard({ report }) {
 
     return (
         <>
-            <section className="">
+            <section>
                 <div className="pet1">
 
                     <div className="pet_photo">
-                        {<img src={report.imagen} alt="" />}
-                        <div className="see_petreport">
-                            <a href="/">
+                        {<img className="petPhotoSize" src={report.imagen} />}
+                        {/* <div className="see_petreport">
+                             <a href="/">
                                 <img src="./img/see.png" alt="see report" title="Ver caso" />
-                            </a>
-                        </div>
+                            </a> 
+                        </div> */}
                     </div>
 
                     <div className="petinfo m-1">
