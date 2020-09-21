@@ -29,21 +29,22 @@ const reportesSchema = new Schema({
         enum: ['Macho', 'Hembra'],
         required: true
     },
-    imagen: {
-        type: String,
-        required: true
-    },
+    // imagen: {
+    //     type: String,
+    //     required: true
+    // },
     descripcion: {
         type: String,
         trim: true,
         required: true
     },
-    chip: {
-        type: Boolean,
+    tieneChip: {
+        type: String,
+        enum: ['Si', 'No se', 'No'],
         required: true
     },
     fecha: {
-        type: Date
+        type: String
     },
     hora: {
         type: String
@@ -63,14 +64,14 @@ const reportesSchema = new Schema({
         trim: true,
         required: true
     },
-    nombreResponsable: {
-        type: String,
-        trim: true,
-    },
-    descripcionResponsable: {
-        type: String,
-        trim: true
-    },
+    // nombreUsuario: {
+    //     type: String,
+    //     trim: true
+    // },
+    // descripcionResponsable: {
+    //     type: String,
+    //     trim: true
+    // },
 })
 
 module.exports = mongoose.model('Reportes', reportesSchema)

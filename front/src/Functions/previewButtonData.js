@@ -1,5 +1,6 @@
 function previewButtonData() {
-    document.getElementById("preview_petType").textContent = `${document.getElementById("pet_type").value} `
+    let preview_petType = document.getElementById("preview_petType")
+    preview_petType.textContent = document.getElementById("pet_type").value
     document.getElementById("preview_departament").textContent = `${document.getElementById("select_departament").value}`
 
     switch (document.getElementById("select_departament").value) {

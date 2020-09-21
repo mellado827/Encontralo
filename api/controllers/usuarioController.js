@@ -13,9 +13,9 @@ exports.nuevoUsuario = async (req, res, next) => {
 
         if (error.code === 11000) {
             res.json({
-                mensaje: error.keyValue.nickname ? `El usuario ${error.keyValue.nickname} está registrado` : `Hubo un error` &&
-                    error.keyValue.email ? `El email ${error.keyValue.email} está registrado` : `Hubo un error` &&
-                        error.keyValue.celular ? `El número ${error.keyValue.celular} está registrado` : `Hubo un error`
+                mensaje: error.keyValue.nickname ? `El usuario ${error.keyValue.nickname} ya está en uso` : `Hubo un error` &&
+                    error.keyValue.email ? `El email ${error.keyValue.email} ya está en uso` : `Hubo un error` &&
+                        error.keyValue.celular ? `El número 0${error.keyValue.celular} ya está en uso` : `Hubo un error`
             })
         }
     }

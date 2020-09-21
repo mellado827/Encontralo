@@ -5,7 +5,6 @@ import Swal from 'sweetalert2'
 
 function Signup() {
 
-
     //user = state
     //saveUser = función para guardar state
     const [user, saveUser] = useState({
@@ -29,6 +28,19 @@ function Signup() {
 
     document.title = "Encontralo - Registrarse"
 
+    function redirectToPreviousPage() {
+        setTimeout(function () { window.history.back() }, 1500);
+    }
+
+
+    function areYouSure() {
+        window.onbeforeunload = function () {
+            return "";
+        };
+    }
+
+    areYouSure()
+
 
     //añade en la API un usuario nuevo
     const addUser = e => {
@@ -38,7 +50,7 @@ function Signup() {
         axiosClient.post('/usuarios', user)
             .then(res => {
 
-                if (res.data.mensaje.includes("registrado")) {
+                if (res.data.mensaje.includes("ya está en uso")) {
                     Swal.fire({
                         title: 'Hubo un error',
                         icon: 'error',
@@ -56,8 +68,9 @@ function Signup() {
                             content: 'text_fontstyle'
                         }
                     }
-
                     )
+                    redirectToPreviousPage()
+
                 }
 
 

@@ -38,15 +38,16 @@ exports.nuevoReporte = async (req, res, next) => {
 
     try {
 
-        if (req.file.filename) {
-            reporte.imagen = req.file.filename
-        }
+        // if (req.file.filename) {
+        //     reporte.imagen = req.file.filename
+        // }
 
         await reporte.save()
         res.json({ mensaje: 'Se agregó un nuevo reporte' })
 
     } catch (error) {
         console.log(error)
+        res.json({ mensaje: 'Inténtalo de nuevo más tarde' })
         next()
     }
 }
