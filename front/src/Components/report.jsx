@@ -29,13 +29,14 @@ function Report() {
         imagen: '',
         descripcion: '',
         tieneChip: '',
-        // fecha: ''
+        // fecha: '',
         hora: '',
         departamento: '',
         localidad: '',
         lugar: '',
         nombreUsuario: '',
-        descripcionUsuario: ''
+        descripcionUsuario: '',
+        informacionADifundir: ''
     })
 
     const updateState = e => {
@@ -44,7 +45,6 @@ function Report() {
             [e.target.name]: e.target.value
         })
     }
-
 
     const [imagePreview, setImagePreview] = useState('https://www.amerikickkansas.com/wp-content/uploads/2017/04/default-image-620x600.jpg');
 
@@ -73,17 +73,63 @@ function Report() {
 
     }
 
-
-
-
     //validar reporte
     const validateReport = () => {
         const { tipoMascota, estado, sexo, descripcion, tieneChip, departamento, localidad, lugar } = report
-
         let ok = !tipoMascota.length || !estado.length || !sexo.length || !descripcion.length ||
-            !tieneChip.length || !departamento.length || !localidad.length || !lugar.length
+            !tieneChip.length || !departamento.length || !localidad.length || !lugar.length || imagePreview.length < 128
 
-        return ok
+        if (ok === true) {
+            return ok
+        }
+
+    }
+
+    const ViralInfo = () => {
+
+        const { tipoMascota, estado, sexo, raza, nombre, hora, fecha, descripcion, tieneChip, departamento, localidad, lugar, nombreUsuario
+            , descripcionUsuario } = report
+
+        const realSex = () => {
+            switch (sexo) {
+                case "Macho":
+                    const macho = `${tipoMascota} ${estado.toLowerCase()}`
+                    return macho
+                case "Hembra":
+                    const hembra = `${tipoMascota.substr(0, tipoMascota.length - 1) + "a"} ${estado.toLowerCase().substr(0, estado.length - 1) + "a"}`
+                    return hembra
+                default:
+                    break;
+            }
+        }
+
+
+        const chip = () => {
+            switch (tieneChip) {
+                case "Si":
+                    return "Tiene chip"
+                case "No se":
+                    return "No se sabe si tiene chip"
+                case "No":
+                    return "No tiene chip"
+                default:
+                    break;
+            }
+        }
+
+
+        const viralInfo = `${realSex()} en ${departamento}, ${localidad}, más específicamente en ${lugar} ${fecha ? `el día ${fecha}` : ``}
+        ${hora ? `a las ${hora}` : ``}
+        ${nombre ? `Responde al nombre de ${nombre}` : `Se desconoce el nombre`}, ${raza ? `raza ${raza}` : `raza no especificada`}.
+        ${chip()}. Datos de vital importancia: ${descripcion}. ${nombreUsuario ? `La persona responsable es ${nombreUsuario}.` : ``}
+        ${descripcionUsuario ? `Datos adicionales de la persona responsable: ${descripcionUsuario}` : ``}
+
+        No cuesta NADA compartir. La calle no es hogar para nadie...
+
+        #Uruguay #${departamento} #Animal${estado} #SeBusca
+        `
+
+        return viralInfo
     }
 
     //añadir reporte
@@ -96,6 +142,7 @@ function Report() {
         formData.append('raza', report.raza)
         formData.append('nombre', report.nombre)
         formData.append('sexo', report.sexo)
+        // formData.append('fecha', currentDay)
         formData.append('imagen', imagePreview)
         formData.append('descripcion', report.descripcion)
         formData.append('tieneChip', report.tieneChip)
@@ -105,11 +152,12 @@ function Report() {
         formData.append('lugar', report.lugar)
         formData.append('nombreUsuario', report.nombreUsuario)
         formData.append('descripcionUsuario', report.descripcionUsuario)
+        formData.append('informacionADifundir', ViralInfo())
 
         try {
 
             Swal.fire({
-                title: '¿Estás seguro?',
+                title: '¿Estás seguro/a?',
                 text: "Un reporte puede ser modificado después de haber sido creado, pero la información modificada quedaría en el sitio, no al difundirse el reporte.",
                 icon: 'warning',
                 showCancelButton: true,
@@ -290,8 +338,9 @@ function Report() {
                         <div className="last_timeseen d-flex flex-column mt-4">
                             <label className="mt-4 text-center">Fecha</label>
                             {<Calendar
-                                // onChange={updateState} 
-                                name="fecha" />}
+                                name="fecha"
+                                onChange={updateState}
+                            />}
                             <label className="mt-4">Hora</label>
                             <div>
                                 <input type="time"
@@ -336,8 +385,8 @@ function Report() {
                                 <option value="Salto">Salto</option>
                                 <option value="San José">San José</option>
                                 <option value="Soriano">Soriano</option>
-                                <option value="Tacuarembo">Tacuarembó</option>
-                                <option value="Treinta y tres">Treinta y Tres</option>
+                                <option value="Tacuarembó">Tacuarembó</option>
+                                <option value="Treinta y Tres">Treinta y Tres</option>
                             </select>
                         </div>
                         <label className="mt-4"> <u>Localidad</u> <strong>*</strong></label>
@@ -451,48 +500,19 @@ function Report() {
                             <div className="slideshow-container">
 
                                 <div className="petpic_container d-flex justify-content-center">
-                                    {/* <img
-                                        src={imageDefault}
+                                    <img
+                                        src={imagePreview}
                                         alt=""
                                         id="img"
                                         className="petphoto_width">
-                                    </img> */}
+                                    </img>
                                 </div>
 
-                                <p className="text_fontstyle">
-                                    <span id="preview_itwas">Se perdió</span>
-                                    <span id="un"> un </span>
-                                    <span id="preview_petType" className="previewdata"> petType </span>
-                                    <span id="preview_race" className="previewdata"></span>
-                      en <span id="preview_departament" className="previewdata">departament</span>, <span id="preview_zone"
-                                        className="previewdata">zone</span>, más
-                      específicamente en <span id="preview_place" className="previewdata">place </span>
-                                    <span id="day_aclaration"></span>
-                                    <span id="preview_date"
-                                        className="previewdata">
-                                    </span>
-                                    <span id="hour_randomtext"><span id="preview_missing_hour"
-                                        className="previewdata"></span></span>
-                                    <span id="responde"></span> <span id="preview_petName"
-                                        className="previewdata">se desconoce el nombre. </span><span id="preview_chipText" className="previewdata"></span> Algunos
-                      datos
-                      adicionales:
-                      <span id="preview_petDescription" className="previewdata">petDescription</span>
-                                    <span id="responsable_acclaration"></span>
-                                    <span id="preview_ownerName" className="previewdata"></span>
-                                    <span id="preview_ownerdescription" className="previewdata"></span> Por cualquier cosa contáctense al
-                      <span className="previewdata"> ownerCellphone</span>
-                                </p>
-                                <div>
-                                    <p className="text_fontstyle">No cuesta NADA compartir. LA CALLE NO ES HOGAR PARA NADIE.</p>
-                                    <span className="text_fontstyle"> #Uruguay </span>
-                                    <span id="hastag_preview_departament" className="text_fontstyle"></span>
-                                    <span className="text_fontstyle"> #LaCalleNoEsHogarParaNadie </span>
-                                    <span className="text_fontstyle"> #AnimalPerdido </span>
+                                <div className="text_fontstyle">
+                                    {ViralInfo()}
                                 </div>
-                                <p></p>
-                                <p className="text_fontstyle">https://www.instagram.com/encontralo_uy</p>
-                                <p className="text_fontstyle">https://www.facebook.com/encontraloUY</p>
+
+
                             </div>
 
                         </div>

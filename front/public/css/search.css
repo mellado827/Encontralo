@@ -62,12 +62,12 @@
     max-height: 100%;
 }
 
-@media screen and (min-width: 32em) {
-    .reportCards {
-        flex-direction: row;
-        justify-content: center;
-    }      
-} 
+
+.reportCards {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}      
 
 .pet1 {
     height: 20em;
@@ -78,7 +78,7 @@
 
 .pet_photo {
     height: 65%;
-    background-color: #dddddd;
+    background-color: #d7d1d2;
     display: flex;
     justify-content: center;
     align-items: center;

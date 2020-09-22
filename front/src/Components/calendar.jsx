@@ -7,6 +7,7 @@ registerLocale('es', es)
 
 const Calendar = () => {
 
+
     const [selectedDate, setSelectedDate] = useState(null)
     const [currentDay] = useState(new Date());
 
@@ -14,10 +15,7 @@ const Calendar = () => {
         setSelectedDate(date);
 
         if (date && document.getElementById("preview_date") != null && date.value != "") {
-            document.getElementById("preview_date").textContent =
-                ` el día ${(date.getDate()) + "/" + (date.getMonth() + 1) + "/" + (date.getFullYear())}`
-        } else {
-            document.getElementById("preview_date").textContent = ""
+            let fecha = `${(date.getDate()) + "/" + (date.getMonth() + 1) + "/" + (date.getFullYear())}`
         }
     };
 

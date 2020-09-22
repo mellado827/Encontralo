@@ -23,7 +23,7 @@ function LostPetCard({ report }) {
 
     return (
         <>
-            <section>
+            <section className="">
                 <div className="pet1">
 
                     <div className="pet_photo">

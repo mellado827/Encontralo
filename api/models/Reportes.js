@@ -72,6 +72,9 @@ const reportesSchema = new Schema({
         type: String,
         trim: true
     },
+    informacionADifundir: {
+        type: String
+    }
 })
 
 module.exports = mongoose.model('Reportes', reportesSchema)
