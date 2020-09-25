@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import Navbar from './navbar'
-import Calendar from './calendar'
 import PreviewButtonDisplay from '../Functions/previewButtonDisplay'
 import PreviewButtonData from '../Functions/previewButtonData'
 import PetSex from '../Functions/petSex'
@@ -12,6 +11,11 @@ import Owner from '../Functions/owner'
 import ItWas from '../Functions/itwas'
 import axiosClient from '../../src/config/axios'
 import Swal from 'sweetalert2'
+import Datepicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import { registerLocale } from "react-datepicker";
+import es from 'date-fns/locale/es';
+registerLocale('es', es)
 
 function Report() {
 
@@ -29,7 +33,7 @@ function Report() {
         imagen: '',
         descripcion: '',
         tieneChip: '',
-        // fecha: '',
+        fecha: '',
         hora: '',
         departamento: '',
         localidad: '',
@@ -85,9 +89,25 @@ function Report() {
 
     }
 
+
+    const [selectedDate, setSelectedDate] = useState(null)
+    const [currentDay] = useState(new Date());
+
+    const selectedInputDate = (date) => {
+        setSelectedDate(date);
+    };
+
+
+    if (selectedDate != null) {
+        var fecha = `${selectedDate.getDate()}/${(selectedDate.getMonth() + 1)}/${selectedDate.getFullYear()}`
+        console.log(fecha)
+    }
+
+
     const ViralInfo = () => {
 
-        const { tipoMascota, estado, sexo, raza, nombre, hora, fecha, descripcion, tieneChip, departamento, localidad, lugar, nombreUsuario
+
+        const { tipoMascota, estado, sexo, raza, nombre, hora, descripcion, tieneChip, departamento, localidad, lugar, nombreUsuario
             , descripcionUsuario } = report
 
         const realSex = () => {
@@ -117,9 +137,8 @@ function Report() {
             }
         }
 
-
-        const viralInfo = `${realSex()} en ${departamento}, ${localidad}, más específicamente en ${lugar} ${fecha ? `el día ${fecha}` : ``}
-        ${hora ? `a las ${hora}` : ``}
+        const viralInfo = `${realSex()} en ${departamento}, ${localidad}, más específicamente en ${lugar} ${selectedDate ? `el día ${fecha}` : ``}
+        ${hora ? `a las ${hora}.` : ``}
         ${nombre ? `Responde al nombre de ${nombre}` : `Se desconoce el nombre`}, ${raza ? `raza ${raza}` : `raza no especificada`}.
         ${chip()}. Datos de vital importancia: ${descripcion}. ${nombreUsuario ? `La persona responsable es ${nombreUsuario}.` : ``}
         ${descripcionUsuario ? `Datos adicionales de la persona responsable: ${descripcionUsuario}` : ``}
@@ -142,7 +161,7 @@ function Report() {
         formData.append('raza', report.raza)
         formData.append('nombre', report.nombre)
         formData.append('sexo', report.sexo)
-        // formData.append('fecha', currentDay)
+        formData.append('fecha', fecha)
         formData.append('imagen', imagePreview)
         formData.append('descripcion', report.descripcion)
         formData.append('tieneChip', report.tieneChip)
@@ -318,7 +337,7 @@ function Report() {
                                 id="pet_description"
                                 name="descripcion"
                                 onChange={PreviewButtonData, updateState}
-                                placeholder="Es miedoso, le falta un ojo, tiene collar de identificacion, responde a ciertos sonidos, se recompensa a la persona que lo encuentre, etc. "></textarea>
+                                placeholder="Se perdió tal día, es miedoso, le falta un ojo, tiene collar de identificacion, responde a ciertos sonidos, se recompensa a la persona que lo encuentre, etc. "></textarea>
                         </div>
 
                         <label className="mt-4"> <u>¿Tiene chip?</u> <strong>*</strong></label>
@@ -337,10 +356,19 @@ function Report() {
 
                         <div className="last_timeseen d-flex flex-column mt-4">
                             <label className="mt-4 text-center">Fecha</label>
-                            {<Calendar
-                                name="fecha"
-                                onChange={updateState}
-                            />}
+                            <div className="d-flex justify-content-center text_fontstyle">
+                                <Datepicker
+                                    name="fecha"
+                                    id="missing_date"
+                                    placeholderText="Introduce la fecha"
+                                    selected={selectedDate}
+                                    onChange={selectedInputDate}
+                                    locale="es"
+                                    isClearable={selectedInputDate}
+                                    dateFormat="dd/MM/yyyy"
+                                    maxDate={currentDay}
+                                />
+                            </div>
                             <label className="mt-4">Hora</label>
                             <div>
                                 <input type="time"

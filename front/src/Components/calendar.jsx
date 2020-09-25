@@ -14,8 +14,9 @@ const Calendar = () => {
     const selectedInputDate = date => {
         setSelectedDate(date);
 
-        if (date && document.getElementById("preview_date") != null && date.value != "") {
+        if (date && date.value != "") {
             let fecha = `${(date.getDate()) + "/" + (date.getMonth() + 1) + "/" + (date.getFullYear())}`
+            console.log(fecha)
         }
     };
 
