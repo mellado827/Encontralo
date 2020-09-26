@@ -85,7 +85,8 @@
 }
 
 .pet_photo:hover {
-    opacity: 75%;
+    opacity: 80%;
+    transition: 0.3s;
 }
 
 .pet_photo:hover > .see_petreport {

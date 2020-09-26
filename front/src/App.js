@@ -10,6 +10,7 @@ import Search from './Components/search'
 import PersonalInfo from './Components/personalinfo';
 import MyCases from './Components/mycases';
 import Form from './Components/form'
+// import reportEdit from './Components/reportEdit'
 
 const App = () => (
   <Router>
@@ -23,6 +24,7 @@ const App = () => (
       <Route path="/contrasena" exact component={Password} />
       <Route path="/buscar" exact component={Search} />
       <Route path="/formulario" exact component={Form} />
+      {/* <Route path="/reportes/:id" exact component={reportEdit} /> */}
 
       <Route component={() => (
         <Error />

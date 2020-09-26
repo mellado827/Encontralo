@@ -17,7 +17,7 @@ const Actions = () => (
             </a>
             <a href="/">
                 <button className="text_fontstyle m-3 cta_bottonsstyle" >
-                    Ver mis casos
+                    Ver animales encontrados
                 </button>
             </a>
         </div>

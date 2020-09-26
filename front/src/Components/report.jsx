@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import Navbar from './navbar'
-import PreviewButtonDisplay from '../Functions/previewButtonDisplay'
 import PreviewButtonData from '../Functions/previewButtonData'
-import PetSex from '../Functions/petSex'
-import Chips from '../Functions/chips'
 import PetName from '../Functions/petName'
 import Race from '../Functions/race'
 import Owner from '../Functions/owner'
@@ -13,12 +10,14 @@ import axiosClient from '../../src/config/axios'
 import Swal from 'sweetalert2'
 import Datepicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import shortid from 'shortid'
 import { registerLocale } from "react-datepicker";
 import es from 'date-fns/locale/es';
 registerLocale('es', es)
 
-function Report() {
+function Report(props) {
 
+    let idPublico = shortid.generate()
 
     window.onbeforeunload = function () {
         return "";
@@ -40,7 +39,9 @@ function Report() {
         lugar: '',
         nombreUsuario: '',
         descripcionUsuario: '',
-        informacionADifundir: ''
+        informacionADifundir: '',
+        idPublico: ''
+
     })
 
     const updateState = e => {
@@ -100,7 +101,6 @@ function Report() {
 
     if (selectedDate != null) {
         var fecha = `${selectedDate.getDate()}/${(selectedDate.getMonth() + 1)}/${selectedDate.getFullYear()}`
-        console.log(fecha)
     }
 
 
@@ -172,6 +172,7 @@ function Report() {
         formData.append('nombreUsuario', report.nombreUsuario)
         formData.append('descripcionUsuario', report.descripcionUsuario)
         formData.append('informacionADifundir', ViralInfo())
+        formData.append('idPublico', idPublico)
 
         try {
 
@@ -202,11 +203,16 @@ function Report() {
                     Swal.fire({
                         icon: 'success',
                         title: '¡Reporte realizado!',
-                        text: '¡Suerte y no te  rindas! Puedes ver el reporte en "Buscar un animal perdido" o "Mis Casos"',
+                        text: `El id del reporte es: ${idPublico}. Dicho ID te servirá para buscar el reporte dentro del sitio.
+                        ¡Suerte y no te  rindas! Puedes ver el reporte en "Buscar un animal perdido" o "Mis Casos"`,
                         customClass: {
                             content: 'text_fontstyle'
                         }
                     })
+                    setTimeout(() => {
+                        props.history.push('/')
+                    }, 3000);
+
                 }
             })
 
@@ -553,4 +559,4 @@ function Report() {
 
 
 }
-export default Report
+export default withRouter(Report)

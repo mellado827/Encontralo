@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from './navbar'
-// import Date from './calendar'
+import Swal from 'sweetalert2'
 import axiosClient from '../config/axios'
 import LostPetCard from './lostPetCard'
 
@@ -32,11 +32,6 @@ function Search() {
                     <h1 className="text-center subtitle_fontstyle search_title">Buscar un animal perdido</h1>
 
                     <form className="search_form">
-                        {/* <div className="last_timeseen d-flex flex-column mt-4">
-                            <label className="mt-4 text_fontstyle text-center"> <u>Fecha</u> <strong>*</strong></label>
-
-                            {<Date />}
-                        </div> */}
 
                         <div className="pet_type flex-column row_petsform mt-5 d-flex justify-content-center">
                             <label className="text_fontstyle text-center">Tipo de mascota</label>
@@ -55,12 +50,13 @@ function Search() {
                         </div>
 
                         <div className="d-flex reportCards">
-                            {reports.map(reports => (
+                            {reports.map(report => (
                                 <LostPetCard
-                                    key={reports._id}
-                                    report={reports}
+                                    key={report._id}
+                                    report={report}
                                 />
-                            ))}
+                            )
+                            )}
                         </div>
 
 
