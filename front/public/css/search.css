@@ -11,6 +11,10 @@
     padding-top: 6em;
 }
 
+.margin_mobile {
+        margin: 2em;
+}
+
 .pettype_size {
     display: flex;
     align-self: center;
