@@ -10,8 +10,9 @@ import Footer from './footer';
 import Autoscroll from '../Functions/autoscrollindex'
 
 class Index extends React.Component {
-    constructor(props) {
-        super()
+
+    componentDidUnMount() {
+        console.log("Componente desmontado")
     }
 
     render() {

@@ -9,8 +9,20 @@ export default function Form(props) {
 
     document.title = "Encontralo / formulario "
 
-    function sendEmail(e) {
+    window.onbeforeunload = function () {
+        return "";
+    };
+
+
+    function emailForm(e) {
         e.preventDefault();
+
+        Swal.fire({
+            text: `Enviando formulario...`,
+            customClass: {
+                content: 'text_fontstyle'
+            }
+        })
 
         emailjs.sendForm('encontralo', 'template_yf2moyf', e.target, 'user_mOJKehHBkb7ul8DMSXNQF')
             .then(() => {
@@ -37,6 +49,11 @@ export default function Form(props) {
             });
     }
 
+    const validateForm = e => {
+
+    }
+
+
     return (
         <>
             <Navbar />
@@ -45,43 +62,61 @@ export default function Form(props) {
                 <div className="report_title mt-5">
                     <h1 className="text-center subtitle_fontstyle report_title">Formulario</h1>
                     <p className="text-center text_fontstyle">Si quieres unirte a Encontralo, brindar alguna idea o demás, ¡Estamos abiertos! Don't be shy.</p>
+                    <p className="text-center text_fontstyle"><strong><u>Los campos con * son obligatorios</u></strong></p>
+
                 </div>
 
-                <form className="form d-flex flex-column justify-content-start" onSubmit={sendEmail}>
+                <form className="form d-flex flex-column justify-content-start" onSubmit={emailForm}>
                     <div className="d-flex flex-column align-items-center">
                         <div className="form-group m-3 pt-3 input_sizeForm">
-                            <label htmlFor="formGroupExampleInput" className="text_fontstyle"><u>Nombre</u> *</label>
+                            <label htmlFor="formGroupExampleInput"
+                                className="text_fontstyle">
+                                <u>Nombre</u> *
+                                       </label>
                             <input type="text"
                                 className="form-control text_fontstyle"
                                 id="formGroupExampleInput"
                                 name="name"
+                                onChange={validateForm}
+                                id="name_form"
+                                required={true}
                                 placeholder="Ingresa tu nombre" />
                         </div>
                         <div className="form-group m-3 pt-3 input_sizeForm">
                             <label htmlFor="exampleInputEmail1" className="text_fontstyle"><u>Correo electrónico</u> *</label>
                             <input type="email"
                                 className="form-control text_fontstyle"
-                                id="exampleInputEmail1"
+                                id="email_form"
                                 aria-describedby="emailHelp"
                                 name="email"
+                                required={true}
+                                onChange={validateForm}
                                 placeholder="Ingresa tu correo" />
                         </div>
                         <div className="form-group m-3 pt-3 input_sizeForm">
                             <label htmlFor="formGroupExampleInput" className="text_fontstyle"><u>Asunto</u> *</label>
                             <input type="text"
                                 name="subject"
+                                required={true}
                                 className="form-control text_fontstyle"
                                 id="formGroupExampleInput"
+                                onChange={validateForm}
+                                id="subject_form"
                                 placeholder="Ingresa el asunto" />
                         </div>
                         <div className="form-group m-3 pt-3 input_sizeForm">
                             <label htmlFor="exampleFormControlTextarea1" className="text_fontstyle"><u>Mensaje</u> *</label>
                             <textarea className="form-control text_fontstyle"
                                 name="message"
+                                onChange={validateForm}
+                                required={true}
+                                id="message_form"
                                 id="exampleFormControlTextarea1"
                                 rows="8"></textarea>
                         </div>
                         <button type="submit"
+                            id="submit_form"
+                            onClick={e => e.target.value === null ? alert("Ingresa todos los campos") : ``}
                             className="mt-3 cta_bottonsstyle text_fontstyle mb-3">Enviar
                         </button>
                     </div>

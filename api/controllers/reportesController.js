@@ -73,10 +73,11 @@ exports.mostrarReporte = async (req, res, next) => {
     if (!reporte) {
         res.json({ mensaje: 'Ese reporte no existe' })
         return next()
+    } else {
+        res.json(reporte)
     }
 
-    // Mostrar reporte
-    res.json(reporte)
+
 }
 
 //Actualizar reportes

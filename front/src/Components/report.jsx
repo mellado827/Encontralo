@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import Navbar from './navbar'
 import PreviewButtonData from '../Functions/previewButtonData'
@@ -243,6 +243,7 @@ function Report(props) {
                 <div className="report_title">
                     <h1 className="text-center subtitle_fontstyle report_title">Reportar desaparición</h1>
                     <p className="text-center text_fontstyle">Completa el siguiente formulario:</p>
+                    <p className="text-center text_fontstyle"><strong><u>Los campos con * son obligatorios</u></strong></p>
                 </div>
 
                 <div
@@ -262,6 +263,7 @@ function Report(props) {
                         <label className="mt-4"> <u>Tipo de mascota</u> <strong>*</strong></label>
                         <select id="pet_type"
                             name="tipoMascota"
+                            required={true}
                             onChange={updateState}>
                             <option value="">Seleccionar...</option>
                             <option value="Perro">Perro</option>
@@ -269,7 +271,10 @@ function Report(props) {
                         </select>
 
                         <label className="mt-4"><u>Estado</u> *</label>
-                        <select id="itwas" name="estado" onChange={ItWas, updateState} >
+                        <select id="itwas"
+                            name="estado"
+                            required={true}
+                            onChange={ItWas, updateState} >
                             <option value="">Seleccionar...</option>
                             <option value="Perdido">Perdido</option>
                             <option value="Encontrado">Encontrado</option>
@@ -295,6 +300,7 @@ function Report(props) {
                         <select
                             id="pet_sex"
                             name="sexo"
+                            required={true}
                             onChange={updateState}
                         >
                             <option value="">Seleccionar...</option>
@@ -307,6 +313,7 @@ function Report(props) {
                             <input
                                 className="file_attachment"
                                 type="file"
+                                required={true}
                                 id="file_attachment"
                                 accept="image/*"
                                 // onChange={imageHandler}
@@ -315,7 +322,6 @@ function Report(props) {
                             />
                             <div className="petpic_container d-flex justify-content-center">
                                 <img
-
                                     src={imagePreview}
                                     alt=""
                                     id="img"
@@ -340,6 +346,7 @@ function Report(props) {
                         <div className="petdescription d-flex flex-column">
                             <textarea
                                 rows="10"
+                                required={true}
                                 id="pet_description"
                                 name="descripcion"
                                 onChange={PreviewButtonData, updateState}
@@ -349,6 +356,7 @@ function Report(props) {
                         <label className="mt-4"> <u>¿Tiene chip?</u> <strong>*</strong></label>
                         <div className="d-flex justify-content-around">
                             <select
+                                required={true}
                                 id="pet_sex"
                                 name="tieneChip"
                                 onChange={updateState}
@@ -397,6 +405,7 @@ function Report(props) {
                         <label className="mt-4"> <u>Departamento</u> <strong>*</strong></label>
                         <div>
                             <select
+                                required={true}
                                 name="departamento"
                                 className="text_fontstyle lastplace"
                                 id="select_departament"
@@ -426,6 +435,7 @@ function Report(props) {
                         <label className="mt-4"> <u>Localidad</u> <strong>*</strong></label>
                         <div>
                             <input
+                                required={true}
                                 type="text"
                                 name="localidad"
                                 className="lastplace"
@@ -437,6 +447,7 @@ function Report(props) {
                         <label className="mt-4"> <u>Lugar</u> <strong>*</strong></label>
                         <div>
                             <input
+                                required={true}
                                 type="text"
                                 name="lugar"
                                 className="lastplace"

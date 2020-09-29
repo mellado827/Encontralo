@@ -119,7 +119,7 @@ const Tutorial = () => (
                             <h1 className="subtitle_fontstyle text-center">
                                 <strong>
                                     <span className="color_numHIW"> 4 - </span> ¡Encontrado!
-                  </strong>
+                                 </strong>
                             </h1>
                             <div className="slogan-div-container d-flex justify-content-center">
                                 <img src="./img/slogan.png" className="slogan_founded" alt="" />

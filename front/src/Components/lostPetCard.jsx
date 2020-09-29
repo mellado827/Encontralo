@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Swal from 'sweetalert2'
-import axiosClient from '../config/axios'
+import { Link } from 'react-router-dom'
 
 
 function LostPetCard({ report }) {
@@ -41,6 +41,7 @@ function LostPetCard({ report }) {
                         {<img className="petPhotoSize"
                             src={report.imagen}
                         />}
+
                     </div>
 
                     <div className="petinfo d-flex flex-column">
