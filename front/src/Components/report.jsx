@@ -74,8 +74,6 @@ function Report(props) {
     const clearHour = e => {
         e.preventDefault()
         document.getElementById("missing_hour").value = ""
-        document.getElementById("preview_missing_hour").textContent = ``
-
     }
 
     //validar reporte
@@ -349,7 +347,7 @@ function Report(props) {
                                 required={true}
                                 id="pet_description"
                                 name="descripcion"
-                                onChange={PreviewButtonData, updateState}
+                                onChange={updateState}
                                 placeholder="Se perdió tal día, es miedoso, le falta un ojo, tiene collar de identificacion, responde a ciertos sonidos, se recompensa a la persona que lo encuentre, etc. "></textarea>
                         </div>
 
@@ -409,7 +407,7 @@ function Report(props) {
                                 name="departamento"
                                 className="text_fontstyle lastplace"
                                 id="select_departament"
-                                onChange={PreviewButtonData, updateState}
+                                onChange={updateState}
                             >
                                 <option value="">Seleccionar...</option>
                                 <option value="Artigas">Artigas</option>
@@ -441,7 +439,7 @@ function Report(props) {
                                 className="lastplace"
                                 placeholder="Ejemplo: Brazo Oriental"
                                 id="zone"
-                                onChange={PreviewButtonData, updateState} />
+                                onChange={updateState} />
                         </div>
 
                         <label className="mt-4"> <u>Lugar</u> <strong>*</strong></label>
@@ -453,7 +451,7 @@ function Report(props) {
                                 className="lastplace"
                                 id="last_placePet"
                                 placeholder="Ejemplo: Luis Alberto de Herrera y Burgues"
-                                onChange={PreviewButtonData, updateState} />
+                                onChange={updateState} />
                         </div>
 
                     </form>
@@ -496,7 +494,7 @@ function Report(props) {
                             name="descripcionUsuario"
                             className="text_fontstyle" id="owner_description"
                             placeholder="Ofrezco recompensa, si me llaman y no contesto llamen a este número: 094124356, etc."
-                            onChange={Owner, updateState}
+                            onChange={updateState}
                         >
                         </textarea>
                         <div className="report_buttons d-flex justify-content-around">

@@ -7,6 +7,15 @@
   border-radius: 50%;
 }
 
+.tryagain {
+  text-decoration: underline;
+  text-align: center;
+}
+
+.text_center {
+  text-align: center;
+}
+
 /* shared className */
 .color_tutorialbackground {
   background-color: #00b5bd;

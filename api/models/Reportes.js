@@ -31,7 +31,6 @@ const reportesSchema = new Schema({
     },
     imagen: {
         type: String,
-        // required: true
     },
     descripcion: {
         type: String,

@@ -68,15 +68,24 @@ exports.mostrarReportes = async (req, res, next) => {
 }
 
 exports.mostrarReporte = async (req, res, next) => {
-    const reporte = await Reportes.findById(req.params.idReporte)
 
-    if (!reporte) {
-        res.json({ mensaje: 'Ese reporte no existe' })
-        return next()
-    } else {
-        res.json(reporte)
+
+    try {
+
+        const reporte = await Reportes.findById(req.params.idReporte)
+
+        if (reporte) {
+            res.json(reporte)
+
+        } else {
+            res.json({ mensaje: 'Ese reporte no existe' })
+            return next()
+        }
+
+
+    } catch (error) {
+        console.log(error)
     }
-
 
 }
 

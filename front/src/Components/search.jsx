@@ -17,16 +17,17 @@ function Search() {
 
     document.title = "Encontralo - Buscar"
 
-    const [input, saveInput] = useState(null)
-
-    const id = e => {
-        saveInput(e.target.value)
-    }
-
     useEffect(() => {
         APIconsult()
 
     }, [])
+
+    const [input, setInput] = useState({})
+
+    const id = e => {
+        e.preventDefault()
+        setInput(e.target.value)
+    }
 
     return (
         <>

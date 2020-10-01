@@ -3,15 +3,13 @@ import Swal from 'sweetalert2'
 import { Link } from 'react-router-dom'
 
 
-function LostPetCard({ report }) {
-    //Extraer valores
-    const { _id, tipoMascota, estado, raza, imagen, nombre, sexo, descripcion, chip, fecha, hora, departamento, localidad, lugar, nombreResponsable, celularResponsable, informacionADifundir } = report
+function LostPetCard(props) {
 
     const description = () => {
 
-        const tipoMascota = report.tipoMascota,
-            estado = report.estado,
-            sexo = report.sexo
+        const tipoMascota = props.report.tipoMascota,
+            estado = props.report.estado,
+            sexo = props.report.sexo
 
         if (sexo == "Hembra") {
             let descripcionHembra = tipoMascota.substr(0, tipoMascota.length - 1) + "a" + ' ' + estado.substr(0, estado.length - 1) + "a"
@@ -24,8 +22,8 @@ function LostPetCard({ report }) {
 
     const modal = () => {
         Swal.fire({
-            title: `${nombre ? `Reporte de ${nombre}` : "Reporte"}`,
-            text: informacionADifundir,
+            title: `${props.report.nombre ? `Reporte de ${props.report.nombre}` : "Reporte"}`,
+            text: props.report.informacionADifundir,
             customClass: {
                 content: 'text_fontstyle'
             }
@@ -39,7 +37,7 @@ function LostPetCard({ report }) {
 
                     <div className="pet_photo" >
                         {<img className="petPhotoSize"
-                            src={report.imagen}
+                            src={props.report.imagen}
                         />}
 
                     </div>
@@ -47,14 +45,16 @@ function LostPetCard({ report }) {
                     <div className="petinfo d-flex flex-column">
                         <h2 className="text_fontstyle text-center mt-2">
                             <strong>
-                                {nombre ? nombre : description()}
+                                {props.report.nombre ? props.report.nombre : description()}
                             </strong>
                         </h2>
-                        <p className="text_fontstyle text-center" style={{ color: 'black' }}>{nombre ? description() + ' en ' +
-                            departamento + ',' + ' ' + localidad : departamento + ',' + ' ' + localidad
+                        <p className="text_fontstyle text-center" style={{ color: 'black' }}>{props.report.nombre ? description() + ' en ' +
+                            props.report.departamento + ',' + ' ' + props.report.localidad : props.report.departamento + ',' + ' ' + props.report.localidad
                         }
                         </p>
-                        <button type="button" className="text_fontstyle cta_bottonsstyle" onClick={modal}>
+                        <button type="button" className="text_fontstyle cta_bottonsstyle"
+                            onClick={modal}
+                        >
                             Más información
                         </button>
                     </div>
