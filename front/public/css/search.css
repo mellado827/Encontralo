@@ -59,6 +59,7 @@
 .reportCards {
     flex-direction: column;
     align-items: center;
+    margin-top: 15em;
 }
 
 .petPhotoSize {
@@ -66,12 +67,24 @@
     max-height: 100%;
 }
 
+.margin_title {
+    margin-top: 30em;
+}
 
-.reportCards {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-}      
+.margin {
+    margin-top: 10em;
+}
+
+
+
+@media screen and (min-width: 32em) {
+    .reportCards {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 0;
+    }      
+}
 
 .pet1 {
     height: 20em;

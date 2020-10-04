@@ -67,27 +67,47 @@ exports.mostrarReportes = async (req, res, next) => {
     }
 }
 
-exports.mostrarReporte = async (req, res, next) => {
+//Mostrar reportes por departamento
+exports.mostrarReportePorDepartamento = async (req, res, next) => {
 
+    const reportePorDepartamento = await Reportes.find({
+        departamento: req.params.departamento
+    })
 
     try {
-
-        const reporte = await Reportes.findById(req.params.idReporte)
-
-        if (reporte) {
-            res.json(reporte)
-
+        if (!reportePorDepartamento) {
+            res.json({ mensaje: 'No hay resultados' })
         } else {
-            res.json({ mensaje: 'Ese reporte no existe' })
-            return next()
+            res.json(reportePorDepartamento)
         }
 
 
     } catch (error) {
         console.log(error)
+        next()
+    }
+}
+
+exports.mostrarReporte = async (req, res, next) => {
+
+    const reporte = await Reportes.findById(req.params.idReporte)
+
+    try {
+        if (!reporte) {
+            res.json({ mensaje: 'No hay resultados' })
+        } else {
+            res.json(reporte)
+        }
+
+    } catch (error) {
+        console.log(error)
+        next()
     }
 
 }
+
+
+
 
 //Actualizar reportes
 exports.actualizarReporte = async (req, res, next) => {

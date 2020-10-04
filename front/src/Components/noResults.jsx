@@ -5,9 +5,9 @@ function NoResult() {
 
     return (
         <>
-            <div className="d-flex flex-column justify-content-center align-items-center  mb-5">
+            <div className="d-flex flex-column margin_title">
                 <h2 className="title_fontstyle text-center">No hay resultados :(</h2>
-                <Link className="text_fontstyle" to="/" style={{ textDecoration: "underline" }}>Vuelve a Inicio</Link>
+                <Link className="text_fontstyle text_center" to="/" style={{ textDecoration: "underline" }}>Vuelve a Inicio</Link>
             </div>
         </>
     )

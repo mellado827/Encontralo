@@ -10,14 +10,11 @@ import axiosClient from '../../src/config/axios'
 import Swal from 'sweetalert2'
 import Datepicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import shortid from 'shortid'
 import { registerLocale } from "react-datepicker";
 import es from 'date-fns/locale/es';
 registerLocale('es', es)
 
 function Report(props) {
-
-    let idPublico = shortid.generate()
 
     window.onbeforeunload = function () {
         return "";
@@ -40,8 +37,6 @@ function Report(props) {
         nombreUsuario: '',
         descripcionUsuario: '',
         informacionADifundir: '',
-        idPublico: ''
-
     })
 
     const updateState = e => {
@@ -170,7 +165,6 @@ function Report(props) {
         formData.append('nombreUsuario', report.nombreUsuario)
         formData.append('descripcionUsuario', report.descripcionUsuario)
         formData.append('informacionADifundir', ViralInfo())
-        formData.append('idPublico', idPublico)
 
         try {
 
@@ -195,26 +189,23 @@ function Report(props) {
                         }
                     })
 
-
-                    console.log(res)
-
                     Swal.fire({
                         icon: 'success',
                         title: '¡Reporte realizado!',
-                        text: `El id del reporte es: ${idPublico}. Dicho ID te servirá para buscar el reporte dentro del sitio.
-                        ¡Suerte y no te  rindas! Puedes ver el reporte en "Buscar un animal perdido" o "Mis Casos"`,
+                        text: `¡Suerte y no te  rindas! Puedes ver el reporte en "Buscar un animal perdido" o "Mis Casos"`,
                         customClass: {
                             content: 'text_fontstyle'
                         }
                     })
+
+                    console.log(report)
+
                     setTimeout(() => {
                         props.history.push('/')
                     }, 3000);
 
                 }
             })
-
-
 
         } catch (error) {
 
@@ -227,8 +218,6 @@ function Report(props) {
                 }
             })
         }
-
-
 
     }
 

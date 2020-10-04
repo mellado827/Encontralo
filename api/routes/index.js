@@ -26,11 +26,12 @@ module.exports = function () {
         reportesController.subirArchivo,
         reportesController.nuevoReporte)
 
-    //Mostrar reportes
+    //Mostrar todos los reportes
     router.get('/reportes', reportesController.mostrarReportes)
 
-    //Mostrar un reporte 
-    router.get('/reportes/:idReporte', reportesController.mostrarReporte)
+    //Mostrar reportes por departamento
+    router.get('/reportes/:departamento',
+        reportesController.mostrarReportePorDepartamento)
 
     //Actualizar reportes
     router.put('/reportes/:idReporte',

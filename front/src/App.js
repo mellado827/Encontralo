@@ -24,7 +24,7 @@ const App = () => (
       <Route path="/contrasena" exact component={Password} />
       <Route path="/buscar" exact component={Search} />
       <Route path="/formulario" exact component={Form} />
-      <Route path='/reportes/:idReporte' exact component={SearchReport} />
+      <Route path='/buscar/:idReporte' exact component={SearchReport} />
 
       <Route component={() => (
         <Error />

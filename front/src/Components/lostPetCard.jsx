@@ -23,7 +23,7 @@ function LostPetCard(props) {
     const modal = () => {
         Swal.fire({
             title: `${props.report.nombre ? `Reporte de ${props.report.nombre}` : "Reporte"}`,
-            text: props.report.informacionADifundir,
+            text: `${props.report.informacionADifundir}`,
             customClass: {
                 content: 'text_fontstyle'
             }
