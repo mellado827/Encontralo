@@ -16,6 +16,8 @@ registerLocale('es', es)
 
 function Report(props) {
 
+    const [publicId, setPublicId] = useState(0)
+
     window.onbeforeunload = function () {
         return "";
     };
@@ -36,7 +38,8 @@ function Report(props) {
         lugar: '',
         nombreUsuario: '',
         descripcionUsuario: '',
-        informacionADifundir: ''
+        informacionADifundir: '',
+        idPublico: ''
     })
 
     const updateState = e => {
@@ -45,6 +48,14 @@ function Report(props) {
             [e.target.name]: e.target.value
         })
     }
+
+    const [id, setId] = useState(0)
+
+    const setid = () => {
+        setId(`encontralo${id + 1}`)
+        return id
+    }
+
 
     const [imagePreview, setImagePreview] = useState('https://www.amerikickkansas.com/wp-content/uploads/2017/04/default-image-620x600.jpg');
 
@@ -165,6 +176,7 @@ function Report(props) {
         formData.append('nombreUsuario', report.nombreUsuario)
         formData.append('descripcionUsuario', report.descripcionUsuario)
         formData.append('informacionADifundir', ViralInfo())
+        formData.append('idPublico', setid())
 
         try {
 
@@ -192,11 +204,13 @@ function Report(props) {
                     Swal.fire({
                         icon: 'success',
                         title: '¡Reporte realizado!',
-                        text: `¡Suerte y no te  rindas! Puedes ver el reporte en "Buscar un animal perdido" o "Mis Casos"`,
+                        text: `El ID del reporte es: ${id} ¡Suerte y no te  rindas! Puedes ver el reporte en "Buscar un animal perdido" o "Mis Casos"`,
                         customClass: {
                             content: 'text_fontstyle'
                         }
                     })
+
+                    console.log(report)
 
                     setTimeout(() => {
                         props.history.push('/')

@@ -75,7 +75,9 @@
     margin-top: 10em;
 }
 
-
+.width_search_types {
+    width: 20em;
+}
 
 @media screen and (min-width: 32em) {
     .reportCards {

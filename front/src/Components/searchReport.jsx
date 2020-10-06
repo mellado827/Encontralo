@@ -20,6 +20,7 @@ function SearchReport(props) {
         consultarAPI();
     }, [])
 
+
     return (
         <>
 
@@ -28,23 +29,32 @@ function SearchReport(props) {
             <div className="search_container d-flex flex-column">
 
 
-                {reporte.length > 0
+                {!reporte.reportePorDepartamento == 0 || !reporte.reportePorTipo == 0
                     ?
                     <>
 
                         <div className="margin">
-                            <h1 className="subtitle_fontstyle text_center">{reporte.length} resultados encontrados</h1>
+                            <h1 className="subtitle_fontstyle text_center">{reporte.reportePorDepartamento.length || reporte.reportePorTipo.length} resultados encontrados</h1>
                             <h2 className="text_fontstyle text_center">¡Esperemos que alguno sea el que buscas!</h2>
                         </div>
 
                         <div className="d-flex flex-row flex-wrap justify-content-center">
-                            {reporte.map(report => (
-                                <LostPetCard
-                                    key={report._id}
-                                    report={report}
-                                />
-                            )
-                            )}
+                            {
+                                reporte.reportePorDepartamento.map(report => (
+                                    <LostPetCard
+                                        key={report._id}
+                                        report={report}
+                                    />
+                                )
+                                )}
+                            {
+                                reporte.reportePorTipo.map(report => (
+                                    <LostPetCard
+                                        key={report._id}
+                                        report={report}
+                                    />
+                                )
+                                )}
                         </div>
 
                     </>

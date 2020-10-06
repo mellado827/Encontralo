@@ -29,9 +29,10 @@ module.exports = function () {
     //Mostrar todos los reportes
     router.get('/reportes', reportesController.mostrarReportes)
 
-    //Mostrar reportes por departamento
-    router.get('/reportes/:departamento',
-        reportesController.mostrarReportePorDepartamento)
+    //Mostrar reportes por tipo
+    router.get('/reportes/:comodin',
+        reportesController.mostrarReportePorDepartamentoOTipo
+    )
 
     //Actualizar reportes
     router.put('/reportes/:idReporte',

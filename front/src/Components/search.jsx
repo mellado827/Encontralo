@@ -43,6 +43,10 @@ function Search(props) {
         }
     }
 
+    // const activeSearch = e => {
+
+    // }
+
     return (
         <>
 
@@ -58,42 +62,47 @@ function Search(props) {
                     <form className="search_form">
 
                         <div className="finder flex-column m-5">
+                            <div className="d-flex flex-row justify-content-center">
+                                <input type="checkbox" className="mr-2" />
 
-                            {/* <select id="pet_type"
-                                name="tipoMascota"
-                                className="text_fontstyle"
-                                onChange={value}>
-                                <option value="">Tipo de mascota</option>
-                                <option value="Perro">Perro</option>
-                                <option value="Gato">Gato</option>
-                            </select> */}
+                                <select id="pet_type"
+                                    name="tipoMascota"
+                                    className="searchtype text_fontstyle d-flex width_search_types"
+                                    onChange={value}>
+                                    <option value="">Tipo de mascota</option>
+                                    <option value="Perro">Perro</option>
+                                    <option value="Gato">Gato</option>
+                                </select>
+                            </div>
 
-                            <select
-                                name="departamento"
-                                onChange={value}
-                                className="text_fontstyle lastplace"
-                            // onChange={updateState}
-                            >
-                                <option value="">Departamento...</option>
-                                <option value="Artigas">Artigas</option>
-                                <option value="Canelones">Canelones</option>
-                                <option value="Cerro Largo">Cerro Largo</option>
-                                <option value="Colonia">Colonia</option>
-                                <option value="Durazno">Durazno</option>
-                                <option value="Flores">Flores</option>
-                                <option value="Florida">Florida</option>
-                                <option value="Lavalleja">Lavalleja</option>
-                                <option value="Maldonado">Maldonado</option>
-                                <option value="Montevideo">Montevideo</option>
-                                <option value="Paysandú">Paysandú</option>
-                                <option value="Río Negro">Río Negro</option>
-                                <option value="Rocha">Rocha</option>
-                                <option value="Salto">Salto</option>
-                                <option value="San José">San José</option>
-                                <option value="Soriano">Soriano</option>
-                                <option value="Tacuarembó">Tacuarembó</option>
-                                <option value="Treinta y Tres">Treinta y Tres</option>
-                            </select>
+                            <div className="d-flex flex-row justify-content-center mt-5">
+                                <input type="checkbox" className="mr-2" />
+                                <select
+                                    name="departamento"
+                                    onChange={value}
+                                    className="text_fontstyle d-flex width_search_types"
+                                >
+                                    <option value="">Departamento...</option>
+                                    <option value="Artigas">Artigas</option>
+                                    <option value="Canelones">Canelones</option>
+                                    <option value="Cerro Largo">Cerro Largo</option>
+                                    <option value="Colonia">Colonia</option>
+                                    <option value="Durazno">Durazno</option>
+                                    <option value="Flores">Flores</option>
+                                    <option value="Florida">Florida</option>
+                                    <option value="Lavalleja">Lavalleja</option>
+                                    <option value="Maldonado">Maldonado</option>
+                                    <option value="Montevideo">Montevideo</option>
+                                    <option value="Paysandú">Paysandú</option>
+                                    <option value="Río Negro">Río Negro</option>
+                                    <option value="Rocha">Rocha</option>
+                                    <option value="Salto">Salto</option>
+                                    <option value="San José">San José</option>
+                                    <option value="Soriano">Soriano</option>
+                                    <option value="Tacuarembó">Tacuarembó</option>
+                                    <option value="Treinta y Tres">Treinta y Tres</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div className="search_button flex-column m-3">

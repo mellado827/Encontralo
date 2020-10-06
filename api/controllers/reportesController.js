@@ -67,26 +67,49 @@ exports.mostrarReportes = async (req, res, next) => {
     }
 }
 
-//Mostrar reportes por departamento
-exports.mostrarReportePorDepartamento = async (req, res, next) => {
-
-    const reportePorDepartamento = await Reportes.find({
-        departamento: req.params.departamento
-    })
+//Mostrar reportes por departamento o tipo de mascota
+exports.mostrarReportePorDepartamentoOTipo = async (req, res, next) => {
 
     try {
-        if (!reportePorDepartamento) {
-            res.json({ mensaje: 'No hay resultados' })
-        } else {
-            res.json(reportePorDepartamento)
-        }
 
+        const reportePorDepartamento = await Reportes.find({
+            departamento: req.params.comodin
+        })
+
+        const reportePorTipo = await Reportes.find({
+            tipoMascota: req.params.comodin
+        })
+
+        res.json({
+            reportePorDepartamento,
+            reportePorTipo
+        })
 
     } catch (error) {
         console.log(error)
         next()
     }
+
 }
+
+//Mostrar reportes por departamento
+// exports.mostrarReportePorTipoMascota = async (req, res, next) => {
+
+
+//     try {
+
+//         const reportePorTipo = await Reportes.find({
+//             tipoMascota: req.params.comodin
+//         })
+
+//         res.json(reportePorTipo)
+
+
+//     } catch (error) {
+//         console.log(error)
+//         next()
+//     }
+// }
 
 exports.mostrarReporte = async (req, res, next) => {
 
