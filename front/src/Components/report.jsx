@@ -4,7 +4,7 @@ import Navbar from './navbar'
 import PreviewButtonData from '../Functions/previewButtonData'
 import PetName from '../Functions/petName'
 import Race from '../Functions/race'
-import Owner from '../Functions/owner'
+import shortid from 'shortid'
 import ItWas from '../Functions/itwas'
 import axiosClient from '../../src/config/axios'
 import Swal from 'sweetalert2'
@@ -15,6 +15,8 @@ import es from 'date-fns/locale/es';
 registerLocale('es', es)
 
 function Report(props) {
+
+    const id = shortid.generate()
 
     window.onbeforeunload = function () {
         return "";
@@ -36,7 +38,8 @@ function Report(props) {
         lugar: '',
         nombreUsuario: '',
         descripcionUsuario: '',
-        informacionADifundir: ''
+        informacionADifundir: '',
+        idPublico: ''
     })
 
     const updateState = e => {
@@ -146,6 +149,7 @@ function Report(props) {
 
     //añadir reporte
     const addReport = e => {
+
         e.preventDefault()
 
         const formData = new FormData()
@@ -165,6 +169,7 @@ function Report(props) {
         formData.append('nombreUsuario', report.nombreUsuario)
         formData.append('descripcionUsuario', report.descripcionUsuario)
         formData.append('informacionADifundir', ViralInfo())
+        formData.append('idPublico', id)
 
         try {
 
@@ -189,10 +194,11 @@ function Report(props) {
                         }
                     })
 
+
                     Swal.fire({
                         icon: 'success',
                         title: '¡Reporte realizado!',
-                        text: `¡Suerte y no te  rindas! Puedes ver el reporte en "Buscar un animal perdido" o "Mis Casos"`,
+                        text: `¡Suerte y no te  rindas! Puedes ver el reporte en "Buscar un animal perdido" o "Mis Casos". También lo puedes buscar con el siguiente ID: ${id}`,
                         customClass: {
                             content: 'text_fontstyle'
                         }
@@ -335,7 +341,7 @@ function Report(props) {
                                 id="pet_description"
                                 name="descripcion"
                                 onChange={updateState}
-                                placeholder="Se perdió tal día, es miedoso, le falta un ojo, tiene collar de identificacion, responde a ciertos sonidos, se recompensa a la persona que lo encuentre, etc. "></textarea>
+                                placeholder="Es miedoso, le falta un ojo, tiene collar de identificacion, responde a ciertos sonidos, se recompensa a la persona que lo encuentre, etc. "></textarea>
                         </div>
 
                         <label className="mt-4"> <u>¿Tiene chip?</u> <strong>*</strong></label>
@@ -368,11 +374,11 @@ function Report(props) {
                                     maxDate={currentDay}
                                 />
                             </div>
-                            <label className="mt-4">Hora</label>
-                            <div>
+
+                            <label className="mt-5 text_center">Hora</label>
+                            <div className="d-flex justify-content-center">
                                 <input type="time"
                                     name="hora"
-                                    className="missing_hour"
                                     id="missing_hour"
                                     onChange={PreviewButtonData, updateState}
                                 />

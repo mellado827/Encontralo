@@ -103,6 +103,13 @@ function Search(props) {
                                     <option value="Treinta y Tres">Treinta y Tres</option>
                                 </select>
                             </div>
+                            <div className="d-flex flex-row justify-content-center mt-5">
+                                <input type="checkbox" className="mr-2" />
+                                <input type="text"
+                                    placeholder="ID del reporte"
+                                    onChange={value}
+                                    className="text_fontstyle d-flex width_search_types" />
+                            </div>
                         </div>
 
                         <div className="search_button flex-column m-3">

@@ -80,9 +80,14 @@ exports.mostrarReportePorDepartamentoOTipo = async (req, res, next) => {
             tipoMascota: req.params.comodin
         })
 
+        const reportePorIDpublico = await Reportes.find({
+            idPublico: req.params.comodin
+        })
+
         res.json({
             reportePorDepartamento,
-            reportePorTipo
+            reportePorTipo,
+            reportePorIDpublico
         })
 
     } catch (error) {

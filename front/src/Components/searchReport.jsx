@@ -29,13 +29,17 @@ function SearchReport(props) {
             <div className="search_container d-flex flex-column">
 
 
-                {!reporte.reportePorDepartamento == 0 || !reporte.reportePorTipo == 0
+                {reporte.reportePorDepartamento || reporte.reportePorTipo || reporte.reportePorIDpublico
                     ?
                     <>
 
                         <div className="margin">
-                            <h1 className="subtitle_fontstyle text_center">{reporte.reportePorDepartamento.length || reporte.reportePorTipo.length} resultados encontrados</h1>
-                            <h2 className="text_fontstyle text_center">¡Esperemos que alguno sea el que buscas!</h2>
+                            <h1 className="subtitle_fontstyle text_center">
+                                {reporte.reportePorDepartamento.length || reporte.reportePorTipo.length || reporte.reportePorIDpublico.length}
+                                {reporte.reportePorDepartamento.length > 1 || reporte.reportePorTipo.length > 1 || reporte.reportePorIDpublico.length > 1 ?
+                                    ` resultados encontrados` : ` resultado encontrado`}
+                            </h1>
+                            <h2 className="text_fontstyle text_center">La calle no es hogar para nadie, ¡No te rindas!</h2>
                         </div>
 
                         <div className="d-flex flex-row flex-wrap justify-content-center">
@@ -49,6 +53,14 @@ function SearchReport(props) {
                                 )}
                             {
                                 reporte.reportePorTipo.map(report => (
+                                    <LostPetCard
+                                        key={report._id}
+                                        report={report}
+                                    />
+                                )
+                                )}
+                            {
+                                reporte.reportePorIDpublico.map(report => (
                                     <LostPetCard
                                         key={report._id}
                                         report={report}
