@@ -13,12 +13,12 @@ mongoose.connect('mongodb://localhost/encontralo', {
 // crear el servidor
 const app = express();
 
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // habilitar bodyparser
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// Habilitar cors
-app.use(cors());
 
 // Rutas de la app
 app.use('/', routes());

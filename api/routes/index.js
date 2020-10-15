@@ -3,12 +3,20 @@ const router = express.Router()
 const usuarioController = require('../controllers/usuarioController')
 const reportesController = require('../controllers/reportesController')
 
+//middle para proteger rutas
+const auth = require('../middleware/auth')
+
 module.exports = function () {
     //Agregar nuevos usuarios
     router.post('/usuarios', usuarioController.nuevoUsuario)
 
+    //Agregar nuevos usuarios
+    router.post('/iniciarsesion', usuarioController.autenticarUsuario)
+
     //Obtener usuarios
-    router.get('/usuarios', usuarioController.mostrarUsuarios)
+    router.get('/usuarios',
+        auth,
+        usuarioController.mostrarUsuarios)
 
     //Mostrar un usuario en específico
     router.get('/usuarios/:idUsuario', usuarioController.mostrarUsuario)

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import { withRouter } from 'react-router-dom'
 import Navbar from './navbar'
 import PreviewButtonData from '../Functions/previewButtonData'
@@ -8,6 +8,7 @@ import shortid from 'shortid'
 import ItWas from '../Functions/itwas'
 import axiosClient from '../../src/config/axios'
 import Swal from 'sweetalert2'
+import { CRMContext } from '../context/CRMContext'
 import Datepicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { registerLocale } from "react-datepicker";
@@ -21,6 +22,10 @@ function Report(props) {
     window.onbeforeunload = function () {
         return "";
     };
+
+    const [auth, guardarAuth] = useContext(CRMContext)
+
+    console.log(auth)
 
     const [report, saveReport] = useState({
         tipoMascota: '',
@@ -133,7 +138,7 @@ function Report(props) {
             }
         }
 
-        const viralInfo = `${realSex()} en ${departamento}, ${localidad}, más específicamente en ${lugar} ${selectedDate ? `el día ${fecha}` : ``}
+        const viralInfo = `${realSex()} en ${departamento}, ${localidad}, más específicamente en: ${lugar} ${selectedDate ? `el día ${fecha}` : ``}
         ${hora ? `a las ${hora}.` : ``}
         ${nombre ? `Responde al nombre de ${nombre}` : `Se desconoce el nombre`}, ${raza ? `raza ${raza}` : `raza no especificada`}.
         ${chip()}. Datos de vital importancia: ${descripcion}. ${nombreUsuario ? `La persona responsable es ${nombreUsuario}.` : ``}
@@ -149,7 +154,6 @@ function Report(props) {
 
     //añadir reporte
     const addReport = e => {
-
         e.preventDefault()
 
         const formData = new FormData()
@@ -188,17 +192,16 @@ function Report(props) {
             }).then(async (result) => {
                 if (result.isConfirmed) {
 
-                    const res = await axiosClient.post('/reportes', formData, {
+                    await axiosClient.post('/reportes', formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
                     })
 
-
                     Swal.fire({
                         icon: 'success',
                         title: '¡Reporte realizado!',
-                        text: `¡Suerte y no te  rindas! Puedes ver el reporte en "Buscar un animal perdido" o "Mis Casos". También lo puedes buscar con el siguiente ID: ${id}`,
+                        text: `¡Suerte y no te  rindas! Puedes ver el reporte en "Buscar un animal perdido" o "Mis Casos" con el siguiente ID: ${id}`,
                         customClass: {
                             content: 'text_fontstyle'
                         }
@@ -208,6 +211,15 @@ function Report(props) {
                         props.history.push('/')
                     }, 3000);
 
+                } else {
+                    Swal.fire({
+                        title: 'Hubo un error',
+                        text: `Inténtalo de nuevo más tarde`,
+                        icon: 'error',
+                        customClass: {
+                            content: 'text_fontstyle'
+                        }
+                    })
                 }
             })
 
@@ -221,6 +233,7 @@ function Report(props) {
                     content: 'text_fontstyle'
                 }
             })
+            console.log(error)
         }
 
     }
@@ -289,7 +302,6 @@ function Report(props) {
 
                         <label className="mt-4"> <u>Sexo</u> <strong>*</strong></label>
                         <select
-                            id="pet_sex"
                             name="sexo"
                             required={true}
                             onChange={updateState}
@@ -302,14 +314,13 @@ function Report(props) {
                         <div className="petphoto">
                             <label className="mt-4"> <u>Foto</u> <strong>*</strong></label>
                             <input
+                                name="imagen"
                                 className="file_attachment"
                                 type="file"
                                 required={true}
                                 id="file_attachment"
                                 accept="image/*"
-                                // onChange={imageHandler}
                                 onChange={readImage}
-                                name="imagen"
                             />
                             <div className="petpic_container d-flex justify-content-center">
                                 <img
@@ -413,13 +424,13 @@ function Report(props) {
                                 <option value="Lavalleja">Lavalleja</option>
                                 <option value="Maldonado">Maldonado</option>
                                 <option value="Montevideo">Montevideo</option>
-                                <option value="Paysandú">Paysandú</option>
-                                <option value="Río Negro">Río Negro</option>
+                                <option value="Paysandu">Paysandú</option>
+                                <option value="Rio Negro">Río Negro</option>
                                 <option value="Rocha">Rocha</option>
                                 <option value="Salto">Salto</option>
-                                <option value="San José">San José</option>
+                                <option value="San Jose">San José</option>
                                 <option value="Soriano">Soriano</option>
-                                <option value="Tacuarembó">Tacuarembó</option>
+                                <option value="Tacuarembo">Tacuarembó</option>
                                 <option value="Treinta y Tres">Treinta y Tres</option>
                             </select>
                         </div>

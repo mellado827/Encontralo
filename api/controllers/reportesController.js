@@ -34,9 +34,11 @@ exports.subirArchivo = (req, res, next) => {
 
 //Agregar un reporte
 exports.nuevoReporte = async (req, res, next) => {
-    const reporte = new Reportes(req.body)
+
 
     try {
+
+        const reporte = new Reportes(req.body)
 
         // if (req.file.filename) {
         //     reporte.imagen = req.file.filename
@@ -47,7 +49,6 @@ exports.nuevoReporte = async (req, res, next) => {
 
     } catch (error) {
         console.log(error)
-        res.json({ mensaje: 'Inténtalo de nuevo más tarde' })
         next()
     }
 }

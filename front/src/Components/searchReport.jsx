@@ -35,11 +35,9 @@ function SearchReport(props) {
 
                         <div className="margin">
                             <h1 className="subtitle_fontstyle text_center">
-                                {reporte.reportePorDepartamento.length || reporte.reportePorTipo.length || reporte.reportePorIDpublico.length}
-                                {reporte.reportePorDepartamento.length > 1 || reporte.reportePorTipo.length > 1 || reporte.reportePorIDpublico.length > 1 ?
-                                    ` resultados encontrados` : ` resultado encontrado`}
+                                {reporte.reportePorDepartamento.length || reporte.reportePorTipo.length || reporte.reportePorIDpublico.length} resultados
                             </h1>
-                            <h2 className="text_fontstyle text_center">La calle no es hogar para nadie, ¡No te rindas!</h2>
+                            <h2 className="text_fontstyle text_center">La calle no es hogar para nadie</h2>
                         </div>
 
                         <div className="d-flex flex-row flex-wrap justify-content-center">
@@ -67,6 +65,7 @@ function SearchReport(props) {
                                     />
                                 )
                                 )}
+
                         </div>
 
                     </>
