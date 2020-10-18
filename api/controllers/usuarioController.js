@@ -102,11 +102,12 @@ exports.autenticarUsuario = async (req, res, next) => {
             const token = jwt.sign({
                 email: usuario.email,
                 nickname: usuario.nickname,
+                celular: usuario.celular,
                 _id: usuario._id
             },
                 'LLAVESECRETA',
                 {
-                    expiresIn: '1h'
+                    expiresIn: 60
                 }
             )
             //retornar el token

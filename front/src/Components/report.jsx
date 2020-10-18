@@ -13,6 +13,7 @@ import Datepicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { registerLocale } from "react-datepicker";
 import es from 'date-fns/locale/es';
+import { useEffect } from 'react'
 registerLocale('es', es)
 
 function Report(props) {
@@ -23,9 +24,42 @@ function Report(props) {
         return "";
     };
 
-    const [auth, guardarAuth] = useContext(CRMContext)
+    document.title = "Reportar / Encontralo"
 
-    console.log(auth)
+    const [usuarios, guardarUsuarios] = useState([])
+
+    const token = localStorage.token
+
+    useEffect(() => {
+
+        if (localStorage.length === 1) {
+            const consultarAPI = async () => {
+                try {
+                    const clienteConsulta = await axiosClient.get('/usuarios', {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
+
+                    guardarUsuarios(clienteConsulta.data)
+
+                } catch (error) {
+                    // Error con autorización
+                    if (error.response.status = 500) {
+                        props.history.push('/iniciarsesion')
+                    }
+                }
+
+            }
+
+            consultarAPI()
+        }
+        else {
+            props.history.push('/iniciarsesion')
+        }
+
+
+    }, [usuarios])
 
     const [report, saveReport] = useState({
         tipoMascota: '',
@@ -211,15 +245,6 @@ function Report(props) {
                         props.history.push('/')
                     }, 3000);
 
-                } else {
-                    Swal.fire({
-                        title: 'Hubo un error',
-                        text: `Inténtalo de nuevo más tarde`,
-                        icon: 'error',
-                        customClass: {
-                            content: 'text_fontstyle'
-                        }
-                    })
                 }
             })
 

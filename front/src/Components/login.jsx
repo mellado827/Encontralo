@@ -1,14 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import SeePassword from '../Functions/seePassword'
 import Swal from 'sweetalert2'
 import axiosClient from '../../src/config/axios'
 import { withRouter } from 'react-router-dom'
+import jwt_decode from 'jwt-decode'
+
+//Context
+import { CRMContext } from '../context/CRMContext'
 
 function Login(props) {
 
-    document.title = "Encontralo - Iniciar sesión"
+    //Auth y token
+    const [auth, guardarAuth] = useContext(CRMContext)
 
     const [credenciales, guardarCredenciales] = useState({})
+
+    document.title = "Encontralo - Iniciar sesión"
 
     //almacenar inputs en state
     const leerDatos = e => {
@@ -25,10 +32,18 @@ function Login(props) {
         try {
 
             const res = await axiosClient.post('/iniciarsesion', credenciales)
-            // console.log(res)
             //extraer el token y colocarlo en localstorage
             const { token } = res.data
             localStorage.setItem('token', token)
+
+            //colocarlo en el state
+            guardarAuth({
+                token: token,
+                auth: true
+            })
+
+            // let infoUsuario = jwt_decode(token)
+            // console.log(infoUsuario)
 
             //alerta
             Swal.fire({
@@ -44,7 +59,7 @@ function Login(props) {
 
 
         } catch (error) {
-            console.log(error.response)
+            console.log(error)
             Swal.fire({
                 icon: 'error',
                 title: 'Hubo un error',
@@ -65,7 +80,8 @@ function Login(props) {
                     <h1 className="subtitle_fontstyle text-center m-3">Inicia sesión</h1>
 
                     <form
-                        className="form_loginANDsignup d-flex justify-content-left"
+                        onSubmit={iniciarSesion}
+                        className="form_loginANDsignup d-flex justify-content-center"
                         id="login_form">
                         <input type="text"
                             name="email"
@@ -74,7 +90,6 @@ function Login(props) {
                             className="size_formitems text_font"
                             id="emailLogin"
                             required />
-
                         <input
                             name="contrasena"
                             onChange={leerDatos}
@@ -93,25 +108,16 @@ function Login(props) {
                                 <img src="./img/see_black.png" className="see_passwordIcon" alt="see password" />
                             </button>
                         </div>
-                        {/* <span id="passwordValid" className="text_font spanValidators"></span> */}
+                        <div className="login_button d-flex m-1">
+                            <button
+                                className="text_font"
+                                style={{ width: 10 + 'em' }}
+                                id="login_button">Iniciar sesión
+                            </button>
+                        </div>
                     </form>
-                    <form>
-                        <input type="checkbox" defaultChecked className="m-1" />
-                        <label className="text_font">Recordar</label>
-
-                    </form>
-                    <div className="login_button d-flex justify-content-center m-1">
-                        <button
-                            onClick={iniciarSesion}
-                            className="text_font"
-                            style={{ width: 10 + 'em' }}
-                            id="login_button">Iniciar sesión
-                    </button>
-
-                    </div>
                     <div className="resetandsignup d-flex justify-content-around m-4 align-items-around">
                         <a className="text_font text-center" href="/registrarse">¿No eres miembro?</a>
-
                         <a className="text_font text-center" href="/contrasena">Olvidé mi contraseña</a>
 
                     </div>

@@ -17,7 +17,6 @@ function App() {
 
   const [auth, guardarAuth] = useContext(CRMContext)
 
-
   return (
     <Router>
       <>
@@ -40,6 +39,7 @@ function App() {
             )} />
 
           </Switch>
+
         </CRMProvider>
       </>
     </Router>
