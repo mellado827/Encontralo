@@ -77,6 +77,15 @@ const reportesSchema = new Schema({
     idPublico: {
         type: String
     },
+    usuario: {
+        type: String
+    },
+    emailUsuario: {
+        type: String
+    },
+    celularUsuario: {
+        type: String
+    }
 })
 
 module.exports = mongoose.model('Reportes', reportesSchema)

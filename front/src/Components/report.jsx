@@ -14,9 +14,32 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { registerLocale } from "react-datepicker";
 import es from 'date-fns/locale/es';
 import { useEffect } from 'react'
+import jwt_decode from 'jwt-decode'
+
 registerLocale('es', es)
 
 function Report(props) {
+
+    var current_time = Date.now() / 1000;
+
+    var token = localStorage.getItem("token")
+
+    if (token !== null) {
+
+        var decodedData = jwt_decode(token)
+
+        if (decodedData.exp < current_time) {
+            localStorage.removeItem("token")
+            Swal.fire({
+                icon: 'warning',
+                title: 'Ha expirado tu sesión',
+                customClass: {
+                    content: 'text_fontstyle'
+                },
+                text: 'Por cuestiones de seguridad, la sesión dura una hora. ¡Vuelve a iniciar si deseas!'
+            })
+        }
+    }
 
     const id = shortid.generate()
 
@@ -28,11 +51,9 @@ function Report(props) {
 
     const [usuarios, guardarUsuarios] = useState([])
 
-    const token = localStorage.token
-
     useEffect(() => {
 
-        if (localStorage.length === 1) {
+        if (token !== null) {
             const consultarAPI = async () => {
                 try {
                     const clienteConsulta = await axiosClient.get('/usuarios', {
@@ -78,7 +99,10 @@ function Report(props) {
         nombreUsuario: '',
         descripcionUsuario: '',
         informacionADifundir: '',
-        idPublico: ''
+        idPublico: '',
+        usuario: '',
+        emailUsuario: '',
+        celularUsuario: ''
     })
 
     const updateState = e => {
@@ -177,7 +201,7 @@ function Report(props) {
         ${nombre ? `Responde al nombre de ${nombre}` : `Se desconoce el nombre`}, ${raza ? `raza ${raza}` : `raza no especificada`}.
         ${chip()}. Datos de vital importancia: ${descripcion}. ${nombreUsuario ? `La persona responsable es ${nombreUsuario}.` : ``}
         ${descripcionUsuario ? `Datos adicionales de la persona responsable: ${descripcionUsuario}` : ``}
-
+        
         No cuesta NADA compartir. La calle no es hogar para nadie...
 
         #Uruguay #${departamento} #Animal${estado} #SeBusca
@@ -208,12 +232,15 @@ function Report(props) {
         formData.append('descripcionUsuario', report.descripcionUsuario)
         formData.append('informacionADifundir', ViralInfo())
         formData.append('idPublico', id)
+        // formData.append('usuario', decodedData.nickname)
+        // formData.append('emailUsuario', decodedData.email)
+        // formData.append('celularUsuario', `0${decodedData.celular}`)
 
         try {
 
             Swal.fire({
                 title: '¿Estás seguro/a?',
-                text: "Un reporte puede ser modificado después de haber sido creado, pero la información modificada quedaría en el sitio, no al difundirse el reporte.",
+                text: "Un reporte puede ser modificado después de haber sido creado, pero la información modificada quedaría en el sitio, no al difundirse el reporte. Si llegas a realizar un reporte troll, tu cuenta será eliminada.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -504,13 +531,22 @@ function Report(props) {
                         />
 
                         <label className="mt-4 text_fontstyle"> <u>Usuario</u> <strong></strong></label>
-                        <input type="text" placeholder="username" disabled />
+                        <input type="text"
+                            className="text_fontstyle"
+                            value={decodedData ? decodedData.nickname : ``}
+                            disabled />
 
                         <label className="mt-4 text_fontstyle"> <u>Correo electrónico</u> <strong></strong></label>
-                        <input type="email" placeholder="email" disabled />
+                        <input type="email"
+                            className="text_fontstyle"
+                            value={decodedData ? decodedData.email : ``}
+                            disabled />
 
                         <label className="mt-4 text_fontstyle"> <u>Número de teléfono</u> <strong></strong></label>
-                        <input type="text" placeholder="cellphone" disabled />
+                        <input type="text"
+                            className="text_fontstyle"
+                            value={`0${decodedData ? decodedData.celular : ``}`}
+                            disabled />
                         <p className="text_fontstyle mt-4 text-center grey_color">En caso de que los datos que aparecen en pantalla no
                         correspondan con su usuario, modifíquelos
                         antes de reportar la desaparición.

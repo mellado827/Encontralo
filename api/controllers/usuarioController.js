@@ -107,7 +107,7 @@ exports.autenticarUsuario = async (req, res, next) => {
             },
                 'LLAVESECRETA',
                 {
-                    expiresIn: 60
+                    expiresIn: '1hr'
                 }
             )
             //retornar el token
