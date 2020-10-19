@@ -26,10 +26,57 @@ function PreLogin(props) {
         }
     }
 
+    const logout = e => {
+        e.preventDefault()
+        Swal.fire({
+            title: '¿Estás seguro que deseas cerrar sesión?',
+            text: "Te extrañaremos :(",
+            customClass: {
+                content: 'text_fontstyle'
+            },
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Cerrar sesión'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.removeItem("token")
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Has cerrado sesión',
+                    text: '¡Hasta la próxima!',
+                    customClass: {
+                        content: 'text_fontstyle'
+                    },
+                    cancelButtonText: 'Cancelar'
+                })
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1500);
+            }
+        })
+    }
+
     return (
-        <a className="navbar-brand text_fontstyle" href="/iniciarsesion">
-            {token === null ? `Iniciar sesión` : `Hola, ${decodedData.nickname}`}
-        </a>
+        <div>
+            {token !== null ?
+                <div className="dropdown">
+                    <span className="dropbtn text_fontstyle">Hola, {decodedData.nickname}</span>
+                    <div className="dropdown-content text_fontstyle">
+                        <a href="/datospersonales">Datos personales</a>
+                        <a href="/miscasos">Mis casos</a>
+                        <a href="#">Mis animales perdidos</a>
+                        <a href="" onClick={logout}>Cerrar sesión</a>
+                    </div>
+                </div>
+                :
+                <a className="navbar-brand text_fontstyle" href="/iniciarsesion">
+                    Iniciar sesión
+                </a>
+            }
+        </div>
     )
 
 }

@@ -24,11 +24,11 @@ const Tutorial = () => (
                                 </strong>
                             </h1>
                             <p className="text_fontstyle m-5 text-center">
-                                Para poder reportar la desaparición, tienes que <a href="login.html" className="link">iniciar sesión</a> (si no tienes cuenta,
+                                Para poder reportar la desaparición, tienes que <a href="/iniciarsesion" className="link">iniciar sesión</a> (si no tienes cuenta,
                   <a href="/registrarse" className="link"> registrarte</a>) con tu cuenta de Encontralo.
                 </p>
                             <p className="text_fontstyle m-2 text-center">
-                                Una vez iniciada la sesión, tienes que <a href="report.html" className="link">crear un reporte de
+                                Una vez iniciada la sesión, tienes que <a href="/reportar" className="link">crear un reporte de
                     desaparición</a>.
                 </p>
                             <p className="text_fontstyle m-5 text-center">

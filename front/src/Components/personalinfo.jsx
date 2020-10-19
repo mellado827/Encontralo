@@ -1,14 +1,70 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import EnableInput from '../Functions/enableInputs'
 import GoBack from '../Functions/goBack'
 import Blank from '../Functions/blank'
 import PersonalData from '../Functions/personalData'
-import Quit from '../Functions/quit'
+import jwt_decode from 'jwt-decode'
+import Swal from 'sweetalert2'
 import PersonalInfoAPI from './PersonalInfoAPI'
+import axiosClient from '../config/axios'
 
-function PersonalInfo() {
+function PersonalInfo(props) {
 
     document.title = "Encontralo / Datos personales"
+
+    var current_time = Date.now() / 1000;
+    const token = localStorage.getItem("token")
+
+    if (token !== null) {
+
+        var decodedData = jwt_decode(token)
+
+        if (decodedData.exp < current_time) {
+            window.location.reload()
+            localStorage.removeItem("token")
+            Swal.fire({
+                icon: 'warning',
+                title: 'Ha expirado tu sesión',
+                customClass: {
+                    content: 'text_fontstyle'
+                },
+                text: 'Por cuestiones de seguridad, la sesión dura una hora. ¡Vuelve a iniciar si deseas!'
+            })
+        }
+    }
+
+    const [usuarios, guardarUsuarios] = useState([])
+
+    useEffect(() => {
+
+        if (token !== null) {
+            const consultarAPI = async () => {
+                try {
+                    const clienteConsulta = await axiosClient.get('/usuarios', {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
+
+                    guardarUsuarios(clienteConsulta.data)
+
+                } catch (error) {
+                    // Error con autorización
+                    if (error.response.status = 500) {
+                        props.history.push('/iniciarsesion')
+                    }
+                }
+
+            }
+
+            consultarAPI()
+        }
+        else {
+            props.history.push('/iniciarsesion')
+        }
+
+
+    }, [usuarios])
 
     return (
         <>

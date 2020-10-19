@@ -545,7 +545,7 @@ function Report(props) {
                         <label className="mt-4 text_fontstyle"> <u>Número de teléfono</u> <strong></strong></label>
                         <input type="text"
                             className="text_fontstyle"
-                            value={`0${decodedData ? decodedData.celular : ``}`}
+                            value={`${decodedData ? decodedData.celular : ``}`}
                             disabled />
                         <p className="text_fontstyle mt-4 text-center grey_color">En caso de que los datos que aparecen en pantalla no
                         correspondan con su usuario, modifíquelos
