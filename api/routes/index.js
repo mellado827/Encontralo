@@ -15,7 +15,7 @@ module.exports = function () {
 
     //Obtener usuarios
     router.get('/usuarios',
-        auth,
+        // auth,
         usuarioController.mostrarUsuarios)
 
     //Mostrar un usuario en específico

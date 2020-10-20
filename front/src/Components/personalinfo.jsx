@@ -38,9 +38,9 @@ function PersonalInfo(props) {
     useEffect(() => {
 
         if (token !== null) {
-            const consultarAPI = async () => {
+            const consultarAPI = () => {
                 try {
-                    const clienteConsulta = await axiosClient.get('/usuarios', {
+                    const clienteConsulta = axiosClient.get('/usuarios', {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
@@ -65,6 +65,72 @@ function PersonalInfo(props) {
 
 
     }, [usuarios])
+
+    const eliminarUsuario = () => {
+        if (token !== null) {
+            try {
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "No podrás volver a usar esta cuenta",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    cancelButtonText: 'Cancelar',
+                    customClass: {
+                        content: 'text_fontstyle'
+                    },
+                    confirmButtonText: 'Borrar cuenta'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        const eliminarUsuario = await axiosClient.delete(`/usuarios/${decodedData._id}`, {
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }
+                        })
+
+                        if (eliminarUsuario.status === 200) {
+                            Swal.fire({
+                                title: 'Cuenta borrada',
+                                text: '¡Hasta la próxima!',
+                                icon: 'success',
+                                customClass: {
+                                    content: 'text_fontstyle'
+                                },
+                            })
+
+                            setTimeout(() => {
+                                localStorage.removeItem("token")
+                                props.history.push('/iniciarsesion')
+                            }, 1500);
+
+                        } else {
+                            Swal.fire({
+                                title: 'Hubo un error',
+                                text: 'Inténtalo de nuevo más tarde',
+                                icon: 'error',
+                                customClass: {
+                                    content: 'text_fontstyle'
+                                },
+                            })
+                        }
+                    }
+                })
+
+            } catch (error) {
+                console.log(error)
+                Swal.fire({
+                    title: 'Hubo un error',
+                    text: 'Inténtalo de nuevo más tarde',
+                    icon: 'error',
+                    customClass: {
+                        content: 'text_fontstyle'
+                    },
+                })
+            }
+        }
+    }
+
 
     return (
         <>
@@ -100,110 +166,26 @@ function PersonalInfo(props) {
 
                         <button type="button"
                             className="text_fontstyle m-5 cta_bottonsstyle"
-                            data-toggle="modal"
-                            onClick={() => { Blank(); PersonalData() }}
                             data-target="#save_changes_question"
                             id="savechanges_personalinfo">
                             Guardar cambios
                     </button>
 
-                        <div id="save_changes_question" className="modal fade" role="dialog">
-                            <div className="modal-dialog">
 
-                                <div className="modal-content" id="save_changes_modal">
-                                    <div className="modal-header modal_background">
-                                        <h1 className="modal-title subtitle_fontstyle text-center">
-                                            <strong>¿Seguro qué quieres modificar tus datos?</strong>
-                                        </h1>
-                                    </div>
-                                    <div className="modal-body text_fontstyle text-center">
-                                        <button type="button" className="text_fontstyle cta_bottonsstyle" data-toggle="modal"
-                                            data-target="#save_changes-confirmed" data-dismiss="modal">
-                                            Si
-                                            </button>
-                                        <button type="button" className="text_fontstyle cta_bottonsstyle cta_bottonsstyle-green margin_top"
-                                            data-dismiss="modal">
-                                            No
-                                            </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <button type="button" className="text_fontstyle m-5 cta_bottonsstyle cta_bottonsstyle-green" onClick={GoBack}>
                             Volver
                             </button>
 
-                        <button type="button" className="text_fontstyle m-5 cta_bottonsstyle cta_bottonstyle-red" data-toggle="modal"
-                            data-target="#del-account_modal">
+                        <button type="button"
+                            onClick={eliminarUsuario}
+                            className="text_fontstyle m-5 cta_bottonsstyle cta_bottonstyle-red">
                             Borrar cuenta
                             </button>
-                        <div id="del-account_modal" className="modal fade" role="dialog">
-                            <div className="modal-dialog">
 
-                                <div className="modal-content">
-                                    <div className="modal-header modal_background">
-                                        <h1 className="modal-title subtitle_fontstyle text-center">
-                                            <strong>¿Seguro qué quieres
-                      <span className="delete_warning"> borrar </span>
-                      tu cuenta de Encontralo?</strong>
-                                        </h1>
-                                    </div>
-                                    <div className="modal-body text_fontstyle text-center modal_background">
-                                        <button type="button" className="text_fontstyle cta_bottonsstyle cta_bottonsstyle-green"
-                                            data-toggle="modal" data-target="#account_deleted-confirmed" data-dismiss="modal">
-                                            Si
-                                            </button>
-                                        <button type="button" className="text_fontstyle cta_bottonsstyle margin_top" data-dismiss="modal">
-                                            No
-                                            </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
 
-
-            <div className="modal fade" id="save_changes-confirmed" tabIndex="-1" role="dialog"
-                aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="subtitle_fontstyle text-center">
-                                Se han guardado los cambios de forma exitosa.
-                                </h5>
-                        </div>
-                        <div className="modal-body">
-                            <div className="modal-body d-flex flex-row justify-content-around text_fontstyle text-center modal_background">
-                                <button type="button" className="text_fontstyle m-3 cta_bottonsstyle" data-dismiss="modal" onClick={GoBack}>
-                                    Volver
-                                     </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="modal fade" id="account_deleted-confirmed" tabIndex="-1" role="dialog"
-                aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="subtitle_fontstyle text-center">
-                                Se ha borrado tu cuenta.
-                                </h5>
-                        </div>
-                        <div className="modal-body">
-                            <div className="modal-body d-flex flex-row justify-content-around text_fontstyle text-center modal_background">
-                                <button type="button" className="text_fontstyle m-3 cta_bottonsstyle" data-dismiss="modal">
-                                    Volver
-                                    </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </>
     )
 

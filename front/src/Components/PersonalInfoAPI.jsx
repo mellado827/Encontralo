@@ -32,9 +32,9 @@ function PersonalInfoAPI(props) {
     useEffect(() => {
 
         if (token !== null) {
-            const consultarAPI = async () => {
+            const consultarAPI = () => {
                 try {
-                    const clienteConsulta = await axiosClient.get('/usuarios', {
+                    const clienteConsulta = axiosClient.get('/usuarios', {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
