@@ -10,6 +10,10 @@ import axiosClient from '../config/axios'
 
 function PersonalInfo(props) {
 
+    window.onbeforeunload = function () {
+        return "";
+    };
+
     document.title = "Encontralo / Datos personales"
 
     var current_time = Date.now() / 1000;
@@ -162,15 +166,7 @@ function PersonalInfo(props) {
                     < PersonalInfoAPI />
 
 
-                    <div className="personalinfo_buttons d-flex flex-column m-5">
-
-                        <button type="button"
-                            className="text_fontstyle m-5 cta_bottonsstyle"
-                            data-target="#save_changes_question"
-                            id="savechanges_personalinfo">
-                            Guardar cambios
-                    </button>
-
+                    <div className="personalinfo_buttons d-flex flex-column">
 
                         <button type="button" className="text_fontstyle m-5 cta_bottonsstyle cta_bottonsstyle-green" onClick={GoBack}>
                             Volver
