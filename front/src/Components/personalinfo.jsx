@@ -145,26 +145,8 @@ function PersonalInfo(props) {
                     <p className="text_fontstyle text-center gray_color">
                         Ve tus datos personales o, actualízalos.
                         </p>
-                    <div className="personaldata_container">
-
-                        <div className="text-center mt-4 personaldata_item">
-
-
-                            <button title="Modificar"
-                                id="modify_button"
-                                onClick={EnableInput}
-                                className="transparent mb-5"
-                            >
-                                <img src="./img/edit.png" alt="edit" className="modify_button" />
-                            </button>
-
-
-                        </div>
-
-                    </div>
 
                     < PersonalInfoAPI />
-
 
                     <div className="personalinfo_buttons d-flex flex-column">
 

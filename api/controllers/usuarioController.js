@@ -56,15 +56,24 @@ exports.mostrarUsuario = async (req, res, next) => {
 
 exports.actualizarUsuario = async (req, res, next) => {
     try {
-        const usuario = await Usuarios.findOneAndUpdate({ _id: req.params.idUsuario },
-            req.body, {
-            new: true
-        })
 
-        res.json(usuario)
+        const emailValido = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+        if (req.body.email.match(emailValido)) {
+            const usuario = await Usuarios.findOneAndUpdate({ _id: req.params.idUsuario },
+                req.body, {
+                new: true
+            })
+            res.json(usuario)
+        } else {
+            res.json({ mensaje: 'Correo electrónico inválido' })
+        }
 
     } catch (error) {
         console.log(error)
+        if (error.code === 11000) {
+            res.json({ mensaje: 'Datos ya existentes' })
+        }
         next()
     }
 }

@@ -3,12 +3,31 @@ import jwt_decode from 'jwt-decode'
 import Swal from 'sweetalert2'
 import axiosClient from '../config/axios'
 import { withRouter } from 'react-router-dom'
+import $ from 'jquery'
 
 function PersonalInfoAPI(props) {
 
     window.onbeforeunload = function () {
         return "";
     };
+
+    function enableNickname() {
+        $("#username_personalinfo").prop("disabled", false)
+        $("#email_personalinfo").prop("disabled", true)
+        $("#cellphone_personalinfo").prop("disabled", true)
+    }
+
+    function enableEmail() {
+        $("#email_personalinfo").prop("disabled", false)
+        $("#username_personalinfo").prop("disabled", true)
+        $("#cellphone_personalinfo").prop("disabled", true)
+    }
+
+    function enableCellphone() {
+        $("#cellphone_personalinfo").prop("disabled", false)
+        $("#email_personalinfo").prop("disabled", true)
+        $("#username_personalinfo").prop("disabled", true)
+    }
 
     //mostrar datos personales si el usuario está logueado
     var current_time = Date.now() / 1000;
@@ -111,7 +130,7 @@ function PersonalInfoAPI(props) {
     })
 
     const consultaPorEdit = async () => {
-        const consulta = await axiosClient.get(`/usuarios/${decodedData._id ? decodedData._id : ``}`)
+        const consulta = await axiosClient.get(`/usuarios/${decodedData._id != undefined ? decodedData._id : ``}`)
 
         datosUsuario(consulta.data)
     }
@@ -130,77 +149,112 @@ function PersonalInfoAPI(props) {
     const actualizarUsuario = e => {
         e.preventDefault()
 
+        Swal.fire({
+            title: '¿Estás seguro?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonText: 'Cancelar',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Actualizar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                try {
+                    axiosClient.put(`/usuarios/${decodedData._id ? decodedData._id : ``}`, usuario)
+                        .then(res => {
 
-        axiosClient.put(`/usuarios/${decodedData._id ? decodedData._id : ``}`, usuario)
-            .then(res => {
-
-
-                Swal.fire({
-                    title: '¿Estás seguro?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    cancelButtonText: 'Cancelar',
-                    customClass: {
-                        content: 'text_fontstyle'
-                    },
-                    confirmButtonText: 'Actualizar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Datos actualizados correctamente',
-                            customClass: {
-                                content: 'text_fontstyle'
+                            if (res.data.mensaje === "Datos ya existentes" ||
+                                res.data.mensaje === "Correo electrónico inválido") {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: `${res.data.mensaje}, inténtalo de nuevo.`,
+                                    customClass: {
+                                        content: 'text_fontstyle'
+                                    }
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Datos actualizados correctamente',
+                                    text: 'Inicia sesión nuevamente así se actualizan los datos en el sitio',
+                                    customClass: {
+                                        content: 'text_fontstyle'
+                                    }
+                                })
+                                localStorage.removeItem("token")
+                                setTimeout(() => {
+                                    props.history.push("/iniciarsesion")
+                                }, 1500);
                             }
                         })
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        })
 
-                        setTimeout(() => {
-                            window.location.reload()
-                        }, 1500);
 
-
-                    }
-                })
-
-            })
 
     }
+
+    //Solo números
+    function justNumbers(e) {
+        var key = window.event ? e.which : e.keyCode;
+        if (key < 48 || key > 57) {
+            e.preventDefault();
+        }
+    }
+
+    window.addEventListener("load", function () {
+        if (document.getElementById("cellphone_personalinfo")) {
+            document.getElementById("cellphone_personalinfo").addEventListener("keypress", justNumbers, false);
+        }
+
+    });
+
 
     return (
         <>
 
             <div className="text-center personaldata_item">
-                <p className="text_fontstyle"><u>Nombre de usuario</u></p>
+                <p className="text_fontstyle mt-5"><u>Nombre de usuario</u></p>
                 <input
                     disabled
                     type="text"
                     name="nickname"
+                    maxLength="12"
                     onChange={actualizarState}
                     id="username_personalinfo"
                     placeholder={usuario.nickname ? usuario.nickname : ``}
                     className="text_fontstyle" />
-                <span id="usernameValid" className="text_font cellphoneValidStyles text-center"></span>
+                <button title="Modificar"
+                    id="modify_button"
+                    onClick={enableNickname}
+                    className="transparent mb-5"
+                >
+                    <img src="./img/edit.png" alt="edit" className="modify_button" />
+                </button>
             </div>
             <div className="text-center mt-4 personaldata_item">
                 <p className="text_fontstyle"><u>Email</u></p>
-                <input type="text"
+                <input
+                    type="email"
                     name="email"
                     onChange={actualizarState}
                     id="email_personalinfo"
                     placeholder={usuario.email ? usuario.email : ``}
                     className="text_fontstyle"
                     disabled />
-                <span id="emailValid_personalinfo" className="text_font cellphoneValidStyles text-center"></span>
-            </div>
-            <div className="text-center mt-4 personaldata_item">
-                <p className="text_fontstyle"><u>Contraseña</u></p>
-                <input type="password" className="margin_closebutton" disabled />
-                <a href="/contrasena">
-                    <img src="./img/closed.png" alt="edit" className="modify_button" />
-                </a>
+                <button title="Modificar"
+                    id="modify_button"
+                    onClick={enableEmail}
+                    className="transparent mb-5"
+                >
+                    <img src="./img/edit.png" alt="edit" className="modify_button" />
+                </button>
+
+
             </div>
 
             <div className="text-center mt-4 personaldata_item">
@@ -208,10 +262,26 @@ function PersonalInfoAPI(props) {
                 <input type="text"
                     onChange={actualizarState}
                     name="celular"
+                    maxLength="9"
                     placeholder={usuario.celular ? usuario.celular : ``}
                     id="cellphone_personalinfo"
                     disabled
                     className="text_fontstyle" />
+                <button title="Modificar"
+                    id="modify_button"
+                    onClick={enableCellphone}
+                    className="transparent mb-5"
+                >
+                    <img src="./img/edit.png" alt="edit" className="modify_button" />
+                </button>
+            </div>
+
+            <div className="text-center mt-4 personaldata_item">
+                <p className="text_fontstyle"><u>Contraseña</u></p>
+                <a href="/contrasena">
+                    <img src="./img/closed.png"
+                        title="Cambia tu contraseña" alt="edit" className="modify_button" />
+                </a>
             </div>
 
             <div className="d-flex text-center mt-4 justify-content-center">
