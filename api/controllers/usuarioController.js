@@ -60,7 +60,7 @@ exports.actualizarUsuario = async (req, res, next) => {
         const emailValido = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
         if (req.body.email.match(emailValido)) {
-            const usuario = await Usuarios.findOneAndUpdate({ _id: req.params.idUsuario },
+            var usuario = await Usuarios.findOneAndUpdate({ _id: req.params.idUsuario },
                 req.body, {
                 new: true
             })
@@ -68,6 +68,8 @@ exports.actualizarUsuario = async (req, res, next) => {
         } else {
             res.json({ mensaje: 'Correo electrónico inválido' })
         }
+
+        console.log(usuario)
 
     } catch (error) {
         console.log(error)

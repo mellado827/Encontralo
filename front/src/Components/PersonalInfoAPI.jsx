@@ -88,7 +88,6 @@ function PersonalInfoAPI(props) {
 
     const nuevoValor = e => {
         setValor(e.target.value)
-        console.log(valor)
     }
 
     useEffect(() => {
@@ -149,52 +148,69 @@ function PersonalInfoAPI(props) {
     const actualizarUsuario = e => {
         e.preventDefault()
 
-        Swal.fire({
-            title: '¿Estás seguro?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonText: 'Cancelar',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Actualizar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                try {
-                    axiosClient.put(`/usuarios/${decodedData._id ? decodedData._id : ``}`, usuario)
-                        .then(res => {
-
-                            if (res.data.mensaje === "Datos ya existentes" ||
-                                res.data.mensaje === "Correo electrónico inválido") {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Error',
-                                    text: `${res.data.mensaje}, inténtalo de nuevo.`,
-                                    customClass: {
-                                        content: 'text_fontstyle'
-                                    }
-                                })
-                            } else {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Datos actualizados correctamente',
-                                    text: 'Inicia sesión nuevamente así se actualizan los datos en el sitio',
-                                    customClass: {
-                                        content: 'text_fontstyle'
-                                    }
-                                })
-                                localStorage.removeItem("token")
-                                setTimeout(() => {
-                                    props.history.push("/iniciarsesion")
-                                }, 1500);
-                            }
-                        })
-                } catch (error) {
-                    console.log(error)
+        if ((document.getElementById("cellphone_personalinfo").value === "" &&
+            document.getElementById("username_personalinfo").value === "" &&
+            document.getElementById("email_personalinfo").value === "")) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: `Completa de forma correcta los campos.`,
+                customClass: {
+                    content: 'text_fontstyle'
                 }
-            }
-        })
+            })
+        } else {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonText: 'Cancelar',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Actualizar'
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    try {
+                        axiosClient.put(`/usuarios/${decodedData._id ? decodedData._id : ``}`, usuario)
+                            .then(res => {
+
+                                if (res.data.mensaje === "Datos ya existentes" ||
+                                    res.data.mensaje === "Correo electrónico inválido") {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: `${res.data.mensaje === "Datos ya existentes" || res.data.mensaje === "Correo electrónico inválido"
+                                            ? res.data.mensaje : `No has modificado ningún valor`}, inténtalo de nuevo.`,
+                                        customClass: {
+                                            content: 'text_fontstyle'
+                                        }
+                                    })
+
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: '¡Datos actualizados correctamente!',
+                                        text: 'Inicia sesión nuevamente así se actualizan los datos en el sitio.',
+                                        customClass: {
+                                            content: 'text_fontstyle'
+                                        }
+                                    })
+                                    // localStorage.removeItem("token")
+                                    // setTimeout(() => {
+                                    //     props.history.push("/iniciarsesion")
+                                    // }, 1500);
+                                }
 
 
+
+                            })
+                    } catch (error) {
+                        console.log(error)
+                    }
+                }
+            })
+        }
 
     }
 
