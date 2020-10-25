@@ -3,6 +3,7 @@ import jwt_decode from 'jwt-decode'
 import Swal from 'sweetalert2'
 import axiosClient from '../config/axios'
 import { withRouter } from 'react-router-dom'
+import emailExistence from 'email-existence'
 import $ from 'jquery'
 
 function PersonalInfoAPI(props) {
@@ -154,7 +155,7 @@ function PersonalInfoAPI(props) {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: `Completa de forma correcta los campos.`,
+                text: `Completa de forma alguno de los campos.`,
                 customClass: {
                     content: 'text_fontstyle'
                 }
@@ -171,6 +172,16 @@ function PersonalInfoAPI(props) {
 
             }).then((result) => {
                 if (result.isConfirmed) {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Comprobando datos...',
+                        text: 'Espera, por favor.',
+                        customClass: {
+                            content: 'text_fontstyle'
+                        }
+                    })
+
+
                     try {
                         axiosClient.put(`/usuarios/${decodedData._id ? decodedData._id : ``}`, usuario)
                             .then(res => {
@@ -188,6 +199,7 @@ function PersonalInfoAPI(props) {
                                     })
 
                                 } else {
+
                                     Swal.fire({
                                         icon: 'success',
                                         title: '¡Datos actualizados correctamente!',
@@ -196,10 +208,10 @@ function PersonalInfoAPI(props) {
                                             content: 'text_fontstyle'
                                         }
                                     })
-                                    // localStorage.removeItem("token")
-                                    // setTimeout(() => {
-                                    //     props.history.push("/iniciarsesion")
-                                    // }, 1500);
+                                    localStorage.removeItem("token")
+                                    setTimeout(() => {
+                                        props.history.push("/iniciarsesion")
+                                    }, 1500);
                                 }
 
 
@@ -207,7 +219,14 @@ function PersonalInfoAPI(props) {
                             })
                     } catch (error) {
                         console.log(error)
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Error inesperado, inténtalo de nuevo más tarde.'
+                        })
                     }
+
+
                 }
             })
         }

@@ -1,6 +1,7 @@
 const Usuarios = require('../models/Usuarios')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const emailExistence = require('email-existence')
 
 //Nuevo usuario
 exports.nuevoUsuario = async (req, res, next) => {
@@ -57,7 +58,7 @@ exports.mostrarUsuario = async (req, res, next) => {
 exports.actualizarUsuario = async (req, res, next) => {
     try {
 
-        const emailValido = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
         if (req.body.email.match(emailValido)) {
             var usuario = await Usuarios.findOneAndUpdate({ _id: req.params.idUsuario },
@@ -68,8 +69,6 @@ exports.actualizarUsuario = async (req, res, next) => {
         } else {
             res.json({ mensaje: 'Correo electrónico inválido' })
         }
-
-        console.log(usuario)
 
     } catch (error) {
         console.log(error)

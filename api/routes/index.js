@@ -22,7 +22,8 @@ module.exports = function () {
     router.get('/usuarios/:idUsuario', usuarioController.mostrarUsuario)
 
     //Actualizar usuario
-    router.put('/usuarios/:idUsuario', usuarioController.actualizarUsuario)
+    router.put('/usuarios/:idUsuario',
+        usuarioController.actualizarUsuario)
 
     //Eliminar usuario
     router.delete('/usuarios/:idUsuario', usuarioController.eliminarUsuario)
