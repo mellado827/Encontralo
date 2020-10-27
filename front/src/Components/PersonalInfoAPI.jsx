@@ -85,43 +85,6 @@ function PersonalInfoAPI(props) {
 
     }, [usuarios])
 
-    const [valor, setValor] = useState('')
-
-    const nuevoValor = e => {
-        setValor(e.target.value)
-    }
-
-    useEffect(() => {
-
-        if (token !== null) {
-            const consultarAPI = () => {
-                try {
-                    const clienteConsulta = axiosClient.get('/usuarios', {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    })
-
-                    guardarUsuarios(clienteConsulta.data)
-
-                } catch (error) {
-                    // Error con autorización
-                    if (error.response.status = 500) {
-                        props.history.push('/iniciarsesion')
-                    }
-                }
-
-            }
-
-            consultarAPI()
-        }
-        else {
-            props.history.push('/iniciarsesion')
-        }
-
-
-    }, [usuarios])
-
 
     const [usuario, datosUsuario] = useState({
         nickname: '',

@@ -8,7 +8,8 @@ const auth = require('../middleware/auth')
 
 module.exports = function () {
     //Agregar nuevos usuarios
-    router.post('/usuarios', usuarioController.nuevoUsuario)
+    router.post('/usuarios',
+        usuarioController.nuevoUsuario)
 
     //Agregar nuevos usuarios
     router.post('/iniciarsesion', usuarioController.autenticarUsuario)
@@ -19,11 +20,13 @@ module.exports = function () {
         usuarioController.mostrarUsuarios)
 
     //Mostrar un usuario en específico
-    router.get('/usuarios/:idUsuario', usuarioController.mostrarUsuario)
+    router.get('/usuarios/:idUsuario',
+        usuarioController.mostrarUsuario)
 
     //Actualizar usuario
     router.put('/usuarios/:idUsuario',
-        usuarioController.actualizarUsuario)
+        usuarioController.actualizarUsuario,
+        usuarioController.contraseña)
 
     //Eliminar usuario
     router.delete('/usuarios/:idUsuario', usuarioController.eliminarUsuario)

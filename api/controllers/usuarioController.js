@@ -1,13 +1,12 @@
 const Usuarios = require('../models/Usuarios')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-const emailExistence = require('email-existence')
+var salt = bcrypt.genSaltSync();
 
 //Nuevo usuario
 exports.nuevoUsuario = async (req, res, next) => {
     const usuario = new Usuarios(req.body)
     usuario.contrasena = await bcrypt.hash(req.body.contrasena, 10)
-
 
     try {
         //almacenar el registro
@@ -27,6 +26,33 @@ exports.nuevoUsuario = async (req, res, next) => {
         }
     }
 
+}
+
+exports.contraseña = async (req, res) => {
+    try {
+
+        const contrasenaDelLogin = req.body.contraseñaDelLogin
+        const contrasenaActual = req.body.ContraseñaActual
+
+        bcrypt.hash(contrasenaActual, salt, function (err) {
+            if (err) console.log(err);
+
+            bcrypt.compare(contrasenaActual, contrasenaDelLogin, function (err, result) {
+                if (err) { res.json({ mensaje: err }) }
+                res.json({ mensaje: result })
+            });
+
+        });
+
+        // var usuario = await Usuarios.findOneAndUpdate({ _id: req.params.idUsuario },
+        //     req.body, {
+        //     new: true
+        // })
+        // res.json(usuario)
+
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 //Mostrar clientes
@@ -78,6 +104,7 @@ exports.actualizarUsuario = async (req, res, next) => {
         next()
     }
 }
+
 
 //Eliminar usuario
 exports.eliminarUsuario = async (req, res, next) => {

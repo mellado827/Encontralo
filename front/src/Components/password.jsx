@@ -1,135 +1,202 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import axiosClient from '../config/axios'
 import GoBack from '../Functions/goBack'
 import SeePasswordPage1 from '../Functions/seePasswordPage1'
 import SeePasswordPage2 from '../Functions/seePasswordPage2'
 import SeePasswordPage3 from '../Functions/seePasswordPage3'
-import PasswordSyntaxisPage from '../Functions/PasswordSyntaxisPage'
+import jwt_decode from 'jwt-decode'
+import Swal from 'sweetalert2'
 import Quit from '../Functions/quit'
+import bcrypt from 'bcryptjs'
 
-class Password extends React.Component {
-    constructor(props) {
-        super();
+function Password(props) {
+
+    document.title = "Encontralo - Cambiar contraseña"
+    Quit()
+
+    var current_time = Date.now() / 1000;
+    const token = localStorage.getItem("token")
+
+    if (token !== null) {
+
+        var decodedData = jwt_decode(token)
+
+        if (decodedData.exp < current_time) {
+            window.location.reload()
+            localStorage.removeItem("token")
+            Swal.fire({
+                icon: 'warning',
+                title: 'Ha expirado tu sesión',
+                customClass: {
+                    content: 'text_fontstyle'
+                },
+                text: 'Por cuestiones de seguridad, la sesión dura una hora. ¡Vuelve a iniciar si deseas!'
+            })
+        }
     }
 
-    componentDidMount() {
-        document.title = "Encontralo - Cambiar contraseña"
-        Quit()
+    const [usuarios, guardarUsuarios] = useState([])
+
+    useEffect(() => {
+
+        if (token !== null) {
+            const consultarAPI = () => {
+                try {
+                    const clienteConsulta = axiosClient.get('/usuarios', {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
+
+                    guardarUsuarios(clienteConsulta.data)
+
+                } catch (error) {
+                    // Error con autorización
+                    if (error.response.status = 500) {
+                        props.history.push('/iniciarsesion')
+                    }
+                }
+
+            }
+
+            consultarAPI()
+        }
+        else {
+            props.history.push('/iniciarsesion')
+        }
+
+
+    }, [usuarios])
+
+    const consultaPorEdit = async () => {
+        const consulta = await axiosClient.get(`/usuarios/${decodedData._id != undefined ? decodedData._id : ``}`)
+        datosUsuario(consulta.data)
     }
 
-    render() {
-        return (
-            <>
-                <div className="loginANDsignup_background height_shared d-flex justify-content-center align-items-center">
-                    <form className="reset-pass_container" id="password_form">
-                        <h1 className="subtitle_fontstyle text-center m-3">
-                            Restablecer contraseña
+    useEffect(() => {
+        consultaPorEdit()
+    }, [])
+
+    const [usuario, datosUsuario] = useState({})
+
+    const [contrasenas, guardarContrasenas] = useState({
+    })
+
+    const actualizarState = e => {
+        guardarContrasenas({
+            ...contrasenas,
+            [e.target.name]: e.target.value,
+            contraseñaDelLogin: usuario.contrasena
+        })
+    }
+
+    const contrasenaDB = usuario.contrasena
+
+    const passwords = e => {
+        e.preventDefault();
+
+        try {
+            // enviar petición
+            axiosClient.put(`/usuarios/${decodedData._id ? decodedData._id : ``}`, contrasenas)
+                .then(res => {
+                    if (res.data.mensaje === false) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Contraseña actual inválida, inténtalo de nuevo.',
+                            customClass: {
+                                content: 'text_fontstyle'
+                            }
+                        })
+                    } else {
+                        console.log("Contraseña actual correcta")
+                    }
+                }
+                );
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    return (
+        <>
+            <div className="loginANDsignup_background height_shared d-flex justify-content-center align-items-center">
+                <form className="reset-pass_container" id="password_form">
+                    <h1 className="subtitle_fontstyle text-center m-3">
+                        Restablecer contraseña
       </h1>
-                        <p className="text_fontstyle gray_color text-center">
-                            Al resetear la contraseña, se le enviará un correo electrónico con los
-                            datos del cambio de contraseña (fecha del cambio, hora, equipo desde
-                            donde se realizó el cambio, etc) por temas de seguridad.
-        <strong> Si tiene problemas para cambiar la contraseña,
-          <a href="/" className="link"> contáctenos</a>.
-        </strong>
-                        </p>
-                        <p className="text_fontstyle gray_color text-center">
-                            Su contraseña debe tener, al menos: 8 caracteres, una mayúscula y un número.
-                            No puede contener espacios en
-        blanco. Ejemplo: <strong>Encontralo123</strong>
-                        </p>
-                        <p id="passwordValidator" className="text_font text-center m-5"></p>
-                        <div className="text-center mt-4 actual_pass">
-                            <p className="text_fontstyle"><u>Contraseña actual</u></p>
-                            <input type="password"
-                                id="current_password"
 
-                                className="text_fontstyle" />
-                            <button type="button" id="see_password1"
-                                className=" see_password transparent"
-                                onClick={SeePasswordPage1}
-                                title="Ver contraseña"
-                                required>
-                                <img src="./img/see_black.png" className="see_passwordIcon" alt="see password" />
-                            </button>
-                        </div>
+                    <p id="passwordValidator" className="text_font text-center m-5"></p>
+                    <div className="text-center mt-4 actual_pass">
+                        <p className="text_fontstyle"><u>Contraseña actual</u></p>
+                        <input type="password"
+                            id="current_password"
+                            name="ContraseñaActual"
+                            onChange={actualizarState}
+                            className="text_fontstyle" />
+                        <button type="button" id="see_password1"
+                            className=" see_password transparent"
+                            onClick={SeePasswordPage1}
+                            title="Ver contraseña"
+                            required>
+                            <img src="./img/see_black.png" className="see_passwordIcon" alt="see password" />
+                        </button>
+                    </div>
 
-                        <div className="text-center mt-4 new_pass">
-                            <p className="text_fontstyle"><u>Nueva contraseña</u></p>
-                            <input type="password"
-                                id="new_password"
-                                className="text_fontstyle"
-                            />
-                            <button type="button"
-                                id="see_password2"
-                                onClick={SeePasswordPage2}
-                                className=" see_password transparent"
-                                title="Ver contraseña"
-                                required>
-                                <img src="./img/see_black.png" className="see_passwordIcon" alt="see password" />
-                            </button>
-                        </div>
+                    <div className="text-center mt-4 new_pass">
+                        <p className="text_fontstyle"><u>Nueva contraseña</u></p>
+                        <input type="password"
+                            name="Contraseña nueva"
+                            id="new_password"
+                            // onChange={actualizarState}
+                            className="text_fontstyle"
+                        />
+                        <button type="button"
+                            id="see_password2"
+                            onClick={SeePasswordPage2}
+                            className=" see_password transparent"
+                            title="Ver contraseña"
+                            required>
+                            <img src="./img/see_black.png" className="see_passwordIcon" alt="see password" />
+                        </button>
+                    </div>
 
-                        <div className="text-center mt-4 confirm-new_pass">
-                            <p className="text_fontstyle"><u>Confirma la nueva contraseña</u></p>
-                            <input type="password"
-                                id="confirm_new_password"
-                                className="text_fontstyle" />
-                            <button type="button"
-                                id="see_password3"
-                                className=" see_password transparent"
-                                onClick={SeePasswordPage3}
-                                title="Ver contraseña"
-                                required>
-                                <img src="./img/see_black.png" className="see_passwordIcon" alt="see password" />
-                            </button>
-                        </div>
-                        <div className="password_buttons d-flex mt-3 mb-3 align-self-center">
-                            <button type="button"
-                                className="text_fontstyle cta_bottonsstyle space_passB"
-                                data-toggle="modal"
-                                onClick={PasswordSyntaxisPage}
-                                data-target="#reset_pass-confirm"
-                                data-dismiss="modal"
-                                id="reset_pass_confirm"
-                            >
-                                Cambiar contraseña
+                    <div className="text-center mt-4 confirm-new_pass">
+                        <p className="text_fontstyle"><u>Confirma la nueva contraseña</u></p>
+                        <input type="password"
+                            name="Contraseña nueva confirmada"
+                            id="confirm_new_password"
+                            // onChange={actualizarState}
+                            className="text_fontstyle" />
+                        <button type="button"
+                            id="see_password3"
+                            className=" see_password transparent"
+                            onClick={SeePasswordPage3}
+                            title="Ver contraseña"
+                            required>
+                            <img src="./img/see_black.png" className="see_passwordIcon" alt="see password" />
+                        </button>
+                    </div>
+                    <div className="password_buttons d-flex mt-5 mb-3 align-self-center">
+                        <button type="button"
+                            className="text_fontstyle cta_bottonsstyle space_passB"
+                            id="reset_pass_confirm"
+                            onClick={passwords}
+                        >
+                            Cambiar contraseña
         </button>
-                            <button type="button"
-                                className="text_fontstyle cta_bottonsstyle cta_bottonsstyle-green"
-                                onClick={GoBack}
-                            >
-                                Volver
+                        <button type="button"
+                            className="text_fontstyle cta_bottonsstyle cta_bottonsstyle-green"
+                            onClick={GoBack}
+                        >
+                            Volver
         </button>
 
-                            <div id="reset_pass-confirm" className="modal fade" role="dialog">
-                                <div className="modal-dialog">
-
-                                    <div className="modal-content" id="areyousure_passwordModal">
-
-                                        <div className="modal-header modal_background">
-                                            <h1 className="modal-title subtitle_fontstyle text-center">
-                                                <strong>¿Seguro qué quieres cambiar tu contraseña?</strong>
-                                            </h1>
-                                        </div>
-                                        <div className="modal-body d-flex text_fontstyle text-center modal_background" >
-                                            <button type="button" className="text_fontstyle cta_bottonsstyle" data-toggle="modal"
-                                                data-target="#save_changes-confirmed">
-                                                Si
-                                            </button>
-                                            <button type="button" className="text_fontstyle cta_bottonsstyle cta_bottonsstyle-green margin_top"
-                                                data-dismiss="modal">
-                                                No
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </>
-        )
-    }
+                    </div>
+                </form>
+            </div>
+        </>
+    )
 }
 
 export default Password
