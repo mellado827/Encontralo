@@ -86,11 +86,11 @@ function Password(props) {
         guardarContrasenas({
             ...contrasenas,
             [e.target.name]: e.target.value,
-            contraseñaDelLogin: usuario.contrasena
+            contraseñaDelLogin: usuario.contrasena,
+            newPassword: contrasenas.newPassword,
+            confirmedPassword: contrasenas.confirmedPassword
         })
     }
-
-    const contrasenaDB = usuario.contrasena
 
     const passwords = e => {
         e.preventDefault();
@@ -99,6 +99,7 @@ function Password(props) {
             // enviar petición
             axiosClient.put(`/usuarios/${decodedData._id ? decodedData._id : ``}`, contrasenas)
                 .then(res => {
+
                     if (res.data.mensaje === false) {
                         Swal.fire({
                             icon: 'error',
@@ -109,10 +110,30 @@ function Password(props) {
                             }
                         })
                     } else {
-                        console.log("Contraseña actual correcta")
+                        if (res.data.mensaje === "La contraseña nueva tiene que ser distinta de la actual. Inténtalo de nuevo.") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'La contraseña nueva tiene que ser distinta de la actual, inténtalo de nuevo.',
+                                customClass: {
+                                    content: 'text_fontstyle'
+                                }
+                            })
+                        } else {
+                            if (res.data.mensaje === "Las ontraseñas no coinciden. Inténtalo de nuevo.") {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Contraseñas no coinciden. Inténtalo de nuevo.',
+                                    customClass: {
+                                        content: 'text_fontstyle'
+                                    }
+                                })
+                            }
+                        }
                     }
                 }
-                );
+                )
         } catch (error) {
             console.log(error)
         }
@@ -131,7 +152,7 @@ function Password(props) {
                         <p className="text_fontstyle"><u>Contraseña actual</u></p>
                         <input type="password"
                             id="current_password"
-                            name="ContraseñaActual"
+                            name="CurrentPassword"
                             onChange={actualizarState}
                             className="text_fontstyle" />
                         <button type="button" id="see_password1"
@@ -146,9 +167,9 @@ function Password(props) {
                     <div className="text-center mt-4 new_pass">
                         <p className="text_fontstyle"><u>Nueva contraseña</u></p>
                         <input type="password"
-                            name="Contraseña nueva"
+                            name="NewPassword"
                             id="new_password"
-                            // onChange={actualizarState}
+                            onChange={actualizarState}
                             className="text_fontstyle"
                         />
                         <button type="button"
@@ -164,9 +185,9 @@ function Password(props) {
                     <div className="text-center mt-4 confirm-new_pass">
                         <p className="text_fontstyle"><u>Confirma la nueva contraseña</u></p>
                         <input type="password"
-                            name="Contraseña nueva confirmada"
+                            name="ConfirmedPassword"
                             id="confirm_new_password"
-                            // onChange={actualizarState}
+                            onChange={actualizarState}
                             className="text_fontstyle" />
                         <button type="button"
                             id="see_password3"

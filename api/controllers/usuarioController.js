@@ -32,30 +32,39 @@ exports.contraseña = async (req, res) => {
     try {
 
         const contrasenaDelLogin = req.body.contraseñaDelLogin
-        const contrasenaActual = req.body.ContraseñaActual
+        const currentPassword = req.body.CurrentPassword
+        const newPassword = req.body.NewPassword
+        const confirmedPassword = req.body.ConfirmedPassword
 
-        bcrypt.hash(contrasenaActual, salt, function (err) {
-            if (err) console.log(err);
+        bcrypt.hash(currentPassword, salt, function (err) {
+            if (err) console.log(err)
+        })
 
-            bcrypt.compare(contrasenaActual, contrasenaDelLogin, function (err, result) {
-                if (err) { res.json({ mensaje: err }) }
-                res.json({ mensaje: result })
+        if (!bcrypt.compareSync(currentPassword, contrasenaDelLogin)) {
+            res.json({ mensaje: false })
+        } else {
+            bcrypt.hash(newPassword, 10, function (err, newPasswordHash) {
+                if (bcrypt.compareSync(currentPassword, newPasswordHash)) {
+                    res.json({ mensaje: 'La contraseña nueva tiene que ser distinta de la actual. Inténtalo de nuevo.' })
+                } else {
+                    bcrypt.hash(confirmedPassword, 10, function (err, confirmedPasswordHash) {
+                        if (bcrypt.compareSync(currentPassword, confirmedPasswordHash)) {
+                            res.json({ mensaje: 'La contraseña nueva tiene que ser distinta de la actual. Inténtalo de nuevo.' })
+                        }
+                    })
+
+                }
             });
 
-        });
+        }
+    }
 
-        // var usuario = await Usuarios.findOneAndUpdate({ _id: req.params.idUsuario },
-        //     req.body, {
-        //     new: true
-        // })
-        // res.json(usuario)
-
-    } catch (error) {
+    catch (error) {
         console.log(error)
     }
 }
 
-//Mostrar clientes
+//Show
 
 exports.mostrarUsuarios = async (req, res) => {
     try {
