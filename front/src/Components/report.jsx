@@ -123,7 +123,7 @@ function Report(props) {
 
     const readImage = e => {
         let reader = new FileReader()
-        reader.readAsDataURL(e.target.files[0])
+        reader.readAsDataURL(e.target.files[0]) // la paso a base64 porque sino no funciona
         reader.onload = () => {
             if (reader.readyState === 2) {
                 setImagePreview(reader.result)
@@ -269,8 +269,8 @@ function Report(props) {
                     })
 
                     setTimeout(() => {
-                        props.history.push('/')
-                    }, 3000);
+                        window.location.reload()
+                    }, 2000);
 
                 }
             })

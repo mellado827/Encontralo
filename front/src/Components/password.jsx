@@ -95,48 +95,82 @@ function Password(props) {
     const passwords = e => {
         e.preventDefault();
 
-        try {
-            // enviar petición
-            axiosClient.put(`/usuarios/${decodedData._id ? decodedData._id : ``}`, contrasenas)
-                .then(res => {
+        if (document.getElementById("current_password").value === "" ||
+            document.getElementById("new_password").value === "" ||
+            document.getElementById("confirm_new_password").value === "") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Llena todos los campos e inténtalo de nuevo.',
+                customClass: {
+                    content: 'text_fontstyle'
+                }
+            })
+        }
+        else {
+            try {
+                // enviar petición
+                axiosClient.put(`/usuarios/${decodedData._id ? decodedData._id : ``}`, contrasenas)
+                    .then(res => {
 
-                    if (res.data.mensaje === false) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Contraseña actual inválida, inténtalo de nuevo.',
-                            customClass: {
-                                content: 'text_fontstyle'
-                            }
-                        })
-                    } else {
-                        if (res.data.mensaje === "La contraseña nueva tiene que ser distinta de la actual. Inténtalo de nuevo.") {
+                        if (res.data.mensaje === false) {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',
-                                text: 'La contraseña nueva tiene que ser distinta de la actual, inténtalo de nuevo.',
+                                text: 'Contraseña actual inválida, inténtalo de nuevo.',
                                 customClass: {
                                     content: 'text_fontstyle'
                                 }
                             })
                         } else {
-                            if (res.data.mensaje === "Las ontraseñas no coinciden. Inténtalo de nuevo.") {
+                            if (res.data.mensaje === "La contraseña nueva tiene que ser distinta de la actual. Inténtalo de nuevo.") {
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Error',
-                                    text: 'Contraseñas no coinciden. Inténtalo de nuevo.',
+                                    text: 'La contraseña nueva tiene que ser distinta de la actual, inténtalo de nuevo.',
                                     customClass: {
                                         content: 'text_fontstyle'
                                     }
                                 })
+                            } else {
+                                if (res.data.mensaje === "La contraseña nueva y su confirmación no coinciden. Inténtalo de nuevo.") {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: res.data.mensaje,
+                                        customClass: {
+                                            content: 'text_fontstyle'
+                                        }
+                                    })
+                                } else {
+                                    if (res.data.mensaje === "¡Contraseña actualizada correctamente!") {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: '¡Contraseña actualizada correctamente!',
+                                            text: 'Inicia sesión nuevamente así se actualizan los datos en el sitio.',
+                                            customClass: {
+                                                content: 'text_fontstyle'
+                                            }
+                                        })
+                                        localStorage.removeItem("token")
+                                        setTimeout(() => {
+                                            props.history.push("/iniciarsesion")
+                                        }, 1500);
+                                    }
+                                }
                             }
                         }
+
+
                     }
-                }
-                )
-        } catch (error) {
-            console.log(error)
+
+                    )
+            } catch (error) {
+                console.log(error)
+            }
         }
+
+
     }
 
     return (

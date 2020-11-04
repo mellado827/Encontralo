@@ -37,19 +37,31 @@ exports.contraseña = async (req, res) => {
         const confirmedPassword = req.body.ConfirmedPassword
 
         bcrypt.hash(currentPassword, salt, function (err) {
-            if (err) console.log(err)
         })
 
         if (!bcrypt.compareSync(currentPassword, contrasenaDelLogin)) {
             res.json({ mensaje: false })
         } else {
             bcrypt.hash(newPassword, 10, function (err, newPasswordHash) {
+                console.log(err)
                 if (bcrypt.compareSync(currentPassword, newPasswordHash)) {
                     res.json({ mensaje: 'La contraseña nueva tiene que ser distinta de la actual. Inténtalo de nuevo.' })
                 } else {
                     bcrypt.hash(confirmedPassword, 10, function (err, confirmedPasswordHash) {
                         if (bcrypt.compareSync(currentPassword, confirmedPasswordHash)) {
                             res.json({ mensaje: 'La contraseña nueva tiene que ser distinta de la actual. Inténtalo de nuevo.' })
+                        }
+                        if (bcrypt.compareSync(newPassword, confirmedPasswordHash)) {
+                            const modifyPass = async () => {
+                                const pass = await Usuarios.findByIdAndUpdate(
+                                    { _id: req.params.idUsuario },
+                                    { contrasena: confirmedPasswordHash }
+                                )
+                                res.json({ mensaje: '¡Contraseña actualizada correctamente!' })
+                            }
+                            modifyPass()
+                        } else {
+                            res.json({ mensaje: 'La contraseña nueva y su confirmación no coinciden. Inténtalo de nuevo.' })
                         }
                     })
 
@@ -63,8 +75,6 @@ exports.contraseña = async (req, res) => {
         console.log(error)
     }
 }
-
-//Show
 
 exports.mostrarUsuarios = async (req, res) => {
     try {
