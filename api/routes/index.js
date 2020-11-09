@@ -43,8 +43,12 @@ module.exports = function () {
 
     //Mostrar reportes por tipo
     router.get('/reportes/:comodin',
-        reportesController.mostrarReportePorDepartamentoOTipo
+        reportesController.mostrarReportePorDepartamentoOTipo,
+        // reportesController.misCasos
     )
+
+    router.get('/reportes/:usuario/:dep',
+        reportesController.departamentoCasos)
 
     //Actualizar reportes
     router.put('/reportes/:idReporte',

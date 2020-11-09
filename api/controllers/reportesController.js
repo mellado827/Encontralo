@@ -5,44 +5,46 @@ const shortid = require('shortid')
 const configuracionMulter = {
     storage: fileStorage = multer.diskStorage({
         destination: (req, file, cb) => {
-            cb(null, __dirname + '../../images')
+            cb(null, __dirname + '../../images/');
         },
         filename: (req, file, cb) => {
-            const extension = file.mimetype.split('/')[1]
-            cb(null, `${shortid.generate()}.${extension}`)
+            const extension = file.mimetype.split('/')[1];
+            cb(null, `${shortid.generate()}.${extension}`);
         }
     }),
     fileFilter(req, file, cb) {
         if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-            cb(null, true)
+            cb(null, true);
         } else {
-            cb(new Error('Formato no válido'))
+            cb(new Error('Formato No válido'))
         }
-    }
+    },
 }
 
-const upload = multer(configuracionMulter).single('imagen')
+// pasar la configuración y el campo
+const upload = multer(configuracionMulter).single('images');
 
+// Sube un archivo 
 exports.subirArchivo = (req, res, next) => {
     upload(req, res, function (error) {
         if (error) {
             res.json({ mensaje: error })
         }
-        return next()
+        return next();
     })
 }
 
 //Agregar un reporte
 exports.nuevoReporte = async (req, res, next) => {
 
-
     try {
 
-        const reporte = new Reportes(req.body)
+        // console.log(req.ima)
 
         // if (req.file.filename) {
         //     reporte.imagen = req.file.filename
         // }
+        const reporte = new Reportes(req.body)
 
         await reporte.save()
         res.json({ mensaje: 'Se agregó un nuevo reporte' })
@@ -85,10 +87,15 @@ exports.mostrarReportePorDepartamentoOTipo = async (req, res, next) => {
             idPublico: req.params.comodin
         })
 
+        const casosPorUsuario = await Reportes.find({
+            usuario: req.params.comodin
+        })
+
         res.json({
             reportePorDepartamento,
             reportePorTipo,
-            reportePorIDpublico
+            reportePorIDpublico,
+            casosPorUsuario
         })
 
     } catch (error) {
@@ -98,24 +105,35 @@ exports.mostrarReportePorDepartamentoOTipo = async (req, res, next) => {
 
 }
 
-//Mostrar reportes por departamento
-// exports.mostrarReportePorTipoMascota = async (req, res, next) => {
+exports.departamentoCasos = async (req, res, next) => {
+    try {
+        const departamentoCasosPorUsuario = await Reportes.find({
+            usuario: req.params.usuario,
+            departamento: req.params.dep
+        })
+
+        const casosPorUsuarioByID = await Reportes.find({
+            usuario: req.params.usuario,
+            idPublico: req.params.dep
+        })
+
+        const casosPorUsuarioByTipoMascota = await Reportes.find({
+            usuario: req.params.usuario,
+            tipoMascota: req.params.dep
+        })
+
+        res.json({
+            departamentoCasosPorUsuario,
+            casosPorUsuarioByID,
+            casosPorUsuarioByTipoMascota
+        })
+    } catch (error) {
+        console.log(error)
+        next()
+    }
 
 
-//     try {
-
-//         const reportePorTipo = await Reportes.find({
-//             tipoMascota: req.params.comodin
-//         })
-
-//         res.json(reportePorTipo)
-
-
-//     } catch (error) {
-//         console.log(error)
-//         next()
-//     }
-// }
+}
 
 exports.mostrarReporte = async (req, res, next) => {
 

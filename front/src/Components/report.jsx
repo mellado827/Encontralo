@@ -89,6 +89,7 @@ function Report(props) {
         nombre: '',
         sexo: '',
         imagen: '',
+        // rutaImagen: '',
         descripcion: '',
         tieneChip: '',
         fecha: '',
@@ -122,13 +123,13 @@ function Report(props) {
     }
 
     const readImage = e => {
+        // return setImagePreview(e.target.files[0])
         let reader = new FileReader()
         reader.readAsDataURL(e.target.files[0]) // la paso a base64 porque sino no funciona
         reader.onload = () => {
             if (reader.readyState === 2) {
                 setImagePreview(reader.result)
             }
-            setImagePreview(reader.result)
         }
     }
 
@@ -141,7 +142,7 @@ function Report(props) {
     const validateReport = () => {
         const { tipoMascota, estado, sexo, descripcion, tieneChip, departamento, localidad, lugar } = report
         let ok = !tipoMascota.length || !estado.length || !sexo.length || !descripcion.length ||
-            !tieneChip.length || !departamento.length || !localidad.length || !lugar.length || imagePreview.length < 128
+            !tieneChip.length || !departamento.length || !localidad.length || !lugar.length || imagePreview
 
         if (ok === true) {
             return ok
@@ -222,6 +223,7 @@ function Report(props) {
         formData.append('sexo', report.sexo)
         formData.append('fecha', fecha)
         formData.append('imagen', imagePreview)
+        formData.append('rutaImagen', `$C:\Users\mella\Google Drive\mellado827 x2\Projects\Encontralo\api\images\{imagePreview.name}`)
         formData.append('descripcion', report.descripcion)
         formData.append('tieneChip', report.tieneChip)
         formData.append('hora', report.hora)
@@ -232,9 +234,9 @@ function Report(props) {
         formData.append('descripcionUsuario', report.descripcionUsuario)
         formData.append('informacionADifundir', ViralInfo())
         formData.append('idPublico', id)
-        // formData.append('usuario', decodedData.nickname)
-        // formData.append('emailUsuario', decodedData.email)
-        // formData.append('celularUsuario', `0${decodedData.celular}`)
+        formData.append('usuario', decodedData.nickname)
+        formData.append('emailUsuario', decodedData.email)
+        formData.append('celularUsuario', `0${decodedData.celular}`)
 
         try {
 
@@ -290,7 +292,6 @@ function Report(props) {
 
     }
 
-
     return (
         <>
             <Navbar />
@@ -342,7 +343,7 @@ function Report(props) {
                             type="text"
                             name="raza"
                             id="race"
-                            onChange={PreviewButtonData, Race, updateState}
+                            onChange={updateState}
                         />
 
                         <label className="mt-4">Nombre</label>
@@ -350,7 +351,7 @@ function Report(props) {
                             type="text"
                             id="pet_name"
                             name="nombre"
-                            onChange={PreviewButtonData, PetName, updateState} />
+                            onChange={updateState} />
 
                         <label className="mt-4"> <u>Sexo</u> <strong>*</strong></label>
                         <select

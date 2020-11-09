@@ -29,9 +29,6 @@ const reportesSchema = new Schema({
         enum: ['Macho', 'Hembra'],
         required: true
     },
-    imagen: {
-        type: String,
-    },
     descripcion: {
         type: String,
         trim: true,
@@ -63,6 +60,12 @@ const reportesSchema = new Schema({
         trim: true,
         required: true
     },
+    imagen: {
+        type: String
+    },
+    // rutaImagen: {
+    //     type: String
+    // },
     nombreUsuario: {
         type: String,
         trim: true

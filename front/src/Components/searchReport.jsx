@@ -3,6 +3,7 @@ import Navbar from './navbar'
 import axiosClient from '../config/axios'
 import LostPetCard from './lostPetCard'
 import NoResults from './noResults'
+import Search from '../Components/search'
 
 function SearchReport(props) {
 
@@ -27,7 +28,6 @@ function SearchReport(props) {
             <Navbar />
 
             <div className="search_container d-flex flex-column">
-
 
                 {reporte.reportePorDepartamento || reporte.reportePorTipo || reporte.reportePorIDpublico
                     ?
