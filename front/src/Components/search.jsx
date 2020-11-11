@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Navbar from './navbar'
 import axiosClient from '../config/axios'
 import LostPetCard from './lostPetCard'
-import { Link } from 'react-router-dom'
+import jwt_decode from 'jwt-decode'
 import Swal from 'sweetalert2'
 import $ from 'jquery'
 
@@ -75,6 +75,27 @@ function Search(props) {
             document.getElementById("departamento").disabled = true
         } else {
             document.getElementById("id").disabled = true
+        }
+    }
+
+    var current_time = Date.now() / 1000;
+
+    var token = localStorage.getItem("token")
+
+    if (token !== null) {
+
+        var decodedData = jwt_decode(token)
+
+        if (decodedData.exp < current_time) {
+            localStorage.removeItem("token")
+            Swal.fire({
+                icon: 'warning',
+                title: 'Ha expirado tu sesión',
+                customClass: {
+                    content: 'text_fontstyle'
+                },
+                text: 'Por cuestiones de seguridad, la sesión dura una hora. ¡Vuelve a iniciar si deseas!'
+            })
         }
     }
 
@@ -167,12 +188,13 @@ function Search(props) {
                         </div>
 
                         <div className="d-flex flex-wrap justify-content-center">
-                            {reports.map(report => (
-                                <LostPetCard
-                                    key={report._id}
-                                    report={report}
-                                />
-                            )
+                            {reports.map(report =>
+                                (
+                                    <LostPetCard
+                                        key={report._id}
+                                        report={report}
+                                    />
+                                )
                             )}
                         </div>
 

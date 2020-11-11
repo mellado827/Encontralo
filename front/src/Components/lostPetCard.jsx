@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Swal from 'sweetalert2'
-import { Link } from 'react-router-dom'
-
+import axiosClient from '../config/axios'
+import jwt_decode from 'jwt-decode'
 
 function LostPetCard(props) {
 
@@ -30,6 +30,85 @@ function LostPetCard(props) {
         })
     }
 
+    var current_time = Date.now() / 1000;
+
+    var token = localStorage.getItem("token")
+
+    if (token !== null) {
+
+        var decodedData = jwt_decode(token)
+
+        if (decodedData.exp < current_time) {
+            localStorage.removeItem("token")
+            Swal.fire({
+                icon: 'warning',
+                title: 'Ha expirado tu sesión',
+                customClass: {
+                    content: 'text_fontstyle'
+                },
+                text: 'Por cuestiones de seguridad, la sesión dura una hora. ¡Vuelve a iniciar si deseas!'
+            })
+        }
+    }
+
+    const [reporte, verReporte] = useState([]);
+
+    const options = () => {
+
+        const ndeah = window.location.href.includes('/miscasos') ?
+            Swal.fire({
+                icon: 'warning',
+                title: '¿Qué deseas hacer?',
+                showCancelButton: true,
+                confirmButtonText: 'Modificar / Encontrado',
+                confirmButtonColor: '#00b5bd',
+                cancelButtonText: 'Borrar',
+                cancelButtonColor: '#cc5c42'
+            }).then(result => {
+                if (result.isConfirmed === false) { //botón eliminar
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        cancelButtonText: 'Cancelar',
+                        customClass: {
+                            content: 'text_fontstyle'
+                        },
+                        confirmButtonText: 'Borrar'
+                    }).then((resultado) => {
+                        if (resultado.isConfirmed) {
+
+                            const consultarAPI = async () => {
+                                const reporteConsulta = await axiosClient.delete(`/reportes/${props.report._id}`);
+                                verReporte(reporteConsulta.data)
+                            }
+                            consultarAPI();
+
+                            Swal.fire({
+                                title: 'Borrado',
+                                text: 'El reporte ha sido eliminado.',
+                                icon: 'success',
+                                customClass: {
+                                    content: 'text_fontstyle'
+                                }
+                            })
+
+                            setTimeout(() => {
+                                window.location.reload()
+                            }, 2000);
+                        }
+                    })
+
+
+                }
+            }) :
+            ''
+
+    }
+
     return (
         <>
             <section className="margin_mobile">
@@ -38,8 +117,9 @@ function LostPetCard(props) {
                     <div className="pet_photo" >
                         {<img className="petPhotoSize"
                             src={props.report.imagen}
-                        />}
-
+                            onClick={options}
+                        />
+                        }
                     </div>
 
                     <div className="petinfo d-flex flex-column">

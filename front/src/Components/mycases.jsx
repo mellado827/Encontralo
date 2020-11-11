@@ -281,14 +281,17 @@ function MyCases(props) {
                                         <LostPetCard
                                             key={report._id}
                                             report={report}
+
                                         />
                                     )
                                     )}
 
+
                             </div>
 
                         </>
-                        : <CeroCases />
+                        :
+                        <CeroCases />
                         // <div className="search_form d-flex flex-column margin_topp">
                         //     <div className="d-flex flex-column justify-content-center align-items-center">
                         //         <span className="subtitle_fontstyle text_center">
