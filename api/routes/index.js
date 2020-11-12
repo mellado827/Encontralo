@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const usuarioController = require('../controllers/usuarioController')
 const reportesController = require('../controllers/reportesController')
+const comentariosController = require('../controllers/comentariosController')
 
 //middle para proteger rutas
 const auth = require('../middleware/auth')
@@ -51,13 +52,23 @@ module.exports = function () {
         reportesController.departamentoCasos)
 
     //Actualizar reportes
-    router.put('/reportes/:idReporte',
-        reportesController.subirArchivo,
-        reportesController.actualizarReporte)
+    // router.put('/reportes/:idReporte',
+    //     reportesController.subirArchivo,
+    //     reportesController.actualizarReporte)
 
     //Eliminar reportes
     router.delete('/reportes/:idReporte',
         reportesController.eliminarReporte)
+
+    //----- COMENTARIOS ------
+    //postear nuevo comentario
+    router.post('/comentarios', comentariosController.nuevoComentario)
+
+    //Mostrar todos los comentarios
+    router.get('/comentarios', comentariosController.mostrarTodosComentarios)
+
+    //Mostrar comentarios del reporte de un usuario logueado
+    router.get('/comentarios/:caso', comentariosController.mostrarComentarios)
 
     return router
 

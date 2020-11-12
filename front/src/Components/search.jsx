@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from './navbar'
 import axiosClient from '../config/axios'
+import { withRouter } from 'react-router-dom'
 import LostPetCard from './lostPetCard'
 import jwt_decode from 'jwt-decode'
 import Swal from 'sweetalert2'
@@ -209,4 +210,4 @@ function Search(props) {
 }
 
 
-export default Search   
+export default withRouter(Search)

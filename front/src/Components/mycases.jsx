@@ -292,14 +292,7 @@ function MyCases(props) {
                         </>
                         :
                         <CeroCases />
-                        // <div className="search_form d-flex flex-column margin_topp">
-                        //     <div className="d-flex flex-column justify-content-center align-items-center">
-                        //         <span className="subtitle_fontstyle text_center">
-                        //             No has reportado ningún animalito perdido, ¡Ve y reporta uno!
-                        //         </span>
-                        //         <a href="/reportar" className="mt- cta_bottonsstyle text_fontstyle">Reportar</a>
-                        //     </div>
-                        // </div>
+
                     }
 
                 </div>

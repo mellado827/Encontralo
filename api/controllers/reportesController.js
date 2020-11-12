@@ -91,11 +91,14 @@ exports.mostrarReportePorDepartamentoOTipo = async (req, res, next) => {
             usuario: req.params.comodin
         })
 
+        // const reporteEnEspecifico = await Reportes.findById(req.params.comodin)
+
         res.json({
             reportePorDepartamento,
             reportePorTipo,
             reportePorIDpublico,
-            casosPorUsuario
+            casosPorUsuario,
+            // reporteEnEspecifico
         })
 
     } catch (error) {

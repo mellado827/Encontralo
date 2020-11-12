@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { withRouter } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import axiosClient from '../config/axios'
 import jwt_decode from 'jwt-decode'
@@ -55,7 +56,7 @@ function LostPetCard(props) {
 
     const options = () => {
 
-        const ndeah = window.location.href.includes('/miscasos') ?
+        const confirmacion = window.location.href.includes('/miscasos') ?
             Swal.fire({
                 icon: 'warning',
                 title: '¿Qué deseas hacer?',
@@ -104,9 +105,17 @@ function LostPetCard(props) {
 
 
                 }
+
+                if (result.isConfirmed === true) {
+                    props.history.push(`/seguimiento/${props.report.idPublico}`)
+                }
             }) :
             ''
 
+    }
+
+    const seguimiento = () => {
+        props.history.push(`/seguimiento/${props.report.idPublico}`)
     }
 
     return (
@@ -115,10 +124,20 @@ function LostPetCard(props) {
                 <div className="pet1">
 
                     <div className="pet_photo" >
-                        {<img className="petPhotoSize"
-                            src={props.report.imagen}
-                            onClick={options}
-                        />
+
+                        {
+                            window.location.href.includes('/buscar') ?
+                                <img
+                                    className="petPhotoSize"
+                                    src={props.report.imagen}
+                                    onClick={seguimiento}
+                                />
+                                :
+                                <img
+                                    className="petPhotoSize"
+                                    src={props.report.imagen}
+                                    onClick={options}
+                                />
                         }
                     </div>
 
@@ -151,4 +170,4 @@ function LostPetCard(props) {
 
 }
 
-export default LostPetCard
+export default withRouter(LostPetCard)

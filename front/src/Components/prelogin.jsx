@@ -65,9 +65,9 @@ function PreLogin(props) {
                 <div className="dropdown">
                     <span className="dropbtn text_fontstyle">Hola, {decodedData.nickname}</span>
                     <div className="dropdown-content text_fontstyle">
+                        <a href="/reportar">Reportar</a>
                         <a href="/datospersonales">Datos personales</a>
                         <a href="/miscasos">Mis casos</a>
-                        <a href="#">Mis animales perdidos</a>
                         <a href="" onClick={logout}>Cerrar sesión</a>
                     </div>
                 </div>

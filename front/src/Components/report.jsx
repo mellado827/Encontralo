@@ -216,6 +216,7 @@ function Report(props) {
         e.preventDefault()
 
         const formData = new FormData()
+
         formData.append('tipoMascota', report.tipoMascota)
         formData.append('estado', report.estado)
         formData.append('raza', report.raza)
@@ -223,7 +224,6 @@ function Report(props) {
         formData.append('sexo', report.sexo)
         formData.append('fecha', fecha)
         formData.append('imagen', imagePreview)
-        formData.append('rutaImagen', `$C:\Users\mella\Google Drive\mellado827 x2\Projects\Encontralo\api\images\{imagePreview.name}`)
         formData.append('descripcion', report.descripcion)
         formData.append('tieneChip', report.tieneChip)
         formData.append('hora', report.hora)
@@ -257,7 +257,7 @@ function Report(props) {
 
                     await axiosClient.post('/reportes', formData, {
                         headers: {
-                            'Content-Type': 'multipart/form-data'
+                            'Content-Type': 'application/form-data'
                         }
                     })
 
