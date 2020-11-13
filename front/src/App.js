@@ -36,7 +36,6 @@ function App() {
             <Route path="/buscar" exact component={Search} />
             <Route path="/formulario" exact component={Form} />
             <Route path='/buscar/:idReporte' exact component={SearchReport} />
-            {/* <Route path='/miscasos/:reporte' exact component={SearchMyCases} /> */}
             <Route path="cerocasos" exact component={CeroCases} />
             <Route path="/miscasos/:usuario/:dep" exact component={SearchMyCases} />
             <Route path="/seguimiento/:idCaso" exact component={Comments} />

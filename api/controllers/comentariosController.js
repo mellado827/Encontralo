@@ -30,7 +30,7 @@ exports.mostrarTodosComentarios = async (req, res, next) => {
 exports.mostrarComentarios = async (req, res, next) => {
     try {
         const comentario = await Comentarios.find({
-            casoComentado: req.body.caso
+            casoComentado: req.params.caso
         })
         res.json(comentario)
 

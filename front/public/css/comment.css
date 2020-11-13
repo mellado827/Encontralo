@@ -1,0 +1,9 @@
+.commentBox {
+    background-color: rgba(255,255,255,0.7);;
+    margin: 1em;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: visible;
+    width: 20em;
+    overflow: scroll visible;
+}

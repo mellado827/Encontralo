@@ -23,6 +23,10 @@ const comentariosSchema = new Schema({
         required: true,
         type: String
     },
+    horaComentario: {
+        required: true,
+        type: String
+    }
     // usuarioDestino: {
     //     required: true,
     //     type: String

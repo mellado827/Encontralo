@@ -42,7 +42,7 @@ function MyCases(props) {
     }
 
     const Consult = async () => {
-        const reportsConsult = await axiosClient.get(`/reportes/${decodedData.nickname ? decodedData.nickname : ``}/${input ? input : ``}`)
+        const reportsConsult = await axiosClient.get(`/reportes/${decodedData.nickname}/${input}`)
         saveReports(reportsConsult.data)
     }
 
@@ -100,16 +100,16 @@ function MyCases(props) {
         }
     }
 
-    const activeSearch4 = e => {
-        if (e.target.checked === true) {
-            document.getElementById("found").disabled = false
-        } else {
-            document.getElementById("id").disabled = true
-            document.getElementById("pet_type").disabled = true
-            document.getElementById("departamento").disabled = true
-            document.getElementById("found").disabled = true
-        }
-    }
+    // const activeSearch4 = e => {
+    //     if (e.target.checked === true) {
+    //         document.getElementById("found").disabled = false
+    //     } else {
+    //         document.getElementById("id").disabled = true
+    //         document.getElementById("pet_type").disabled = true
+    //         document.getElementById("departamento").disabled = true
+    //         document.getElementById("found").disabled = true
+    //     }
+    // }
 
     useEffect(() => {
 
@@ -140,7 +140,7 @@ function MyCases(props) {
         }
 
 
-    }, [usuarios])
+    }, [])
 
     document.title = "Encontralo - Mis casos"
 
@@ -291,7 +291,25 @@ function MyCases(props) {
 
                         </>
                         :
-                        <CeroCases />
+                        //cero casos
+                        <div className="d-flex justify-content-center align-items-center">
+                            <div className="cerocases_container">
+
+                                <p className="subtitle_fontstyle text-center nocases_text">
+                                    <i>Usted no ha reportado ninguna desaparición.</i>
+                                </p>
+
+                                <div className="d-flex align-items-center text_fontstyle cerocases_buttons">
+                                    <a type="button" className="cta_bottonsstyle mt-5 mb-5 text_fontstyle" href="/reportar">Reportar</a>
+                                    <button type="button"
+                                        className="cta_bottonsstyle cta_bottonsstyle-green mt-5 mb-5 text_fontstyle"
+                                    // onClick={window.history.back()}
+                                    >
+                                        Volver
+                    </button>
+                                </div>
+                            </div>
+                        </div>
 
                     }
 
