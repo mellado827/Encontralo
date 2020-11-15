@@ -39,3 +39,19 @@ exports.mostrarComentarios = async (req, res, next) => {
         next()
     }
 }
+
+exports.borrarComentario = async (req, res, next) => {
+    try {
+
+        await Comentarios.findByIdAndDelete({
+            _id: req.params.id
+        }
+        )
+        console.log('comentario borrado')
+        // res.json({ mensaje: 'Usuario eliminado' }))
+
+    } catch (error) {
+        console.log(error)
+        next()
+    }
+}

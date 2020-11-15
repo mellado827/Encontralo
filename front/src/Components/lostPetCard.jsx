@@ -107,7 +107,7 @@ function LostPetCard(props) {
                 }
 
                 if (result.isConfirmed === true) {
-                    props.history.push(`/seguimiento/${props.report.idPublico}`)
+                    props.history.push(`/reportes/${props.report.idPublico}`)
                 }
             }) :
             ''
@@ -115,7 +115,7 @@ function LostPetCard(props) {
     }
 
     const seguimiento = () => {
-        props.history.push(`/seguimiento/${props.report.idPublico}`)
+        props.history.push(`/reportes/${props.report.idPublico}`)
     }
 
     return (

@@ -38,7 +38,7 @@ function App() {
             <Route path='/buscar/:idReporte' exact component={SearchReport} />
             <Route path="cerocasos" exact component={CeroCases} />
             <Route path="/miscasos/:usuario/:dep" exact component={SearchMyCases} />
-            <Route path="/seguimiento/:idCaso" exact component={Comments} />
+            <Route path="/reportes/:idCaso" exact component={Comments} />
 
             <Route component={() => (
               <Error />

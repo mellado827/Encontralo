@@ -6,6 +6,7 @@ import Swal from 'sweetalert2'
 import jwt_decode from 'jwt-decode'
 import axiosClient from '../config/axios'
 import CommentBox from './commentBox'
+import Footer from './footer'
 
 function Comentarios(props) {
     let idcaso = props.match.params.idCaso
@@ -62,7 +63,7 @@ function Comentarios(props) {
 
     var minutes = date.getMinutes();
     var hour = date.getHours();
-    let hora = `${hour}:${minutes}`
+    let hora = `${hour}:${minutes < 10 ? minutes = (`0${minutes}`) : minutes = minutes} hrs.`
 
     const addComment = e => {
         e.preventDefault()
@@ -146,7 +147,7 @@ function Comentarios(props) {
             <Navbar />
             <div className="report">
                 <div className="search">
-                    <h1 className="text-center subtitle_fontstyle search_title mt-5 text-center">Seguimiento</h1>
+                    <h1 className="text-center subtitle_fontstyle search_title mt-5 text-center">Reporte</h1>
                     <h2 className="text-center text_fontstyle search_title text-center"><u>Caso:</u> {idcaso} </h2>
                 </div>
                 <div className="d-flex flex-wrap justify-content-center">
@@ -175,15 +176,15 @@ function Comentarios(props) {
 
 
                         {token === null ?
-                            <div className="d-flex flex-column flex-wrap justify-content-center align-items-center mt-5">
+                            <div className="">
                                 <p className="text_fontstyle text-center">¿Tenés novedades?
                                 ¡<a href="/iniciarsesion" className="link">Iniciá sesión</a> para poder comentar!
                                 </p>
                             </div>
 
                             :
-                            <div className="d-flex flex-column flex-wrap justify-content-center align-items-center mt-5">
-                                <p className="text_fontstyle text-center">¿Tenés novedades? ¡Pasá la data!
+                            <>
+                                <p className="text_fontstyle text-center mt-4">¿Tenés novedades? ¡Pasá la data!
                                 </p>
                                 <textarea
                                     rows="5"
@@ -197,13 +198,16 @@ function Comentarios(props) {
                                     className="cta_bottonsstyle mt-3 mb-3 text_fontstyle"
                                     onClick={addComment}
                                 >Comentar</button>
-                            </div>}
+                            </>
+                        }
                     </div>
 
                     <p></p>
 
                 </div>
             </div>
+            <Footer />
+
         </>
     )
 }

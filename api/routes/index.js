@@ -70,6 +70,8 @@ module.exports = function () {
     //Mostrar comentarios del reporte de un usuario logueado
     router.get('/comentarios/:caso', comentariosController.mostrarComentarios)
 
+    router.delete('/comentarios/:id', comentariosController.borrarComentario)
+
     return router
 
 }
