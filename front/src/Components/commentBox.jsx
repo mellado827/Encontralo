@@ -41,6 +41,7 @@ function CommentBox(props) {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Borrar',
+            cancelButtonText: 'Cancelar',
             customClass: {
                 content: 'text_fontstyle'
             }
@@ -64,46 +65,25 @@ function CommentBox(props) {
 
     }
 
-    const chequearUsuarioLogueado = async () => {
-        if (token !== null) {
-            const consultaCasosDeUsuario = await axiosClient.get(`/reportes/${decodedData.nickname}`)
-            const comentariosPermitidosDeBorrar = consultaCasosDeUsuario.data.casosPorUsuario
-            const arr = []
-            comentariosPermitidosDeBorrar.forEach(element => {
-                arr.push(Object.values(element).includes(idcaso))
-                // if (!arr.includes(true)) {
-                //     document.getElementById("eliminarComentario").style.display = "none"
-                // }
-            });
-            //  if (decodedData.nickname === comentario.usuarioRemitente) {
-            //      document.getElementById("eliminarComentario").style.display = "block"
-            //  }
-        } else {
-            document.getElementById("eliminarComentario").style.display = "none"
-        }
-
-    }
-
-
-    useEffect(() => {
-        chequearUsuarioLogueado()
-        // consultaCasosDeUsuario()
-    })
 
     return (
         <>
-
             <div className="text_fontstyle" id="CajaComentario">
                 <p>Mensaje: {comentario.comentario}</p>
                 <p>De: {comentario.usuarioRemitente} - {comentario.fechaComentario} a las {comentario.horaComentario}</p>
-                <button
-                    id="eliminarComentario"
-                    onClick={deleteComment}
-                    style={{ display: 'block' }}
-                >X</button>
+                {token != null && (decodedData.nickname === comentario.usuarioRemitente)
+                    ?
+                    <img
+                        id="delete_button"
+                        className="delete_button"
+                        title="Eliminar comentario"
+                        src="../../img/bin.png"
+                        onClick={deleteComment}
+                    ></img>
+                    : null
+                }
                 <p>-------</p>
             </div>
-
         </>
     )
 

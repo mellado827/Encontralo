@@ -6,7 +6,6 @@ import Swal from 'sweetalert2'
 import jwt_decode from 'jwt-decode'
 import axiosClient from '../config/axios'
 import CommentBox from './commentBox'
-import Footer from './footer'
 
 function Comentarios(props) {
     let idcaso = props.match.params.idCaso
@@ -142,13 +141,34 @@ function Comentarios(props) {
 
     }
 
+    const arr = []
+
+    const chequearUsuarioLogueado = async () => {
+        if (token !== null) {
+            const consultaCasosDeUsuario = await axiosClient.get(`/reportes/${decodedData.nickname}`)
+            const comentariosPermitidosDeBorrar = consultaCasosDeUsuario.data.casosPorUsuario
+            comentariosPermitidosDeBorrar.forEach(element => {
+                arr.push(element.idPublico)
+            })
+            if (arr.includes(idcaso)) {
+                document.getElementById("encontrado").style.display = "block"
+            }
+        }
+    }
+
+    useEffect(() => {
+        chequearUsuarioLogueado()
+    })
+
     return (
         <>
             <Navbar />
             <div className="report">
-                <div className="search">
+                <div className="search d-flex flex-column justify-content-center">
                     <h1 className="text-center subtitle_fontstyle search_title mt-5 text-center">Reporte</h1>
                     <h2 className="text-center text_fontstyle search_title text-center"><u>Caso:</u> {idcaso} </h2>
+
+                    <button id="encontrado" style={{ display: 'none' }} className="cta_bottonsstyle text_fontstyle mt-5 mb-5">Encontrado</button>
                 </div>
                 <div className="d-flex flex-wrap justify-content-center">
                     {
@@ -159,6 +179,7 @@ function Comentarios(props) {
                             />
                         )
                         )}
+
                     <div className="d-flex flex-column flex-wrap justify-content-center align-items-center">
                         <h2 className="subtitle_fontstyle mt-5"> {commentDB.length === 0 ? 'Comentarios' : `${commentDB.length} comentarios`}</h2>
                         {commentDB.length !== 0 ?
@@ -206,7 +227,6 @@ function Comentarios(props) {
 
                 </div>
             </div>
-            <Footer />
 
         </>
     )

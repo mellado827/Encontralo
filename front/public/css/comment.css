@@ -7,3 +7,13 @@
     width: 20em;
     overflow: scroll visible;
 }
+
+.delete_button {
+    width: 2em;
+    cursor: pointer;
+}
+
+.delete_button:hover{
+    width: 2.5em;
+    transition: 0.3s;
+}
