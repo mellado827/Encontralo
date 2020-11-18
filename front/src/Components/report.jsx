@@ -80,7 +80,7 @@ function Report(props) {
         }
 
 
-    }, [usuarios])
+    }, [])
 
     const [report, saveReport] = useState({
         tipoMascota: '',

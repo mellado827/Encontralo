@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import axiosClient from '../config/axios'
 import jwt_decode from 'jwt-decode'
+import { useEffect } from 'react'
 
 function LostPetCard(props) {
 

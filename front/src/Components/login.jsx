@@ -54,8 +54,7 @@ function Login(props) {
                 }
             })
 
-            props.history.push('/')
-
+            props.history.goBack();
 
 
         } catch (error) {

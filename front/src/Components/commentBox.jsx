@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import jwt_decode from 'jwt-decode'
@@ -65,13 +65,30 @@ function CommentBox(props) {
 
     }
 
+    const [misCasos, setMisCasos] = useState([]);
+
+    const chequearUsuarioLogueado = async () => {
+        if (token !== null) {
+            const consultaCasosDeUsuario = await axiosClient.get(`/reportes/${decodedData.nickname}`)
+            var comentariosPermitidosDeBorrar = consultaCasosDeUsuario.data.casosPorUsuario
+            comentariosPermitidosDeBorrar.forEach(element => {
+                setMisCasos(element.idPublico)
+            })
+        }
+
+    }
+
+    useEffect(() => {
+        chequearUsuarioLogueado()
+    }, [])
+
 
     return (
         <>
             <div className="text_fontstyle" id="CajaComentario">
                 <p>Mensaje: {comentario.comentario}</p>
                 <p>De: {comentario.usuarioRemitente} - {comentario.fechaComentario} a las {comentario.horaComentario}</p>
-                {token != null && (decodedData.nickname === comentario.usuarioRemitente)
+                {token != null && (decodedData.nickname === comentario.usuarioRemitente || misCasos.includes(idcaso))
                     ?
                     <img
                         id="delete_button"
@@ -82,6 +99,7 @@ function CommentBox(props) {
                     ></img>
                     : null
                 }
+
                 <p>-------</p>
             </div>
         </>
