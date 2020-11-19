@@ -12,9 +12,10 @@ import MyCases from './Components/mycases';
 import Form from './Components/form'
 import SearchReport from './Components/searchReport'
 import SearchMyCases from './Components/searchMyCases'
-import Comments from './Components/comments'
+import Tracing from './Components/tracing'
 import { CRMContext, CRMProvider } from './context/CRMContext'
 import CeroCases from './Components/cerocases';
+import EditReport from './Components/editReport'
 
 function App() {
 
@@ -38,7 +39,8 @@ function App() {
             <Route path='/buscar/:idReporte' exact component={SearchReport} />
             <Route path="cerocasos" exact component={CeroCases} />
             <Route path="/miscasos/:usuario/:dep" exact component={SearchMyCases} />
-            <Route path="/reportes/:idCaso" exact component={Comments} />
+            <Route path="/reportes/:idCaso" exact component={Tracing} />
+            <Route path="/reportes/:idCaso/editar" exact component={EditReport} />
 
             <Route component={() => (
               <Error />

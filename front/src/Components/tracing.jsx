@@ -143,6 +143,7 @@ function Comentarios(props) {
     }
 
     const arr = []
+
     const chequearUsuarioLogueado = async () => {
         if (token !== null) {
             const consultaCasosDeUsuario = await axiosClient.get(`/reportes/${decodedData.nickname}`)
@@ -151,8 +152,9 @@ function Comentarios(props) {
                 arr.push(element.idPublico)
             })
             if (arr.includes(idcaso)) {
-                if (document.getElementById("encontrado")) {
+                if (document.getElementById("encontrado") && document.getElementById("edit_report")) {
                     document.getElementById("encontrado").style.display = "block"
+                    document.getElementById("edit_report").style.display = "block"
                 }
             }
 
@@ -163,6 +165,10 @@ function Comentarios(props) {
         chequearUsuarioLogueado()
     })
 
+    const goToEditReport = () => {
+        props.history.push(`/reportes/${idcaso}/editar`)
+    }
+
     return (
         <>
             <Navbar />
@@ -171,8 +177,13 @@ function Comentarios(props) {
                     <div className="search d-flex flex-column justify-content-center">
                         <h1 className="text-center subtitle_fontstyle search_title mt-5 text-center">Reporte</h1>
                         <h2 className="text-center text_fontstyle search_title text-center"><u>Caso:</u> {idcaso} </h2>
-
-                        <button id="encontrado" style={{ display: 'none' }} className="cta_bottonsstyle text_fontstyle mt-5 mb-5">Encontrado</button>
+                        <div className="d-flex flex-row justify-content-center mt-5">
+                            <button id="edit_report"
+                                onClick={goToEditReport}
+                                style={{ display: 'none' }}
+                                className="cta_bottonsstyle text_fontstyle">Editar reporte</button>
+                            <button id="encontrado" style={{ display: 'none' }} className="cta_bottonsstyle text_fontstyle ml-5">Encontrado</button>
+                        </div>
                     </div>
                     <div className="d-flex flex-wrap justify-content-center">
                         {

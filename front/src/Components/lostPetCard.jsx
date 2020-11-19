@@ -62,7 +62,7 @@ function LostPetCard(props) {
                 icon: 'warning',
                 title: '¿Qué deseas hacer?',
                 showCancelButton: true,
-                confirmButtonText: 'Ver / Modificar',
+                confirmButtonText: 'Ver más',
                 confirmButtonColor: '#00b5bd',
                 cancelButtonText: 'Borrar',
                 cancelButtonColor: '#cc5c42'

@@ -1,14 +1,11 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import Navbar from './navbar'
 import PreviewButtonData from '../Functions/previewButtonData'
-import PetName from '../Functions/petName'
-import Race from '../Functions/race'
 import shortid from 'shortid'
 import ItWas from '../Functions/itwas'
 import axiosClient from '../../src/config/axios'
 import Swal from 'sweetalert2'
-import { CRMContext } from '../context/CRMContext'
 import Datepicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { registerLocale } from "react-datepicker";
@@ -18,7 +15,25 @@ import jwt_decode from 'jwt-decode'
 
 registerLocale('es', es)
 
-function Report(props) {
+function EditReport(props) {
+    const idcaso = props.match.params.idCaso
+
+    const [caso, saveCaso] = useState([])
+
+    const Consult = async () => {
+        const casoConsult = await axiosClient.get(`/reportes/${idcaso}`)
+        saveCaso(casoConsult.data.reportePorIDpublico)
+    }
+
+    useEffect(() => {
+        Consult()
+    }, [])
+
+    if (caso.length > 0) {
+        caso.forEach(element => {
+            saveCaso(element)
+        })
+    }
 
     var current_time = Date.now() / 1000;
 
@@ -112,14 +127,15 @@ function Report(props) {
         })
     }
 
-    const [imagePreview, setImagePreview] = useState('https://www.amerikickkansas.com/wp-content/uploads/2017/04/default-image-620x600.jpg');
+    const [imagePreview, setImagePreview] = useState('');
 
 
     const removeImage = e => {
         e.preventDefault()
-        setImagePreview('https://www.amerikickkansas.com/wp-content/uploads/2017/04/default-image-620x600.jpg')
-        document.getElementById("file_attachment").value = ""
+        document.getElementById("img").src = 'https://www.amerikickkansas.com/wp-content/uploads/2017/04/default-image-620x600.jpg'
     }
+
+    console.log(imagePreview)
 
     const readImage = e => {
         // return setImagePreview(e.target.files[0])
@@ -211,7 +227,7 @@ function Report(props) {
     }
 
     //añadir reporte
-    const addReport = e => {
+    const editReport = e => {
         e.preventDefault()
 
         const formData = new FormData()
@@ -297,14 +313,12 @@ function Report(props) {
 
             <div className="report">
                 <div className="report_title">
-                    <h1 className="text-center subtitle_fontstyle report_title mt-5">Reportar desaparición</h1>
-                    <p className="text-center text_fontstyle">Completa el siguiente formulario:</p>
+                    <h1 className="text-center subtitle_fontstyle report_title mt-5">Editar reporte</h1>
                     <p className="text-center text_fontstyle"><strong><u>Los campos con * son obligatorios</u></strong></p>
                 </div>
 
                 <div
                     className="report_container"
-
                 >
 
                     <form
@@ -321,7 +335,7 @@ function Report(props) {
                             name="tipoMascota"
                             required={true}
                             onChange={updateState}>
-                            <option value="">Seleccionar...</option>
+                            <option value="">{caso.tipoMascota}</option>
                             <option value="Perro">Perro</option>
                             <option value="Gato">Gato</option>
                         </select>
@@ -330,9 +344,8 @@ function Report(props) {
                         <select id="itwas"
                             name="estado"
                             required={true}
-                            onChange={ItWas, updateState} >
-                            <option value="">Seleccionar...</option>
-                            <option value="Perdido">Perdido</option>
+                            onChange={updateState} >
+                            <option value="">{caso.estado}</option>                            <option value="Perdido">Perdido</option>
                             <option value="Encontrado">Encontrado</option>
                             <option value="Robado">Robado</option>
                         </select>
@@ -341,6 +354,7 @@ function Report(props) {
                         <input
                             type="text"
                             name="raza"
+                            placeholder={caso.raza ? caso.raza : undefined}
                             id="race"
                             onChange={updateState}
                         />
@@ -350,6 +364,7 @@ function Report(props) {
                             type="text"
                             id="pet_name"
                             name="nombre"
+                            placeholder={caso.nombre ? caso.nombre : undefined}
                             onChange={updateState} />
 
                         <label className="mt-4"> <u>Sexo</u> <strong>*</strong></label>
@@ -358,7 +373,7 @@ function Report(props) {
                             required={true}
                             onChange={updateState}
                         >
-                            <option value="">Seleccionar...</option>
+                            <option value="">{caso.sexo}</option>
                             <option value="Macho">Macho</option>
                             <option value="Hembra">Hembra</option>
                         </select>
@@ -376,7 +391,7 @@ function Report(props) {
                             />
                             <div className="petpic_container d-flex justify-content-center">
                                 <img
-                                    src={imagePreview}
+                                    src={imagePreview.length > 0 ? imagePreview : caso.imagen}
                                     alt=""
                                     id="img"
                                     className="petphoto_width">
@@ -387,7 +402,7 @@ function Report(props) {
                                     className="close_button button_removeimage"
                                     onClick={removeImage}
                                 >
-                                    <img src="../img/close.png" className="close_button margin_cb_report"></img>
+                                    <img src="../../img/close.png" className="close_button margin_cb_report"></img>
                                 </button>
                             </div>
 
@@ -403,8 +418,9 @@ function Report(props) {
                                 required={true}
                                 id="pet_description"
                                 name="descripcion"
+                                placeholder={caso.descripcion}
                                 onChange={updateState}
-                                placeholder="Es miedoso, le falta un ojo, tiene collar de identificacion, responde a ciertos sonidos, se recompensa a la persona que lo encuentre, etc. "></textarea>
+                            ></textarea>
                         </div>
 
                         <label className="mt-4"> <u>¿Tiene chip?</u> <strong>*</strong></label>
@@ -413,9 +429,10 @@ function Report(props) {
                                 required={true}
                                 id="pet_sex"
                                 name="tieneChip"
+                                placeholder={caso.tieneChip}
                                 onChange={updateState}
                             >
-                                <option value="">Seleccionar...</option>
+                                <option value="">{caso.tieneChip}</option>
                                 <option value="Si">Si</option>
                                 <option value="No se">No sé</option>
                                 <option value="No">No</option>
@@ -428,7 +445,7 @@ function Report(props) {
                                 <Datepicker
                                     name="fecha"
                                     id="missing_date"
-                                    placeholderText="Introduce la fecha"
+                                    placeholder={caso.fecha ? caso.fecha : ``}
                                     selected={selectedDate}
                                     onChange={selectedInputDate}
                                     locale="es"
@@ -443,6 +460,7 @@ function Report(props) {
                                 <input type="time"
                                     name="hora"
                                     id="missing_hour"
+                                    placeholder={caso.hora ? caso.hora : undefined}
                                     onChange={PreviewButtonData, updateState}
                                 />
                                 <button
@@ -465,7 +483,7 @@ function Report(props) {
                                 id="select_departament"
                                 onChange={updateState}
                             >
-                                <option value="">Seleccionar...</option>
+                                <option value="">{caso.departamento}</option>
                                 <option value="Artigas">Artigas</option>
                                 <option value="Canelones">Canelones</option>
                                 <option value="Cerro Largo">Cerro Largo</option>
@@ -492,8 +510,8 @@ function Report(props) {
                                 required={true}
                                 type="text"
                                 name="localidad"
+                                placeholder={caso.localidad}
                                 className="lastplace"
-                                placeholder="Ejemplo: Brazo Oriental"
                                 id="zone"
                                 onChange={updateState} />
                         </div>
@@ -506,7 +524,7 @@ function Report(props) {
                                 name="lugar"
                                 className="lastplace"
                                 id="last_placePet"
-                                placeholder="Ejemplo: Luis Alberto de Herrera y Burgues"
+                                placeholder={caso.lugar}
                                 onChange={updateState} />
                         </div>
 
@@ -525,6 +543,7 @@ function Report(props) {
                         <input
                             name="nombreUsuario"
                             type="text"
+                            placeholder={caso.nombreUsuario ? caso.nombreUsuario : undefined}
                             className="text_fontstyle"
                             id="owner_name"
                             onChange={updateState}
@@ -556,9 +575,9 @@ function Report(props) {
                         <label className="mt-4 text_fontstyle">Descripción</label>
                         <textarea
                             rows="10"
+                            placeholder={caso.descripcionUsuario ? caso.descripcionUsuario : undefined}
                             name="descripcionUsuario"
                             className="text_fontstyle" id="owner_description"
-                            placeholder="Ofrezco recompensa, si me llaman y no contesto llamen a este número: 094124356, etc."
                             onChange={updateState}
                         >
                         </textarea>
@@ -570,8 +589,8 @@ function Report(props) {
                                 data-target="#areyousure"
                                 id="report_button"
                                 disabled={validateReport()}
-                                onClick={addReport}
-                            >Reportar
+                                onClick={editReport}
+                            >Editar
                             </button>
                             <button
                                 type="button"
@@ -633,4 +652,4 @@ function Report(props) {
 
 
 }
-export default withRouter(Report)
+export default withRouter(EditReport)

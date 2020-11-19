@@ -99,7 +99,6 @@ function CommentBox(props) {
                     ></img>
                     : null
                 }
-
                 <p>-------</p>
             </div>
         </>
