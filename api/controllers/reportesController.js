@@ -165,17 +165,7 @@ exports.actualizarReporte = async (req, res, next) => {
 
         let nuevoReporte = req.body
 
-        if (req.file) {
-            nuevoReporte.imagen = req.file.filename
-        } else {
-            let reporteAnterior = await Reportes.findById(req.params.idReporte)
-            nuevoReporte.imagen = reporteAnterior.imagen
-        }
-
-        let reporte = await Reportes.findOneAndUpdate({ _id: req.params.idReporte },
-            nuevoReporte, {
-            new: true,
-        })
+        let reporte = await Reportes.findOneAndUpdate({ idPublico: req.params.idReporte }, nuevoReporte)
 
         res.json(reporte)
 

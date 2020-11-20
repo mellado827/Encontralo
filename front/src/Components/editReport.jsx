@@ -56,13 +56,11 @@ function EditReport(props) {
         }
     }
 
-    const id = shortid.generate()
-
     window.onbeforeunload = function () {
         return "";
     };
 
-    document.title = "Reportar / Encontralo"
+    document.title = "Editar reporte / Encontralo"
 
     const [usuarios, guardarUsuarios] = useState([])
 
@@ -135,8 +133,6 @@ function EditReport(props) {
         document.getElementById("img").src = 'https://www.amerikickkansas.com/wp-content/uploads/2017/04/default-image-620x600.jpg'
     }
 
-    console.log(imagePreview)
-
     const readImage = e => {
         // return setImagePreview(e.target.files[0])
         let reader = new FileReader()
@@ -155,9 +151,8 @@ function EditReport(props) {
 
     //validar reporte
     const validateReport = () => {
-        const { tipoMascota, estado, sexo, descripcion, tieneChip, departamento, localidad, lugar } = report
-        let ok = !tipoMascota.length || !estado.length || !sexo.length || !descripcion.length ||
-            !tieneChip.length || !departamento.length || !localidad.length || !lugar.length || imagePreview
+        const { tipoMascota, estado } = report
+        let ok = !tipoMascota.length || !estado.length
 
         if (ok === true) {
             return ok
@@ -178,20 +173,33 @@ function EditReport(props) {
         var fecha = `${selectedDate.getDate()}/${(selectedDate.getMonth() + 1)}/${selectedDate.getFullYear()}`
     }
 
+    const tipomascota = report.tipoMascota ? report.tipoMascota : caso.tipoMascota
+    const estadoNuevo = report.estado ? report.estado : caso.estado
+    const razaNuevo = report.raza ? report.raza : caso.raza
+    const nombreNuevo = report.nombre ? report.nombre : caso.nombre
+    const sexoNuevo = report.sexo ? report.sexo : caso.sexo
+    const fechaNuevo = fecha ? fecha : caso.fecha
+    const imagenNuevo = imagePreview ? imagePreview : caso.imagen
+    const descripcionNuevo = report.descripcion ? report.descripcion : caso.descripcion
+    const chipNuevo = report.tieneChip ? report.tieneChip : caso.tieneChip
+    const horaNuevo = report.hora ? report.hora : caso.hora
+    const departamentoNuevo = report.departamento ? report.departamento : caso.departamento
+    const localidadNuevo = report.localidad ? report.localidad : caso.localidad
+    const lugarNuevo = report.lugar ? report.lugar : caso.lugar
+    const nombreUsuarioNuevo = report.nombreUsuario ? report.nombreUsuario : caso.nombreUsuario
+    const descripcionUsuarioNuevo = report.descripcionUsuario ? report.descripcionUsuario : caso.descripcionUsuario
+
 
     const ViralInfo = () => {
 
-
-        const { tipoMascota, estado, sexo, raza, nombre, hora, descripcion, tieneChip, departamento, localidad, lugar, nombreUsuario
-            , descripcionUsuario } = report
-
         const realSex = () => {
-            switch (sexo) {
+            switch (sexoNuevo) {
                 case "Macho":
-                    const macho = `${tipoMascota} ${estado.toLowerCase()}`
+                    const macho = `${tipomascota} ${estadoNuevo.toLowerCase()}`
                     return macho
                 case "Hembra":
-                    const hembra = `${tipoMascota.substr(0, tipoMascota.length - 1) + "a"} ${estado.toLowerCase().substr(0, estado.length - 1) + "a"}`
+                    const hembra = `${tipomascota.substr(0, tipomascota.length - 1) + "a"} 
+                    ${estadoNuevo.toLowerCase().substr(0, estadoNuevo.length - 1) + "a"}`
                     return hembra
                 default:
                     break;
@@ -200,7 +208,7 @@ function EditReport(props) {
 
 
         const chip = () => {
-            switch (tieneChip) {
+            switch (chipNuevo) {
                 case "Si":
                     return "Tiene chip"
                 case "No se":
@@ -212,15 +220,15 @@ function EditReport(props) {
             }
         }
 
-        const viralInfo = `${realSex()} en ${departamento}, ${localidad}, más específicamente en: ${lugar} ${selectedDate ? `el día ${fecha}` : ``}
-        ${hora ? `a las ${hora}.` : ``}
-        ${nombre ? `Responde al nombre de ${nombre}` : `Se desconoce el nombre`}, ${raza ? `raza ${raza}` : `raza no especificada`}.
-        ${chip()}. Datos de vital importancia: ${descripcion}. ${nombreUsuario ? `La persona responsable es ${nombreUsuario}.` : ``}
-        ${descripcionUsuario ? `Datos adicionales de la persona responsable: ${descripcionUsuario}` : ``}
+        const viralInfo = `${realSex()} en ${departamentoNuevo}, ${localidadNuevo}, más específicamente en: ${lugarNuevo} ${selectedDate ? `el día ${fecha}` : ``}
+        ${horaNuevo ? `a las ${horaNuevo}.` : ``}
+        ${nombreNuevo ? `Responde al nombre de ${nombreNuevo}` : `Se desconoce el nombre`}, ${razaNuevo ? `raza ${razaNuevo}` : `raza no especificada`}.
+        ${chip()}. Datos de vital importancia: ${descripcionNuevo}. ${nombreUsuarioNuevo ? `La persona responsable es ${nombreUsuarioNuevo}.` : ``}
+        ${descripcionUsuarioNuevo ? `Datos adicionales de la persona responsable: ${descripcionUsuarioNuevo}` : ``}
         
         No cuesta NADA compartir. La calle no es hogar para nadie...
 
-        #Uruguay #${departamento} #Animal${estado} #SeBusca
+        #Uruguay #${departamentoNuevo} #Animal${estadoNuevo} #SeBusca
         `
 
         return viralInfo
@@ -230,80 +238,98 @@ function EditReport(props) {
     const editReport = e => {
         e.preventDefault()
 
-        const formData = new FormData()
+        const { tipoMascota, estado, raza, nombre, sexo, descripcion, tieneChip, hora, departamento, localidad,
+            lugar, nombreUsuario, descripcionUsuario } = report
 
-        formData.append('tipoMascota', report.tipoMascota)
-        formData.append('estado', report.estado)
-        formData.append('raza', report.raza)
-        formData.append('nombre', report.nombre)
-        formData.append('sexo', report.sexo)
-        formData.append('fecha', fecha)
-        formData.append('imagen', imagePreview)
-        formData.append('descripcion', report.descripcion)
-        formData.append('tieneChip', report.tieneChip)
-        formData.append('hora', report.hora)
-        formData.append('departamento', report.departamento)
-        formData.append('localidad', report.localidad)
-        formData.append('lugar', report.lugar)
-        formData.append('nombreUsuario', report.nombreUsuario)
-        formData.append('descripcionUsuario', report.descripcionUsuario)
-        formData.append('informacionADifundir', ViralInfo())
-        formData.append('idPublico', id)
-        formData.append('usuario', decodedData.nickname)
-        formData.append('emailUsuario', decodedData.email)
-        formData.append('celularUsuario', `0${decodedData.celular}`)
+        let ok = !tipoMascota.length && !estado.length && !raza.length && !nombre.length && !sexo.length && !descripcion.length
+            && !tieneChip.length && !hora.length && !selectedDate && !departamento.length && !localidad.length && !lugar.length
+            && !nombreUsuario.length && !descripcionUsuario.length
 
-        try {
-
+        if (ok === true) {
             Swal.fire({
-                title: '¿Estás seguro/a?',
-                text: "Un reporte puede ser modificado después de haber sido creado, pero la información modificada quedaría en el sitio, no al difundirse el reporte. Si llegas a realizar un reporte troll, tu cuenta será eliminada.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, quiero reportar!',
-                cancelButtonText: 'Cancelar',
-                customClass: {
-                    content: 'text_fontstyle'
-                }
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-
-                    await axiosClient.post('/reportes', formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
-
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Reporte realizado!',
-                        text: `¡Suerte y no te  rindas! Puedes ver el reporte en "Buscar un animal perdido" o "Mis Casos" con el siguiente ID: ${id}`,
-                        customClass: {
-                            content: 'text_fontstyle'
-                        }
-                    })
-
-                    setTimeout(() => {
-                        window.location.reload()
-                    }, 2000);
-
-                }
-            })
-
-        } catch (error) {
-
-            Swal.fire({
-                title: 'Hubo un error',
-                text: `Inténtalo de nuevo más tarde`,
                 icon: 'error',
+                title: 'Ups! Parece que hubo un problema.',
+                text: 'Para editar un reporte, tenés que modificar al menos un campo.',
                 customClass: {
                     content: 'text_fontstyle'
                 }
             })
-            console.log(error)
+
+        } else {
+            var formData = new URLSearchParams();
+            // const forImage = new FormData()
+
+            formData.append('tipoMascota', tipomascota)
+            formData.append('estado', estadoNuevo)
+            formData.append('raza', razaNuevo)
+            formData.append('nombre', nombreNuevo)
+            formData.append('sexo', sexoNuevo)
+            formData.append('fecha', fechaNuevo)
+            // formData.append('imagen', imagenNuevo)
+            formData.append('descripcion', descripcionNuevo)
+            formData.append('tieneChip', chipNuevo)
+            formData.append('hora', horaNuevo)
+            formData.append('departamento', departamentoNuevo)
+            formData.append('localidad', localidadNuevo)
+            formData.append('lugar', lugarNuevo)
+            formData.append('nombreUsuario', nombreUsuarioNuevo)
+            formData.append('descripcionUsuario', descripcionUsuarioNuevo)
+            formData.append('informacionADifundir', ViralInfo())
+
+            try {
+
+                Swal.fire({
+                    title: '¿Estás seguro/a?',
+                    text: "La información modificada quedaría en el sitio, no al difundirse el reporte. Si llegas a realizar un reporte troll, tu cuenta será eliminada.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, quiero reportar!',
+                    cancelButtonText: 'Cancelar',
+                    customClass: {
+                        content: 'text_fontstyle'
+                    }
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+
+                        await axiosClient.patch(`/reportes/${idcaso}`, formData, {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            }
+                        })
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Reporte editado!',
+                            text: `¡Suerte y no te  rindas!`,
+                            customClass: {
+                                content: 'text_fontstyle'
+                            }
+                        })
+
+                        setTimeout(() => {
+                            window.location.reload()
+                        }, 2000);
+
+                    }
+                })
+
+            } catch (error) {
+
+                Swal.fire({
+                    title: 'Hubo un error',
+                    text: `Inténtalo de nuevo más tarde`,
+                    icon: 'error',
+                    customClass: {
+                        content: 'text_fontstyle'
+                    }
+                })
+                console.log(error)
+            }
+
         }
+
 
     }
 
@@ -345,7 +371,8 @@ function EditReport(props) {
                             name="estado"
                             required={true}
                             onChange={updateState} >
-                            <option value="">{caso.estado}</option>                            <option value="Perdido">Perdido</option>
+                            <option value="">{caso.estado}</option>
+                            <option value="Perdido">Perdido</option>
                             <option value="Encontrado">Encontrado</option>
                             <option value="Robado">Robado</option>
                         </select>
@@ -445,7 +472,7 @@ function EditReport(props) {
                                 <Datepicker
                                     name="fecha"
                                     id="missing_date"
-                                    placeholder={caso.fecha ? caso.fecha : ``}
+                                    // placeholderText={[caso.fecha].includes("/") ? caso.fecha : "Introduce la fecha"}
                                     selected={selectedDate}
                                     onChange={selectedInputDate}
                                     locale="es"
@@ -588,7 +615,6 @@ function EditReport(props) {
                                 data-toggle="modal"
                                 data-target="#areyousure"
                                 id="report_button"
-                                disabled={validateReport()}
                                 onClick={editReport}
                             >Editar
                             </button>

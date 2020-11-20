@@ -52,9 +52,8 @@ module.exports = function () {
         reportesController.departamentoCasos)
 
     //Actualizar reportes
-    // router.put('/reportes/:idReporte',
-    //     reportesController.subirArchivo,
-    //     reportesController.actualizarReporte)
+    router.patch('/reportes/:idReporte',
+        reportesController.actualizarReporte)
 
     //Eliminar reportes
     router.delete('/reportes/:idReporte',
