@@ -214,80 +214,123 @@ function Report(props) {
     const addReport = e => {
         e.preventDefault()
 
-        const formData = new FormData()
+        const { tipoMascota, estado, sexo, descripcion, tieneChip, departamento, localidad, lugar } = report
+        let ok = !tipoMascota.length || !estado.length || !sexo.length || !descripcion.length ||
+            !tieneChip.length || !departamento.length || !localidad.length || !lugar.length || imagePreview
 
-        formData.append('tipoMascota', report.tipoMascota)
-        formData.append('estado', report.estado)
-        formData.append('raza', report.raza)
-        formData.append('nombre', report.nombre)
-        formData.append('sexo', report.sexo)
-        formData.append('fecha', fecha)
-        formData.append('imagen', imagePreview)
-        formData.append('descripcion', report.descripcion)
-        formData.append('tieneChip', report.tieneChip)
-        formData.append('hora', report.hora)
-        formData.append('departamento', report.departamento)
-        formData.append('localidad', report.localidad)
-        formData.append('lugar', report.lugar)
-        formData.append('nombreUsuario', report.nombreUsuario)
-        formData.append('descripcionUsuario', report.descripcionUsuario)
-        formData.append('informacionADifundir', ViralInfo())
-        formData.append('idPublico', id)
-        formData.append('usuario', decodedData.nickname)
-        formData.append('emailUsuario', decodedData.email)
-        formData.append('celularUsuario', `0${decodedData.celular}`)
-
-        try {
-
+        if (ok === true) {
             Swal.fire({
-                title: '¿Estás seguro/a?',
-                text: "Un reporte puede ser modificado después de haber sido creado, pero la información modificada quedaría en el sitio, no al difundirse el reporte. Si llegas a realizar un reporte troll, tu cuenta será eliminada.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, quiero reportar!',
-                cancelButtonText: 'Cancelar',
-                customClass: {
-                    content: 'text_fontstyle'
-                }
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-
-                    await axiosClient.post('/reportes', formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
-
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Reporte realizado!',
-                        text: `¡Suerte y no te  rindas! Puedes ver el reporte en "Buscar un animal perdido" o "Mis Casos" con el siguiente ID: ${id}`,
-                        customClass: {
-                            content: 'text_fontstyle'
-                        }
-                    })
-
-                    setTimeout(() => {
-                        window.location.reload()
-                    }, 2000);
-
-                }
-            })
-
-        } catch (error) {
-
-            Swal.fire({
-                title: 'Hubo un error',
-                text: `Inténtalo de nuevo más tarde`,
                 icon: 'error',
+                title: 'Ups! Parece que hubo un problema.',
+                text: 'Completá todos los campos obligatorios para poder crear un reporte.',
                 customClass: {
                     content: 'text_fontstyle'
                 }
             })
-            console.log(error)
+        } else {
+            var formData = new URLSearchParams();
+
+            formData.append('tipoMascota', report.tipoMascota)
+            formData.append('estado', report.estado)
+            formData.append('raza', report.raza)
+            formData.append('nombre', report.nombre)
+            formData.append('sexo', report.sexo)
+            formData.append('fecha', fecha)
+            formData.append('imagen', imagePreview)
+            formData.append('descripcion', report.descripcion)
+            formData.append('tieneChip', report.tieneChip)
+            formData.append('hora', report.hora)
+            formData.append('departamento', report.departamento)
+            formData.append('localidad', report.localidad)
+            formData.append('lugar', report.lugar)
+            formData.append('nombreUsuario', report.nombreUsuario)
+            formData.append('descripcionUsuario', report.descripcionUsuario)
+            formData.append('informacionADifundir', ViralInfo())
+            formData.append('idPublico', id)
+            formData.append('usuario', decodedData.nickname)
+            formData.append('emailUsuario', decodedData.email)
+            formData.append('celularUsuario', `0${decodedData.celular}`)
+
+            try {
+
+                Swal.fire({
+                    title: '¿Estás seguro/a?',
+                    text: "Un reporte puede ser modificado después de haber sido creado, pero la información modificada quedaría en el sitio, no al difundirse el reporte. Si llegas a realizar un reporte troll, tu cuenta será eliminada.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, quiero reportar!',
+                    cancelButtonText: 'Cancelar',
+                    customClass: {
+                        content: 'text_fontstyle'
+                    }
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+
+                        try {
+                            await axiosClient.post('/reportes', formData, {
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded'
+                                }
+                            })
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Reporte realizado!',
+                                text: `¡Suerte y no te  rindas! Puedes ver el reporte en "Buscar un animal perdido" o "Mis Casos" con el siguiente ID: ${id}`,
+                                customClass: {
+                                    content: 'text_fontstyle'
+                                }
+                            })
+
+                            setTimeout(() => {
+                                window.location.reload()
+                            }, 2000);
+                        } catch (error) {
+                            console.log(error)
+
+                            if (error.message === "Request failed with status code 413") {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ups! Parece que hubo un problema.',
+                                    text: `Ingresá una imagen más pequeña o con menos calidad por favor 😅`,
+                                    customClass: {
+                                        content: 'text_fontstyle'
+                                    }
+                                })
+                            } else {
+
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ups! Parece que hubo un problema.',
+                                    text: `Intentalo de nuevo más tarde.`,
+                                    customClass: {
+                                        content: 'text_fontstyle'
+                                    }
+                                })
+                            }
+
+                        }
+
+                    }
+                })
+
+            } catch (error) {
+
+                Swal.fire({
+                    title: 'Hubo un error',
+                    text: `Inténtalo de nuevo más tarde`,
+                    icon: 'error',
+                    customClass: {
+                        content: 'text_fontstyle'
+                    }
+                })
+                console.log(error)
+            }
+
         }
+
 
     }
 
@@ -569,7 +612,6 @@ function Report(props) {
                                 data-toggle="modal"
                                 data-target="#areyousure"
                                 id="report_button"
-                                disabled={validateReport()}
                                 onClick={addReport}
                             >Reportar
                             </button>
