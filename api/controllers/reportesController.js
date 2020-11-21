@@ -170,7 +170,7 @@ exports.actualizarReporte = async (req, res, next) => {
         res.json(reporte)
 
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         next()
     }
 }
