@@ -69,7 +69,7 @@ function Password(props) {
     }, [usuarios])
 
     const consultaPorEdit = async () => {
-        const consulta = await axiosClient.get(`/usuarios/${decodedData._id != undefined ? decodedData._id : ``}`)
+        const consulta = await axiosClient.get(`/usuarios/${decodedData._id}`)
         datosUsuario(consulta.data)
     }
 

@@ -11,7 +11,7 @@ let transporter = nodeMailer.createTransport({
     auth: {
         user: 'autoreplyencontralo@gmail.com',
         pass: 'autoreplyencontralo1|23'
-    }
+    },
 });
 
 //Nuevo usuario
@@ -97,16 +97,22 @@ exports.mostrarUsuarios = async (req, res) => {
     }
 }
 
-//Mostrar cliente
 exports.mostrarUsuario = async (req, res, next) => {
-    // const usuario = await Usuarios.findById(req.params.comodin)
+    const usuario = await Usuarios.findById(req.params.comodin)
+    if (!usuario) {
+        res.json({ mensaje: 'No existe ese usuario' })
+        next()
+    }
+    res.json(usuario)
+}
+
+//Mostrar cliente
+exports.resetPassword = async (req, res, next) => {
+
     const consultaEmail = await Usuarios.find({ email: req.params.comodin })
     var emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-    // if (!usuario) {
-    //     res.json({ mensaje: 'No existe ese usuario' })
-    //     next()
-    // }
+
     if (consultaEmail.length > 0) {
         consultaEmail.forEach(element => {
             const email = element.email
@@ -115,9 +121,10 @@ exports.mostrarUsuario = async (req, res, next) => {
                     from: 'autoreplyencontralo@gmail.com',
                     to: email,
                     subject: 'Recuperación de cuenta - Encontralo',
-                    text: `¡Hola ${element.nickname}! Vimos que no te acordás de la contraseña de tu cuenta en Encontralo, por eso te enviamos este email!. Te vamos a pedir que le des click al siguiente link para que puedas cambiar tu contraseña.
-                    Saludos.
-                    Encontralo.`
+                    html: `<h1>Recuperación de cuenta</h1>
+                    <h3>¡Hola ${element.nickname}! Vimos que no te acordás de la contraseña de tu cuenta en Encontralo, por eso te enviamos este email. 
+                    Te vamos a pedir que le des click al siguiente link para que puedas cambiar tu contraseña: </h3>
+                    <a href="http://localhost:3000/recuperarcuenta/${email}">Recuperar cuenta</a>`
                 }
 
                 transporter.sendMail(emailOptions, function (err, info) {
@@ -126,7 +133,7 @@ exports.mostrarUsuario = async (req, res, next) => {
                         return;
                     } else {
                         console.log("Sent: " + info.response)
-                        res.status(200).json({ mensaje: '¡Email enviado!' })
+                        res.status(200).json(email)
                     }
 
                 })
@@ -137,8 +144,7 @@ exports.mostrarUsuario = async (req, res, next) => {
     } else {
         res.status(404).json({ mensaje: 'No existe un usuario con ese email. Intentalo de nuevo' })
     }
-    //Mostrar
-    // res.json(usuario)
+
 }
 
 //Actualizar usuario

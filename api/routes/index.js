@@ -24,6 +24,9 @@ module.exports = function () {
     router.get('/usuarios/:comodin',
         usuarioController.mostrarUsuario)
 
+    //Mostrar un usuario en específico
+    router.put('/usuarios/:comodin',
+        usuarioController.resetPassword)
 
     //Actualizar usuario
     router.put('/usuarios/:idUsuario',

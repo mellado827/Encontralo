@@ -1,96 +1,99 @@
 import React, { useState, useEffect } from 'react'
 import axiosClient from '../config/axios'
-import Swal from 'sweetalert2'
-import Quit from '../Functions/quit'
-import Error from './error'
+import GoBack from '../Functions/goBack'
+import SeePasswordPage2 from '../Functions/seePasswordPage2'
+import SeePasswordPage3 from '../Functions/seePasswordPage3'
+
 
 function ResetPassword(props) {
+    const email = props.match.params.email
+
+    // const [usuarioACambiarPass, SetusuarioACambiarPass] = useState([])
+
+    // const consultaPorEdit = async () => {
+    //     const consulta = await axiosClient.put(`/usuarios/${email}`)
+    //     SetusuarioACambiarPass(consulta.data)
+    // }
+
+    // useEffect(() => {
+    //     consultaPorEdit()
+    // }, [])
 
     document.title = "Encontralo - Cambiar contraseña"
 
-    const token = localStorage.getItem("token")
+    const [contrasenas, guardarContrasenas] = useState({
+    })
 
-    const goBack = e => {
-        e.preventDefault()
-        window.history.back()
+    const actualizarState = e => {
+        guardarContrasenas({
+            ...contrasenas,
+            [e.target.name]: e.target.value
+        })
     }
 
-    const [email, setEmail] = useState('')
-
-    const guardarEmail = e => {
-        setEmail(e.target.value)
-    }
-
-    const enviarPeticion = async e => {
-        e.preventDefault()
-        try {
-            if (!email) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Ups! Parece que hay un problema.',
-                    text: 'Ingresa un email para poder recuperar tu cuenta.',
-                    customClass: {
-                        content: 'text_fontstyle'
-                    }
-                })
-            } else {
-
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Enviando correo...'
-                })
-
-                const peticion = await axiosClient.get(`/usuarios/${email}`)
-
-                if (peticion.status === 200) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Correo enviado!',
-                        text: 'Pegale una revisada a tu correo electrónico, te enviamos un link para que recuperes la clave. ¡Suerte!',
-                        customClass: {
-                            content: 'text_fontstyle'
-                        }
-                    })
-                }
-
-            }
-
-        } catch (error) {
-            if (error.message === "Request failed with status code 404") {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Ups! Parece que hay un problema.',
-                    text: 'No existe ningún usuario con ese email. Intentalo de nuevo',
-                    customClass: {
-                        content: 'text_fontstyle'
-                    }
-                })
-            }
-        }
-    }
+    console.log(contrasenas)
 
     return (
         <>
-            {token ? props.history.push('/contrasena') :
-                <div className="loginANDsignup_background height_shared d-flex justify-content-center align-items-center">
-                    <form className="reset-pass_container d-flex flex-column align-content-center" id="password_form">
-                        <h1 className="subtitle_fontstyle text-center mt-5">
-                            Restablecer contraseña
-                    </h1>
-                        <p className="text_fontstyle text-center m-3">Tenemos que asegurarnos que seas el titular de la cuenta,
-                        por esto te pedimos que ingreses tu email (el que usaste para registrarte en Encontralo)
-                    así te enviamos un link para que puedas cambiar la contraseña.</p>
-                        <div className="p-5 d-flex justify-content-center">
-                            <input type="email" placeholder="Ingresa tu email"
-                                className="text_fontstyle" onChange={guardarEmail} />
-                        </div>
-                        <div className="olvidemicontrasena_botones">
-                            <button className="cta_bottonsstyle m-3 text_fontstyle" onClick={enviarPeticion}>Enviar petición</button>
-                            <button className="cta_bottonsstyle m-3 text_fontstyle" onClick={goBack}>Volver</button>
-                        </div>
-                    </form>
-                </div>}
+            <div className="loginANDsignup_background height_shared d-flex justify-content-center align-items-center">
+                <form className="reset-pass_container" id="password_form">
+                    <h1 className="subtitle_fontstyle text-center m-3">
+                        Restablecer contraseña
+      </h1>
 
+                    <p id="passwordValidator" className="text_font text-center m-5"></p>
+                    <div className="text-center mt-4 new_pass">
+                        <p className="text_fontstyle"><u>Nueva contraseña</u></p>
+                        <input type="password"
+                            name="NewPassword"
+                            id="new_password"
+                            onChange={actualizarState}
+                            className="text_fontstyle"
+                        />
+                        <button type="button"
+                            id="see_password2"
+                            onClick={SeePasswordPage2}
+                            className=" see_password transparent"
+                            title="Ver contraseña"
+                            required>
+                            <img src="../../img/see_black.png" className="see_passwordIcon" alt="see password" />
+                        </button>
+                    </div>
+
+                    <div className="text-center mt-4 confirm-new_pass">
+                        <p className="text_fontstyle"><u>Confirma la nueva contraseña</u></p>
+                        <input type="password"
+                            name="ConfirmedPassword"
+                            id="confirm_new_password"
+                            onChange={actualizarState}
+                            className="text_fontstyle" />
+                        <button type="button"
+                            id="see_password3"
+                            className=" see_password transparent"
+                            onClick={SeePasswordPage3}
+                            title="Ver contraseña"
+                            required>
+                            <img src="../../img/see_black.png" className="see_passwordIcon" alt="see password" />
+                        </button>
+                    </div>
+                    <div className="password_buttons d-flex mt-5 mb-3 align-self-center">
+                        <button type="button"
+                            className="text_fontstyle cta_bottonsstyle space_passB"
+                            id="reset_pass_confirm"
+                        // onClick={passwords}
+                        >
+                            Cambiar contraseña
+        </button>
+                        <button type="button"
+                            className="text_fontstyle cta_bottonsstyle cta_bottonsstyle-green"
+                            onClick={GoBack}
+                        >
+                            Volver
+        </button>
+
+                    </div>
+                </form>
+            </div>
         </>
     )
 }
