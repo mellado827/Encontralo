@@ -2,6 +2,17 @@ const Usuarios = require('../models/Usuarios')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 var salt = bcrypt.genSaltSync();
+const nodeMailer = require('nodemailer');
+
+let transporter = nodeMailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    auth: {
+        user: 'autoreplyencontralo@gmail.com',
+        pass: 'autoreplyencontralo1|23'
+    }
+});
 
 //Nuevo usuario
 exports.nuevoUsuario = async (req, res, next) => {
@@ -88,14 +99,46 @@ exports.mostrarUsuarios = async (req, res) => {
 
 //Mostrar cliente
 exports.mostrarUsuario = async (req, res, next) => {
-    const usuario = await Usuarios.findById(req.params.idUsuario)
+    // const usuario = await Usuarios.findById(req.params.comodin)
+    const consultaEmail = await Usuarios.find({ email: req.params.comodin })
+    var emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-    if (!usuario) {
-        res.json({ mensaje: 'No existe ese usuario' })
-        next()
+    // if (!usuario) {
+    //     res.json({ mensaje: 'No existe ese usuario' })
+    //     next()
+    // }
+    if (consultaEmail.length > 0) {
+        consultaEmail.forEach(element => {
+            const email = element.email
+            if (email.match(emailValido)) {
+                let emailOptions = {
+                    from: 'autoreplyencontralo@gmail.com',
+                    to: email,
+                    subject: 'Recuperación de cuenta - Encontralo',
+                    text: `¡Hola ${element.nickname}! Vimos que no te acordás de la contraseña de tu cuenta en Encontralo, por eso te enviamos este email!. Te vamos a pedir que le des click al siguiente link para que puedas cambiar tu contraseña.
+                    Saludos.
+                    Encontralo.`
+                }
+
+                transporter.sendMail(emailOptions, function (err, info) {
+                    if (err) {
+                        console.log(err.message)
+                        return;
+                    } else {
+                        console.log("Sent: " + info.response)
+                        res.status(200).json({ mensaje: '¡Email enviado!' })
+                    }
+
+                })
+            } else {
+                res.json({ mensaje: 'Email inválido. Intentalo de nuevo' })
+            }
+        });
+    } else {
+        res.status(404).json({ mensaje: 'No existe un usuario con ese email. Intentalo de nuevo' })
     }
     //Mostrar
-    res.json(usuario)
+    // res.json(usuario)
 }
 
 //Actualizar usuario
@@ -103,7 +146,7 @@ exports.mostrarUsuario = async (req, res, next) => {
 exports.actualizarUsuario = async (req, res, next) => {
     try {
 
-        const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
 
         if (req.body.email.match(emailValido)) {
             var usuario = await Usuarios.findOneAndUpdate({ _id: req.params.idUsuario },

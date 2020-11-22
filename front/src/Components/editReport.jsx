@@ -143,6 +143,7 @@ function EditReport(props) {
     const removeImage = e => {
         e.preventDefault()
         document.getElementById("img").src = 'https://www.amerikickkansas.com/wp-content/uploads/2017/04/default-image-620x600.jpg'
+
     }
 
     const readImage = e => {
@@ -249,6 +250,7 @@ function EditReport(props) {
     //añadir reporte
     const editReport = e => {
 
+
         e.preventDefault()
 
         const { tipoMascota, estado, raza, nombre, sexo, descripcion, tieneChip, hora, departamento, localidad,
@@ -258,101 +260,138 @@ function EditReport(props) {
             && !tieneChip.length && !hora.length && !selectedDate && !departamento.length && !localidad.length && !lugar.length
             && !nombreUsuario.length && !descripcionUsuario.length && !imagePreview.length
 
-        if (ok === true) {
+        if ((document.getElementById("img").src).includes("default-image")) {
             Swal.fire({
                 icon: 'error',
                 title: 'Ups! Parece que hubo un problema.',
-                text: 'Para editar un reporte, tenés que modificar al menos un campo.',
+                text: 'No podés dejar el reporte sin foto. Intentalo de nuevo.',
                 customClass: {
                     content: 'text_fontstyle'
                 }
             })
-
         } else {
-            var formData = new URLSearchParams();
-            // const forImage = new FormData()
-
-            formData.append('tipoMascota', tipomascota)
-            formData.append('estado', estadoNuevo)
-            formData.append('raza', razaNuevo)
-            formData.append('nombre', nombreNuevo)
-            formData.append('sexo', sexoNuevo)
-            formData.append('fecha', fechaNuevo)
-            formData.append('imagen', imagenNuevo)
-            formData.append('descripcion', descripcionNuevo)
-            formData.append('tieneChip', chipNuevo)
-            formData.append('hora', horaNuevo)
-            formData.append('departamento', departamentoNuevo)
-            formData.append('localidad', localidadNuevo)
-            formData.append('lugar', lugarNuevo)
-            formData.append('nombreUsuario', nombreUsuarioNuevo)
-            formData.append('descripcionUsuario', descripcionUsuarioNuevo)
-            formData.append('informacionADifundir', ViralInfo())
-
-            try {
-
+            if (ok === true) {
                 Swal.fire({
-                    title: '¿Estás seguro/a?',
-                    text: "La información modificada quedaría en el sitio, no al difundirse el reporte. Si llegas a realizar un reporte troll, tu cuenta será eliminada.",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, quiero reportar!',
-                    cancelButtonText: 'Cancelar',
+                    icon: 'error',
+                    title: 'Ups! Parece que hubo un problema.',
+                    text: 'Para editar un reporte, tenés que modificar al menos un campo.',
                     customClass: {
                         content: 'text_fontstyle'
                     }
-                }).then(async (result) => {
-                    if (result.isConfirmed) {
+                })
 
-                        try {
-                            await axiosClient.patch(`/reportes/${idcaso}`, formData, {
-                                headers: {
-                                    'Content-Type': 'application/x-www-form-urlencoded'
-                                }
-                            })
+            } else {
 
-                            Swal.fire({
-                                icon: 'success',
-                                title: '¡Reporte editado!',
-                                text: `¡Suerte y no te  rindas!`,
-                                customClass: {
-                                    content: 'text_fontstyle'
-                                }
-                            })
+                var formData = new URLSearchParams();
+                // const forImage = new FormData()
 
-                            setTimeout(() => {
-                                window.location.reload()
-                            }, 2000);
-                        } catch (error) {
-                            if (error.message === "Request failed with status code 413") {
+                formData.append('tipoMascota', tipomascota)
+                formData.append('estado', estadoNuevo)
+                formData.append('raza', razaNuevo)
+                formData.append('nombre', nombreNuevo)
+                formData.append('sexo', sexoNuevo)
+                formData.append('fecha', fechaNuevo)
+                formData.append('imagen', imagenNuevo)
+                formData.append('descripcion', descripcionNuevo)
+                formData.append('tieneChip', chipNuevo)
+                formData.append('hora', horaNuevo)
+                formData.append('departamento', departamentoNuevo)
+                formData.append('localidad', localidadNuevo)
+                formData.append('lugar', lugarNuevo)
+                formData.append('nombreUsuario', nombreUsuarioNuevo)
+                formData.append('descripcionUsuario', descripcionUsuarioNuevo)
+                formData.append('informacionADifundir', ViralInfo())
+
+                try {
+
+                    Swal.fire({
+                        title: '¿Estás seguro/a?',
+                        text: "La información modificada quedaría en el sitio, no al difundirse el reporte. Si llegás a realizar un reporte troll, tu cuenta será eliminada.",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Si, quiero reportar!',
+                        cancelButtonText: 'Cancelar',
+                        customClass: {
+                            content: 'text_fontstyle'
+                        }
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+
+                            try {
+
                                 Swal.fire({
-                                    icon: 'error',
-                                    title: 'Ups! Parece que hubo un problema.',
-                                    text: `Ingresá una imagen más pequeña o con menos calidad por favor 😅`,
+                                    icon: 'info',
+                                    title: 'Cargando...',
+                                    text: 'Estamos editando el reporte, esperá un momento.',
                                     customClass: {
                                         content: 'text_fontstyle'
                                     }
                                 })
+
+                                const editReport = await axiosClient.patch(`/reportes/${idcaso}`, formData, {
+                                    headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded'
+                                    }
+                                })
+
+                                if (editReport.status === 200) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: '¡Reporte editado!',
+                                        text: `¡Suerte y no te  rindas!`,
+                                        customClass: {
+                                            content: 'text_fontstyle'
+                                        }
+                                    })
+
+                                    setTimeout(() => {
+                                        window.location.reload()
+                                    }, 2000);
+
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Ups! Parece que hubo un problema.',
+                                        text: `Intentalo de nuevo más tarde.`,
+                                        customClass: {
+                                            content: 'text_fontstyle'
+                                        }
+                                    })
+                                }
+
+
+
+                            } catch (error) {
+                                if (error.message === "Request failed with status code 413") {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Ups! Parece que hubo un problema.',
+                                        text: `Ingresá una imagen más pequeña o con menos calidad por favor 😅`,
+                                        customClass: {
+                                            content: 'text_fontstyle'
+                                        }
+                                    })
+                                }
                             }
+
                         }
+                    })
 
-                    }
-                })
+                } catch (error) {
 
-            } catch (error) {
+                    Swal.fire({
+                        title: 'Hubo un error',
+                        text: `Inténtalo de nuevo más tarde`,
+                        icon: 'error',
+                        customClass: {
+                            content: 'text_fontstyle'
+                        }
+                    })
+                }
 
-                Swal.fire({
-                    title: 'Hubo un error',
-                    text: `Inténtalo de nuevo más tarde`,
-                    icon: 'error',
-                    customClass: {
-                        content: 'text_fontstyle'
-                    }
-                })
             }
-
         }
 
 
@@ -425,6 +464,7 @@ function EditReport(props) {
                                         name="nombre"
                                         placeholder={caso.nombre ? caso.nombre : undefined}
                                         onChange={updateState} />
+
 
                                     <label className="mt-4"> <u>Sexo</u> <strong>*</strong></label>
                                     <select
@@ -504,7 +544,7 @@ function EditReport(props) {
                                             <Datepicker
                                                 name="fecha"
                                                 id="missing_date"
-                                                // placeholderText={[caso.fecha].includes("/") ? caso.fecha : "Introduce la fecha"}
+                                                placeholderText={caso.fecha}
                                                 selected={selectedDate}
                                                 onChange={selectedInputDate}
                                                 locale="es"
@@ -519,7 +559,7 @@ function EditReport(props) {
                                             <input type="time"
                                                 name="hora"
                                                 id="missing_hour"
-                                                placeholder={caso.hora ? caso.hora : undefined}
+                                                value={caso.hora}
                                                 onChange={PreviewButtonData, updateState}
                                             />
                                             <button
@@ -674,7 +714,7 @@ function EditReport(props) {
                             <div className="modal-dialog">
                                 <div className="modal-content d-flex align-items-end" id="modal-content">
                                     <a href="" data-dismiss="modal">
-                                        <img src="./img/close.png" className="close_button" alt="close button" />
+                                        <img src="../../img/close.png" className="close_button" alt="close button" />
                                     </a>
                                     <div className="modal-header d-flex align-items-center">
                                         <h3 className="modal-title text_fontstyle text-center"><strong>Vista previa del reporte</strong></h3>
@@ -686,7 +726,7 @@ function EditReport(props) {
 
                                             <div className="petpic_container d-flex justify-content-center">
                                                 <img
-                                                    src={imagePreview}
+                                                    src={imagenNuevo}
                                                     alt=""
                                                     id="img"
                                                     className="petphoto_width">

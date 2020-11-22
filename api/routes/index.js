@@ -21,8 +21,9 @@ module.exports = function () {
         usuarioController.mostrarUsuarios)
 
     //Mostrar un usuario en específico
-    router.get('/usuarios/:idUsuario',
+    router.get('/usuarios/:comodin',
         usuarioController.mostrarUsuario)
+
 
     //Actualizar usuario
     router.put('/usuarios/:idUsuario',

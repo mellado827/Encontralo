@@ -16,6 +16,7 @@ import Tracing from './Components/tracing'
 import { CRMContext, CRMProvider } from './context/CRMContext'
 import CeroCases from './Components/cerocases';
 import EditReport from './Components/editReport'
+import ResetPassword from './Components/resetPassword'
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
             <Route path="/miscasos/:usuario/:dep" exact component={SearchMyCases} />
             <Route path="/reportes/:idCaso" exact component={Tracing} />
             <Route path="/reportes/:idCaso/editar" exact component={EditReport} />
+            <Route path="/olvidemicontrasena" exact component={ResetPassword} />
 
             <Route component={() => (
               <Error />

@@ -255,7 +255,7 @@ function Report(props) {
 
                 Swal.fire({
                     title: '¿Estás seguro/a?',
-                    text: "Un reporte puede ser modificado después de haber sido creado, pero la información modificada quedaría en el sitio, no al difundirse el reporte. Si llegas a realizar un reporte troll, tu cuenta será eliminada.",
+                    text: "Un reporte puede ser modificado después de haber sido creado (reescribiendo los datos, no borrándolos), pero la información modificada quedará en el sitio, no al difundirse el reporte. Si llegás a realizar un reporte troll, tu cuenta será eliminada.",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -269,6 +269,7 @@ function Report(props) {
                     if (result.isConfirmed) {
 
                         try {
+
                             await axiosClient.post('/reportes', formData, {
                                 headers: {
                                     'Content-Type': 'application/x-www-form-urlencoded'

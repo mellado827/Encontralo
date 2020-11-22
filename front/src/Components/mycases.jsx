@@ -46,6 +46,8 @@ function MyCases(props) {
         if (decodedData.nickname) {
             const reportsConsult = await axiosClient.get(`/reportes/${decodedData.nickname}/${input}`)
             saveReports(reportsConsult.data)
+        } else {
+            props.history.push("/iniciarsesion")
         }
     }
 
