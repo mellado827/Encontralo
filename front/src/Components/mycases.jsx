@@ -6,6 +6,7 @@ import jwt_decode from 'jwt-decode'
 import Swal from 'sweetalert2'
 import $ from 'jquery'
 import CeroCases from './cerocases'
+import Presentation from './presentation'
 
 function MyCases(props) {
 
@@ -42,8 +43,10 @@ function MyCases(props) {
     }
 
     const Consult = async () => {
-        const reportsConsult = await axiosClient.get(`/reportes/${decodedData.nickname}/${input}`)
-        saveReports(reportsConsult.data)
+        if (decodedData.nickname) {
+            const reportsConsult = await axiosClient.get(`/reportes/${decodedData.nickname}/${input}`)
+            saveReports(reportsConsult.data)
+        }
     }
 
     useEffect(() => {
@@ -150,7 +153,7 @@ function MyCases(props) {
     useEffect(() => {
         // consultar la api para traer el reporte
         const consultarAPI = async () => {
-            const reporteConsulta = await axiosClient.get(`/reportes/${decodedData.nickname ? decodedData.nickname : ``}`);
+            const reporteConsulta = await axiosClient.get(`/reportes/${decodedData.nickname}`);
             verReporte(reporteConsulta.data)
         }
         consultarAPI();
@@ -161,161 +164,167 @@ function MyCases(props) {
     }
 
     return (
+
         <>
-            <Navbar />
+            {reporte.length === 0 ? <Presentation /> :
+                <>
+                    <Navbar />
 
 
-            <div className="search search_container">
+                    <div className="search search_container">
 
-                <h1 className="text-center subtitle_fontstyle search_title mt-5">
-                    <strong>Mis casos</strong>
-                </h1>
-                {casos > 0 ? <h1 className="text_fontstyle text_center"><u>Elija la forma de buscar activándola:</u></h1> : ``}
+                        <h1 className="text-center subtitle_fontstyle search_title mt-5">
+                            <strong>Mis casos</strong>
+                        </h1>
+                        {casos > 0 ? <h1 className="text_fontstyle text_center"><u>Elija la forma de buscar activándola:</u></h1> : ``}
 
-                {casos > 0 ?
-                    <form className="search_form">
+                        {casos > 0 ?
+                            <form className="search_form">
 
-                        <div className="finder flex-column m-5">
-                            <div className="d-flex flex-row justify-content-center">
-                                <input type="checkbox"
-                                    onClick={activeSearch}
-                                    id="checkbox"
-                                    className="mr-2" />
-                                <select id="pet_type"
-                                    name="input"
-                                    disabled={true}
-                                    className="searchtype text_fontstyle d-flex width_search_types"
-                                    onChange={value}>
-                                    <option value="">Tipo de mascota</option>
-                                    <option value="Perro">Perro</option>
-                                    <option value="Gato">Gato</option>
-                                </select>
-                            </div>
+                                <div className="finder flex-column m-5">
+                                    <div className="d-flex flex-row justify-content-center">
+                                        <input type="checkbox"
+                                            onClick={activeSearch}
+                                            id="checkbox"
+                                            className="mr-2" />
+                                        <select id="pet_type"
+                                            name="input"
+                                            disabled={true}
+                                            className="searchtype text_fontstyle d-flex width_search_types"
+                                            onChange={value}>
+                                            <option value="">Tipo de mascota</option>
+                                            <option value="Perro">Perro</option>
+                                            <option value="Gato">Gato</option>
+                                        </select>
+                                    </div>
 
-                            <div className="d-flex flex-row justify-content-center mt-5">
-                                <input type="checkbox"
-                                    id="checkbox2"
-                                    onClick={activeSearch2}
-                                    name="checkbox"
-                                    className="mr-2" />
-                                <select
-                                    id="departamento"
-                                    name="input"
-                                    disabled={true}
-                                    onChange={value}
-                                    className="text_fontstyle d-flex width_search_types"
-                                >
-                                    <option value="">Departamento...</option>
-                                    <option value="Artigas">Artigas</option>
-                                    <option value="Canelones">Canelones</option>
-                                    <option value="Cerro Largo">Cerro Largo</option>
-                                    <option value="Colonia">Colonia</option>
-                                    <option value="Durazno">Durazno</option>
-                                    <option value="Flores">Flores</option>
-                                    <option value="Florida">Florida</option>
-                                    <option value="Lavalleja">Lavalleja</option>
-                                    <option value="Maldonado">Maldonado</option>
-                                    <option value="Montevideo">Montevideo</option>
-                                    <option value="Paysandú">Paysandú</option>
-                                    <option value="Río Negro">Río Negro</option>
-                                    <option value="Rocha">Rocha</option>
-                                    <option value="Salto">Salto</option>
-                                    <option value="San José">San José</option>
-                                    <option value="Soriano">Soriano</option>
-                                    <option value="Tacuarembó">Tacuarembó</option>
-                                    <option value="Treinta y Tres">Treinta y Tres</option>
-                                </select>
-                            </div>
-                            <div className="d-flex flex-row justify-content-center mt-5">
-                                <input type="checkbox"
-                                    name="checkbox3"
-                                    onClick={activeSearch3}
-                                    className="mr-2" />
-                                <input type="text"
-                                    disabled={true}
-                                    id="id"
-                                    name="input"
-                                    placeholder="ID del reporte"
-                                    onChange={value}
-                                    className="text_fontstyle d-flex width_search_types" />
-                            </div>
-                            {/* <div className="d-flex flex-row justify-content-center mt-5">
-                                <input type="checkbox"
-                                    id="checkbox2"
-                                    onClick={activeSearch4}
-                                    name="checkbox"
-                                    className="mr-2" />
-                                <select
-                                    id="found"
-                                    name="input"
-                                    disabled={true}
-                                    onChange={value}
-                                    className="text_fontstyle d-flex width_search_types"
-                                >
-                                    <option value="">Encontrados</option>
-                                </select>
-                            </div> */}
+                                    <div className="d-flex flex-row justify-content-center mt-5">
+                                        <input type="checkbox"
+                                            id="checkbox2"
+                                            onClick={activeSearch2}
+                                            name="checkbox"
+                                            className="mr-2" />
+                                        <select
+                                            id="departamento"
+                                            name="input"
+                                            disabled={true}
+                                            onChange={value}
+                                            className="text_fontstyle d-flex width_search_types"
+                                        >
+                                            <option value="">Departamento...</option>
+                                            <option value="Artigas">Artigas</option>
+                                            <option value="Canelones">Canelones</option>
+                                            <option value="Cerro Largo">Cerro Largo</option>
+                                            <option value="Colonia">Colonia</option>
+                                            <option value="Durazno">Durazno</option>
+                                            <option value="Flores">Flores</option>
+                                            <option value="Florida">Florida</option>
+                                            <option value="Lavalleja">Lavalleja</option>
+                                            <option value="Maldonado">Maldonado</option>
+                                            <option value="Montevideo">Montevideo</option>
+                                            <option value="Paysandú">Paysandú</option>
+                                            <option value="Río Negro">Río Negro</option>
+                                            <option value="Rocha">Rocha</option>
+                                            <option value="Salto">Salto</option>
+                                            <option value="San José">San José</option>
+                                            <option value="Soriano">Soriano</option>
+                                            <option value="Tacuarembó">Tacuarembó</option>
+                                            <option value="Treinta y Tres">Treinta y Tres</option>
+                                        </select>
+                                    </div>
+                                    <div className="d-flex flex-row justify-content-center mt-5">
+                                        <input type="checkbox"
+                                            name="checkbox3"
+                                            onClick={activeSearch3}
+                                            className="mr-2" />
+                                        <input type="text"
+                                            disabled={true}
+                                            id="id"
+                                            name="input"
+                                            placeholder="ID del reporte"
+                                            onChange={value}
+                                            className="text_fontstyle d-flex width_search_types" />
+                                    </div>
+                                    {/* <div className="d-flex flex-row justify-content-center mt-5">
+                    <input type="checkbox"
+                        id="checkbox2"
+                        onClick={activeSearch4}
+                        name="checkbox"
+                        className="mr-2" />
+                    <select
+                        id="found"
+                        name="input"
+                        disabled={true}
+                        onChange={value}
+                        className="text_fontstyle d-flex width_search_types"
+                    >
+                        <option value="">Encontrados</option>
+                    </select>
+                </div> */}
 
-                        </div>
-
-                        <div className="search_button flex-column m-3">
-                            <button
-                                onClick={emptyValue}
-                                id="search_button"
-                                className="text_fontstyle cta_bottonsstyle">Buscar</button>
-                        </div>
-
-                    </form>
-
-                    : ``}
-
-                <div className="">
-
-                    {casos > 0
-                        ?
-                        <>
-
-                            <div className="d-flex flex-row flex-wrap justify-content-center">
-                                {
-                                    reporte.casosPorUsuario.map(report => (
-                                        <LostPetCard
-                                            key={report._id}
-                                            report={report}
-
-                                        />
-                                    )
-                                    )}
-
-
-                            </div>
-
-                        </>
-                        :
-                        //cero casos
-                        <div className="d-flex justify-content-center align-items-center">
-                            <div className="cerocases_container">
-
-                                <p className="subtitle_fontstyle text-center nocases_text">
-                                    <i>Usted no ha reportado ninguna desaparición.</i>
-                                </p>
-
-                                <div className="d-flex align-items-center text_fontstyle cerocases_buttons">
-                                    <a type="button" className="cta_bottonsstyle mt-5 mb-5 text_fontstyle" href="/reportar">Reportar</a>
-                                    <button type="button"
-                                        className="cta_bottonsstyle cta_bottonsstyle-green mt-5 mb-5 text_fontstyle"
-                                    // onClick={window.history.back()}
-                                    >
-                                        Volver
-                    </button>
                                 </div>
-                            </div>
+
+                                <div className="search_button flex-column m-3">
+                                    <button
+                                        onClick={emptyValue}
+                                        id="search_button"
+                                        className="text_fontstyle cta_bottonsstyle">Buscar</button>
+                                </div>
+
+                            </form>
+
+                            : ``}
+
+                        <div className="">
+
+                            {casos > 0
+                                ?
+                                <>
+
+                                    <div className="d-flex flex-row flex-wrap justify-content-center">
+                                        {
+                                            reporte.casosPorUsuario.map(report => (
+                                                <LostPetCard
+                                                    key={report._id}
+                                                    report={report}
+
+                                                />
+                                            )
+                                            )}
+
+
+                                    </div>
+
+                                </>
+                                :
+                                //cero casos
+                                <div className="d-flex justify-content-center align-items-center">
+                                    <div className="cerocases_container">
+
+                                        <p className="subtitle_fontstyle text-center nocases_text">
+                                            <i>Usted no ha reportado ninguna desaparición.</i>
+                                        </p>
+
+                                        <div className="d-flex align-items-center text_fontstyle cerocases_buttons">
+                                            <a type="button" className="cta_bottonsstyle mt-5 mb-5 text_fontstyle" href="/reportar">Reportar</a>
+                                            <button type="button"
+                                                className="cta_bottonsstyle cta_bottonsstyle-green mt-5 mb-5 text_fontstyle"
+                                            // onClick={window.history.back()}
+                                            >
+                                                Volver
+        </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+
                         </div>
 
-                    }
+                    </div>
+                </>}
 
-                </div>
 
-            </div>
 
         </>
 

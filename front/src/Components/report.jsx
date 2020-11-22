@@ -287,6 +287,7 @@ function Report(props) {
                             setTimeout(() => {
                                 window.location.reload()
                             }, 2000);
+
                         } catch (error) {
                             console.log(error)
 
