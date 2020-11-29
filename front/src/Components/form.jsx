@@ -49,11 +49,6 @@ export default function Form(props) {
             });
     }
 
-    const validateForm = e => {
-
-    }
-
-
     return (
         <>
             <Navbar />
@@ -75,10 +70,7 @@ export default function Form(props) {
                                        </label>
                             <input type="text"
                                 className="form-control text_fontstyle"
-                                id="formGroupExampleInput"
                                 name="name"
-                                onChange={validateForm}
-                                id="name_form"
                                 required={true}
                                 placeholder="Ingresa tu nombre" />
                         </div>
@@ -86,11 +78,9 @@ export default function Form(props) {
                             <label htmlFor="exampleInputEmail1" className="text_fontstyle"><u>Correo electrónico</u> *</label>
                             <input type="email"
                                 className="form-control text_fontstyle"
-                                id="email_form"
                                 aria-describedby="emailHelp"
                                 name="email"
                                 required={true}
-                                onChange={validateForm}
                                 placeholder="Ingresa tu correo" />
                         </div>
                         <div className="form-group m-3 pt-3 input_sizeForm">
@@ -99,23 +89,16 @@ export default function Form(props) {
                                 name="subject"
                                 required={true}
                                 className="form-control text_fontstyle"
-                                id="formGroupExampleInput"
-                                onChange={validateForm}
-                                id="subject_form"
                                 placeholder="Ingresa el asunto" />
                         </div>
                         <div className="form-group m-3 pt-3 input_sizeForm">
                             <label htmlFor="exampleFormControlTextarea1" className="text_fontstyle"><u>Mensaje</u> *</label>
                             <textarea className="form-control text_fontstyle"
                                 name="message"
-                                onChange={validateForm}
                                 required={true}
-                                id="message_form"
-                                id="exampleFormControlTextarea1"
                                 rows="8"></textarea>
                         </div>
                         <button type="submit"
-                            id="submit_form"
                             onClick={e => e.target.value === null ? alert("Ingresa todos los campos") : ``}
                             className="mt-3 cta_bottonsstyle text_fontstyle mb-3">Enviar
                         </button>

@@ -1,21 +1,15 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import Navbar from './navbar'
-import PreviewButtonData from '../Functions/previewButtonData'
-import PetName from '../Functions/petName'
-import Race from '../Functions/race'
 import shortid from 'shortid'
-import ItWas from '../Functions/itwas'
 import axiosClient from '../../src/config/axios'
 import Swal from 'sweetalert2'
-import { CRMContext } from '../context/CRMContext'
 import Datepicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { registerLocale } from "react-datepicker";
 import es from 'date-fns/locale/es';
 import { useEffect } from 'react'
 import jwt_decode from 'jwt-decode'
-
 registerLocale('es', es)
 
 function Report(props) {
@@ -66,7 +60,7 @@ function Report(props) {
 
                 } catch (error) {
                     // Error con autorización
-                    if (error.response.status = 500) {
+                    if (error.response.status === 500) {
                         props.history.push('/iniciarsesion')
                     }
                 }
@@ -270,24 +264,46 @@ function Report(props) {
 
                         try {
 
-                            await axiosClient.post('/reportes', formData, {
-                                headers: {
-                                    'Content-Type': 'application/x-www-form-urlencoded'
-                                }
-                            })
-
                             Swal.fire({
-                                icon: 'success',
-                                title: '¡Reporte realizado!',
-                                text: `¡Suerte y no te  rindas! Puedes ver el reporte en "Buscar un animal perdido" o "Mis Casos" con el siguiente ID: ${id}`,
+                                icon: 'loading',
+                                title: 'Subiendo reporte...',
+                                text: 'Esperá, por favor.',
                                 customClass: {
                                     content: 'text_fontstyle'
                                 }
                             })
 
-                            setTimeout(() => {
-                                window.location.reload()
-                            }, 2000);
+                            const postReport = await axiosClient.post('/reportes', formData, {
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded'
+                                }
+                            })
+
+                            if (postReport.status === 200) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '¡Reporte realizado!',
+                                    text: `¡Suerte y no te  rindas! Puedes ver el reporte en "Buscar un animal perdido" o "Mis Casos" con el siguiente ID: ${id}`,
+                                    customClass: {
+                                        content: 'text_fontstyle'
+                                    }
+                                })
+
+                                setTimeout(() => {
+                                    window.location.reload()
+                                }, 2000);
+
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ups! Parece que hubo un problema.',
+                                    text: `Intentalo de nuevo más tarde.`,
+                                    customClass: {
+                                        content: 'text_fontstyle'
+                                    }
+                                })
+                            }
+
 
                         } catch (error) {
                             console.log(error)
@@ -375,7 +391,7 @@ function Report(props) {
                         <select id="itwas"
                             name="estado"
                             required={true}
-                            onChange={ItWas, updateState} >
+                            onChange={updateState} >
                             <option value="">Seleccionar...</option>
                             <option value="Perdido">Perdido</option>
                             <option value="Encontrado">Encontrado</option>
@@ -415,6 +431,7 @@ function Report(props) {
                                 className="file_attachment"
                                 type="file"
                                 required={true}
+                                style={{ overflow: 'hidden' }}
                                 id="file_attachment"
                                 accept="image/*"
                                 onChange={readImage}
@@ -432,7 +449,7 @@ function Report(props) {
                                     className="close_button button_removeimage"
                                     onClick={removeImage}
                                 >
-                                    <img src="../img/close.png" className="close_button margin_cb_report"></img>
+                                    <img src="../../img/close.png" alt="Cambiar imagen" className="close_button margin_cb_report"></img>
                                 </button>
                             </div>
 
@@ -488,7 +505,7 @@ function Report(props) {
                                 <input type="time"
                                     name="hora"
                                     id="missing_hour"
-                                    onChange={PreviewButtonData, updateState}
+                                    onChange={updateState}
                                 />
                                 <button
                                     type="button"
@@ -640,9 +657,9 @@ function Report(props) {
             <div id="previewReport_modal" className="modal fade show" role="dialog">
                 <div className="modal-dialog">
                     <div className="modal-content d-flex align-items-end" id="modal-content">
-                        <a href="" data-dismiss="modal">
-                            <img src="./img/close.png" className="close_button" alt="close button" />
-                        </a>
+                        <i data-dismiss="modal">
+                            <img src="../../img/close.png" className="close_button" alt="close button" />
+                        </i>
                         <div className="modal-header d-flex align-items-center">
                             <h3 className="modal-title text_fontstyle text-center"><strong>Vista previa del reporte</strong></h3>
                         </div>

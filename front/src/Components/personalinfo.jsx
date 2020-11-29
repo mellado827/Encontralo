@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import EnableInput from '../Functions/enableInputs'
 import GoBack from '../Functions/goBack'
-import Blank from '../Functions/blank'
-import PersonalData from '../Functions/personalData'
 import jwt_decode from 'jwt-decode'
 import Swal from 'sweetalert2'
 import PersonalInfoAPI from './PersonalInfoAPI'
@@ -54,7 +51,7 @@ function PersonalInfo(props) {
 
                 } catch (error) {
                     // Error con autorización
-                    if (error.response.status = 500) {
+                    if (error.response.status === 500) {
                         props.history.push('/iniciarsesion')
                     }
                 }
@@ -68,7 +65,7 @@ function PersonalInfo(props) {
         }
 
 
-    }, [usuarios])
+    })
 
     const eliminarUsuario = () => {
         if (token !== null) {

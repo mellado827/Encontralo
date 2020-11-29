@@ -3,7 +3,6 @@ import SeePassword from '../Functions/seePassword'
 import Swal from 'sweetalert2'
 import axiosClient from '../../src/config/axios'
 import { withRouter } from 'react-router-dom'
-import jwt_decode from 'jwt-decode'
 
 //Context
 import { CRMContext } from '../context/CRMContext'
@@ -54,18 +53,22 @@ function Login(props) {
                 }
             })
 
-            props.history.goBack();
+            // if (props.history.goBack().includes('/recuperarcuenta')) {
+            //     props.history.push('/');
+            // } else {
+            //     props.history.goBack();
+            // }
 
 
         } catch (error) {
             console.log(error)
             Swal.fire({
                 icon: 'error',
-                title: 'Hubo un error',
+                title: 'Ups! Parece que hubo un problema.',
                 customClass: {
                     content: 'text_fontstyle'
                 },
-                text: error.response.data.mensaje
+                text: 'Intentalo de nuevo más tarde.'
             })
         }
     }

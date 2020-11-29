@@ -47,7 +47,7 @@ exports.nuevoReporte = async (req, res, next) => {
         const reporte = new Reportes(req.body)
 
         await reporte.save()
-        res.json({ mensaje: 'Se agregó un nuevo reporte' })
+        res.status(200).json({ mensaje: 'Se agregó un nuevo reporte' })
 
     } catch (error) {
         console.log(error)

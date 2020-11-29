@@ -7,7 +7,6 @@ import SeePasswordPage3 from '../Functions/seePasswordPage3'
 import jwt_decode from 'jwt-decode'
 import Swal from 'sweetalert2'
 import Quit from '../Functions/quit'
-import bcrypt from 'bcryptjs'
 
 function Password(props) {
 
@@ -52,7 +51,7 @@ function Password(props) {
 
                 } catch (error) {
                     // Error con autorización
-                    if (error.response.status = 500) {
+                    if (error.response.status === 500) {
                         props.history.push('/iniciarsesion')
                     }
                 }

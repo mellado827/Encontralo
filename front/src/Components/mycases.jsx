@@ -5,7 +5,6 @@ import LostPetCard from '../Components/lostPetCard'
 import jwt_decode from 'jwt-decode'
 import Swal from 'sweetalert2'
 import $ from 'jquery'
-import CeroCases from './cerocases'
 import Presentation from './presentation'
 
 function MyCases(props) {

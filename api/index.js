@@ -12,12 +12,17 @@ mongoose.connect('mongodb://localhost/encontralo', {
     useUnifiedTopology: true,
     useFindAndModify: false
 }).then(() => {
-    console.log("BD conectada")
+    console.clear()
+    console.log("------------------------------------------------------")
+    console.log("Base de datos iniciada satisfactoriamente - Encontralo")
+    console.log("------------------------------------------------------")
+
 }).catch(err => {
-    console.log("Error al conectar con la BD")
+    console.log("Error al conectar con la BD: " + err)
 })
 // crear el servidor
 const app = express();
+mongoose.set('useCreateIndex', true)
 
 app.use(cors());
 app.use(express.json());

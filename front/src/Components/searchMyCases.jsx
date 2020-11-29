@@ -52,7 +52,7 @@ function SearchMyCases(props) {
                 } catch (error) {
                     // Error con autorización
                     console.log(error)
-                    if (error.response.status = 500) {
+                    if (error.response.status === 500) {
                         props.history.push('/iniciarsesion')
                     }
                 }

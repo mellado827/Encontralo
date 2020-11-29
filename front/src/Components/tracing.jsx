@@ -7,7 +7,6 @@ import jwt_decode from 'jwt-decode'
 import axiosClient from '../config/axios'
 import Error from './error'
 import CommentBox from './commentBox'
-import Presentation from './presentation'
 
 function Comentarios(props) {
     let idcaso = props.match.params.idCaso
@@ -24,7 +23,9 @@ function Comentarios(props) {
     }
 
     useEffect(() => {
-        Consult()
+        if (report) {
+            Consult()
+        }
     }, [])
 
     var current_time = Date.now() / 1000;
@@ -64,7 +65,7 @@ function Comentarios(props) {
 
     var minutes = date.getMinutes();
     var hour = date.getHours();
-    let hora = `${hour}:${minutes < 10 ? minutes = (`0${minutes}`) : minutes = minutes} hrs.`
+    let hora = `${hour}:${minutes < 10 ? (`0${minutes}`) : minutes} hrs.`
 
     const addComment = e => {
         e.preventDefault()
@@ -165,7 +166,7 @@ function Comentarios(props) {
 
     useEffect(() => {
         chequearUsuarioLogueado()
-    })
+    }, [])
 
     const goToEditReport = () => {
         props.history.push(`/reportes/${idcaso}/editar`)

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import Navbar from './navbar'
-import PreviewButtonData from '../Functions/previewButtonData'
 import axiosClient from '../../src/config/axios'
 import Swal from 'sweetalert2'
 import Datepicker from 'react-datepicker'
@@ -91,7 +90,8 @@ function EditReport(props) {
 
                 } catch (error) {
                     // Error con autorización
-                    if (error.response.status = 500) {
+                    console.log(error)
+                    if (error.response.status === 500) {
                         props.history.push('/iniciarsesion')
                     }
                 }
@@ -105,7 +105,7 @@ function EditReport(props) {
         }
 
 
-    }, [])
+    }, [usuarios])
 
     const [report, saveReport] = useState({
         tipoMascota: '',
@@ -161,18 +161,6 @@ function EditReport(props) {
         e.preventDefault()
         document.getElementById("missing_hour").value = ""
     }
-
-    //validar reporte
-    const validateReport = () => {
-        const { tipoMascota, estado } = report
-        let ok = !tipoMascota.length || !estado.length
-
-        if (ok === true) {
-            return ok
-        }
-
-    }
-
 
     const [selectedDate, setSelectedDate] = useState(null)
     const [currentDay] = useState(new Date());
@@ -249,7 +237,6 @@ function EditReport(props) {
 
     //añadir reporte
     const editReport = e => {
-
 
         e.preventDefault()
 
@@ -501,7 +488,7 @@ function EditReport(props) {
                                                 className="close_button button_removeimage"
                                                 onClick={removeImage}
                                             >
-                                                <img src="../../img/close.png" className="close_button margin_cb_report"></img>
+                                                <img src="../../img/close.png" alt="Borrar imagen" className="close_button margin_cb_report"></img>
                                             </button>
                                         </div>
 
@@ -560,7 +547,7 @@ function EditReport(props) {
                                                 name="hora"
                                                 id="missing_hour"
                                                 value={caso.hora}
-                                                onChange={PreviewButtonData, updateState}
+                                                onChange={updateState}
                                             />
                                             <button
                                                 type="button"
@@ -695,7 +682,6 @@ function EditReport(props) {
                                             className="cta_bottonsstyle mt-5 mb-5 text_fontstyle cta_bottonsstyle-green"
                                             data-toggle="modal"
                                             data-target="#previewReport_modal"
-                                            disabled={validateReport()}
                                             id="preview_button">Vista previa</button>
                                     </div>
                                 </div>
@@ -713,9 +699,9 @@ function EditReport(props) {
                         <div id="previewReport_modal" className="modal fade show" role="dialog">
                             <div className="modal-dialog">
                                 <div className="modal-content d-flex align-items-end" id="modal-content">
-                                    <a href="" data-dismiss="modal">
+                                    <i href="" data-dismiss="modal">
                                         <img src="../../img/close.png" className="close_button" alt="close button" />
-                                    </a>
+                                    </i>
                                     <div className="modal-header d-flex align-items-center">
                                         <h3 className="modal-title text_fontstyle text-center"><strong>Vista previa del reporte</strong></h3>
                                     </div>

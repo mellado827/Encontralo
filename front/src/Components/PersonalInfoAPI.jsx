@@ -3,7 +3,6 @@ import jwt_decode from 'jwt-decode'
 import Swal from 'sweetalert2'
 import axiosClient from '../config/axios'
 import { withRouter } from 'react-router-dom'
-import emailExistence from 'email-existence'
 import $ from 'jquery'
 
 function PersonalInfoAPI(props) {

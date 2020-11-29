@@ -93,6 +93,7 @@ function CommentBox(props) {
                     <img
                         id="delete_button"
                         className="delete_button"
+                        alt="Eliminar comentario"
                         title="Eliminar comentario"
                         src="../../img/bin.png"
                         onClick={deleteComment}

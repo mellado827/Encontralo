@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import { useEffect } from 'react'
+import Swal from 'sweetalert2'
 import axiosClient from '../config/axios'
 import GoBack from '../Functions/goBack'
 import SeePasswordPage2 from '../Functions/seePasswordPage2'
 import SeePasswordPage3 from '../Functions/seePasswordPage3'
 
-
 function ResetPassword(props) {
     const email = props.match.params.email
-
-    // const [usuarioACambiarPass, SetusuarioACambiarPass] = useState([])
-
-    // const consultaPorEdit = async () => {
-    //     const consulta = await axiosClient.put(`/usuarios/${email}`)
-    //     SetusuarioACambiarPass(consulta.data)
-    // }
-
-    // useEffect(() => {
-    //     consultaPorEdit()
-    // }, [])
 
     document.title = "Encontralo - Cambiar contraseña"
 
     const [contrasenas, guardarContrasenas] = useState({
     })
+
+    const Consult = async () => {
+        const resetPass = await axiosClient.put(`/usuarios/${email}`)
+        console.log(resetPass)
+    }
+
+    useEffect(() => {
+        Consult()
+    }, [])
+
 
     const actualizarState = e => {
         guardarContrasenas({
@@ -31,7 +31,61 @@ function ResetPassword(props) {
         })
     }
 
-    console.log(contrasenas)
+    const changePassword = e => {
+
+        e.preventDefault()
+
+        if (document.getElementById("new_password").value === "" || document.getElementById("confirm_new_password").value === "") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Ups! Parece que hubo un problema.',
+                text: 'Completa los dos campos para poder recuperar tu cuenta.',
+                customClass: {
+                    content: 'text_fontstyle'
+                }
+            })
+        } else {
+            if (document.getElementById("new_password").value === document.getElementById("confirm_new_password").value) {
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Cambiando contraseña...',
+                    text: 'Esperá por favor.',
+                    customClass: {
+                        content: 'text_fontstyle'
+                    }
+                })
+
+                axiosClient.put(`/usuarios/${email}`, contrasenas)
+                    .then(res => {
+
+                        if (res.status === 200) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Cuenta recuperada!',
+                                text: 'Ya podés iniciar sesión con la nueva contraseña',
+                                customClass: {
+                                    content: 'text_fontstyle'
+                                }
+                            })
+
+                            setTimeout(() => {
+                                props.history.push('/iniciarsesion')
+                            }, 2000);
+                        }
+                    })
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ups! Parece que hubo un problema.',
+                    text: 'Las contraseñas tienen que ser iguales. Intentalo de nuevo.',
+                    customClass: {
+                        content: 'text_fontstyle'
+                    }
+                })
+            }
+        }
+    }
 
     return (
         <>
@@ -80,7 +134,7 @@ function ResetPassword(props) {
                         <button type="button"
                             className="text_fontstyle cta_bottonsstyle space_passB"
                             id="reset_pass_confirm"
-                        // onClick={passwords}
+                            onClick={changePassword}
                         >
                             Cambiar contraseña
         </button>

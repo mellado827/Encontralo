@@ -1,6 +1,6 @@
 function actualAge() {
 
-    let date = new Date
+    let date = new Date()
     let age = 21
     let actualDay = date.getDate()
     let actualMonth = date.getMonth()
