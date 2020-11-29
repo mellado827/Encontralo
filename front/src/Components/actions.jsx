@@ -15,7 +15,7 @@ const Actions = () => (
                     Buscar un animal perdido
                 </button>
             </a>
-            <a href="/">
+            <a href="/encontrados">
                 <button className="text_fontstyle m-3 cta_bottonsstyle" >
                     Ver animales encontrados
                 </button>

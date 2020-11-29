@@ -1,12 +1,6 @@
 import React from 'react'
 function NoResult(props) {
 
-    console.log(props.history)
-
-    // setTimeout((props) => {
-    //     props.history.back('')
-    // }, 2000);
-
     return (
         <>
             <div className="d-flex flex-column margin_title">

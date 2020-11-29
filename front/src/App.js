@@ -18,6 +18,10 @@ import CeroCases from './Components/cerocases';
 import EditReport from './Components/editReport'
 import SendEmailToResetPass from './Components/sendEmailToResetPass'
 import ResetPassword from './Components/resetPassword'
+import Found from './Components/found'
+import MyFounds from './Components/myFounds'
+import SearchMyFounds from './Components/searchMyFounds'
+import SearchingFoundPets from './Components/searchingFoundPets';
 
 function App() {
 
@@ -45,6 +49,10 @@ function App() {
             <Route path="/reportes/:idCaso/editar" exact component={EditReport} />
             <Route path="/olvidemicontrasena" exact component={SendEmailToResetPass} />
             <Route path="/recuperarcuenta/:email" exact component={ResetPassword} />
+            <Route path="/encontrados" exact component={Found} />
+            <Route path="/encontrados/:comodin" exact component={SearchingFoundPets} />
+            <Route path="/misencontrados/:usuario" exact component={MyFounds} />
+            <Route path="/encontrados/:usuario/:comodin" exact component={SearchMyFounds} />
 
             <Route component={() => (
               <Error />

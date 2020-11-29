@@ -41,6 +41,8 @@ function MyCases(props) {
         setInput(e.target.value)
     }
 
+    const [animalesEncontrados, setAnimalesEncontrados] = useState([])
+
     const Consult = async () => {
         if (decodedData.nickname) {
             const reportsConsult = await axiosClient.get(`/reportes/${decodedData.nickname}/${input}`)
@@ -48,6 +50,9 @@ function MyCases(props) {
         } else {
             props.history.push("/iniciarsesion")
         }
+
+        const misAnimalesEncontrados = await axiosClient.get(`/encontrados/${decodedData.nickname}`)
+        setAnimalesEncontrados(misAnimalesEncontrados.data)
     }
 
     useEffect(() => {
@@ -69,6 +74,7 @@ function MyCases(props) {
             props.history.push(`/miscasos/${decodedData.nickname}/${input}`)
         }
     }
+
 
     $('.mr-2').on('change', function () {
         $('.mr-2').not(this).prop('checked', false)
@@ -103,17 +109,6 @@ function MyCases(props) {
             document.getElementById("id").disabled = true
         }
     }
-
-    // const activeSearch4 = e => {
-    //     if (e.target.checked === true) {
-    //         document.getElementById("found").disabled = false
-    //     } else {
-    //         document.getElementById("id").disabled = true
-    //         document.getElementById("pet_type").disabled = true
-    //         document.getElementById("departamento").disabled = true
-    //         document.getElementById("found").disabled = true
-    //     }
-    // }
 
     useEffect(() => {
 
@@ -246,23 +241,6 @@ function MyCases(props) {
                                             onChange={value}
                                             className="text_fontstyle d-flex width_search_types" />
                                     </div>
-                                    {/* <div className="d-flex flex-row justify-content-center mt-5">
-                    <input type="checkbox"
-                        id="checkbox2"
-                        onClick={activeSearch4}
-                        name="checkbox"
-                        className="mr-2" />
-                    <select
-                        id="found"
-                        name="input"
-                        disabled={true}
-                        onChange={value}
-                        className="text_fontstyle d-flex width_search_types"
-                    >
-                        <option value="">Encontrados</option>
-                    </select>
-                </div> */}
-
                                 </div>
 
                                 <div className="search_button flex-column m-3">
@@ -313,10 +291,11 @@ function MyCases(props) {
                                             // onClick={window.history.back()}
                                             >
                                                 Volver
-        </button>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
+
 
                             }
 

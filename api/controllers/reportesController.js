@@ -45,7 +45,6 @@ exports.nuevoReporte = async (req, res, next) => {
         //     reporte.imagen = req.file.filename
         // }
         const reporte = new Reportes(req.body)
-
         await reporte.save()
         res.status(200).json({ mensaje: 'Se agregó un nuevo reporte' })
 

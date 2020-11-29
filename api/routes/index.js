@@ -3,6 +3,7 @@ const router = express.Router()
 const usuarioController = require('../controllers/usuarioController')
 const reportesController = require('../controllers/reportesController')
 const comentariosController = require('../controllers/comentariosController')
+const encontradosController = require('../controllers/encontradosController')
 
 //middle para proteger rutas
 const auth = require('../middleware/auth')
@@ -74,6 +75,18 @@ module.exports = function () {
     router.get('/comentarios/:caso', comentariosController.mostrarComentarios)
 
     router.delete('/comentarios/:id', comentariosController.borrarComentario)
+
+    //----- ENCONTRADOS -----
+    //publicar un animal encontrado
+    router.post('/encontrados', encontradosController.nuevoAnimalEncontrado)
+
+    //obtener todos los animales encontrados
+    router.get('/encontrados', encontradosController.allAnimalesEncontrados)
+
+    router.get('/encontrados/:usuario', encontradosController.animalesEncontradosPorUsuario)
+
+    //obtener animales encontrados por: departamento, ID público y tipo de mascota
+    router.get('/encontrados/:usuario/:comodin', encontradosController.departamentoTipoID)
 
     return router
 

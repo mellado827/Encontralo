@@ -172,6 +172,129 @@ function Comentarios(props) {
         props.history.push(`/reportes/${idcaso}/editar`)
     }
 
+    const [animalEncontrado, setAnimalEncontrado] = useState({})
+
+    const capturarReporte = () => {
+        report.forEach(element => {
+            setAnimalEncontrado(element)
+        });
+    }
+
+    useEffect(() => {
+        capturarReporte()
+    })
+
+    const informacionADifundir = () => {
+
+        const estado = () => {
+            switch (animalEncontrado.estado) {
+                case "Perdido":
+                    return "que se había perdido"
+                case "Encontrado":
+                    return "que había sido encontrado"
+                case "Robado":
+                    return "que había sido robado"
+            }
+        }
+
+        const realSex = () => {
+            switch (animalEncontrado.sexo) {
+                case "Macho":
+                    const macho = `El ${animalEncontrado.tipoMascota} ${animalEncontrado.nombre ? animalEncontrado.nombre : ``} ${estado()}`
+                    return macho
+                case "Hembra":
+                    const hembra = `La ${animalEncontrado.tipoMascota.substr(0, animalEncontrado.tipoMascota.length - 1) + "a"
+                        }
+            ${animalEncontrado.estado.toLowerCase().substr(0, animalEncontrado.estado.length - 1) + "a"} `
+                    return hembra
+                default:
+                    break;
+            }
+        }
+
+        const viralInfo = `¡Apareció! ${realSex()} en ${animalEncontrado.localidad}, ${animalEncontrado.departamento}, se reencontró con su responsable.
+    ¡Muchas gracias a todos por haber compartido! #Uruguay #${animalEncontrado.departamento} #LaCalleNoEsHogarParaNadie #encontralo`
+
+        return viralInfo
+    }
+
+    const subirAnimalEncontrado = async () => {
+
+        Swal.fire({
+            title: '¿Estás seguro/a?',
+            text: `No vas a poder cancelar esta operación. El caso lo podrás ver en "Ver mis animales encontrados".`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, apareció!',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                content: 'text_fontstyle'
+            }
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                var formData = new URLSearchParams();
+                formData.append('tipoMascota', animalEncontrado.tipoMascota)
+                formData.append('estado', animalEncontrado.estado)
+                formData.append('raza', animalEncontrado.raza)
+                formData.append('nombre', animalEncontrado.nombre)
+                formData.append('sexo', animalEncontrado.sexo)
+                formData.append('descripcion', animalEncontrado.descripcion)
+                formData.append('tieneChip', animalEncontrado.tieneChip)
+                formData.append('fecha', animalEncontrado.fecha)
+                formData.append('hora', animalEncontrado.hora)
+                formData.append('departamento', animalEncontrado.departamento)
+                formData.append('localidad', animalEncontrado.localidad)
+                formData.append('lugar', animalEncontrado.lugar)
+                formData.append('imagen', animalEncontrado.imagen)
+                formData.append('nombreUsuario', animalEncontrado.nombreUsuario)
+                formData.append('descripcionUsuario', animalEncontrado.descripcionUsuario)
+                formData.append('informacionADifundir', informacionADifundir())
+                formData.append('idPublico', animalEncontrado.idPublico)
+                formData.append('usuario', animalEncontrado.usuario)
+                formData.append('emailUsuario', animalEncontrado.emailUsuario)
+                formData.append('celularUsuario', animalEncontrado.celularUsuario)
+                formData.append('encontrado', true)
+
+                const postAnimalEncontrado = await axiosClient.post('/encontrados', formData, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                })
+
+                const quitarCasoActivo = await axiosClient.delete(`/reportes/${animalEncontrado._id}`);
+
+
+                if (postAnimalEncontrado.status === 200 && quitarCasoActivo.status === 200) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Felicidades!',
+                        text: `Nos alegramos mucho de que ${animalEncontrado.nombre ? animalEncontrado.nombre : ``} haya aparecido.
+                         Te redigiremos a la sección Tips para que no vuelva a ocurrir.`,
+                        width: 600,
+                        padding: '3em',
+                        backdrop: `
+                    rgba(0, 0, 123, 0.4)
+                    url("https://acegif.com/wp-content/uploads/2020/05/confetti.gif")
+                    left top
+                      `,
+                        customClass: {
+                            content: 'text_fontstyle'
+                        }
+                    })
+
+                    setTimeout(() => {
+                        props.history.push('/')
+                    }, 2000);
+
+
+                }
+            }
+        })
+
+    }
+
     return (
         <>
 
@@ -188,7 +311,10 @@ function Comentarios(props) {
                                         onClick={goToEditReport}
                                         style={{ display: 'none' }}
                                         className="cta_bottonsstyle text_fontstyle">Editar reporte</button>
-                                    <button id="encontrado" style={{ display: 'none' }} className="cta_bottonsstyle text_fontstyle ml-5">Encontrado</button>
+                                    <button id="encontrado"
+                                        style={{ display: 'none' }}
+                                        onClick={subirAnimalEncontrado}
+                                        className="cta_bottonsstyle text_fontstyle ml-5">Encontrado</button>
                                 </div>
                             </div>
                             <div className="d-flex flex-wrap justify-content-center">

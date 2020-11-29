@@ -59,6 +59,10 @@ function PreLogin(props) {
         })
     }
 
+    const misAnimalesEncontrados = () => {
+        props.history.push(`/encontrados/${decodedData.nickname}`)
+    }
+
     return (
         <div>
             {token !== null ?
@@ -68,6 +72,7 @@ function PreLogin(props) {
                         <a href="/reportar">Reportar</a>
                         <a href="/datospersonales">Datos personales</a>
                         <a href="/miscasos">Mis casos</a>
+                        <a href={`/misencontrados/${decodedData.nickname}`}>Mis animales encontrados</a>
                         <a href="" onClick={logout}>Cerrar sesión</a>
                     </div>
                 </div>
