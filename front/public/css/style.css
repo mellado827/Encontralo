@@ -7,6 +7,30 @@
   border-radius: 50%;
 }
 
+.wallpaper_animalencontrado {
+  height: 30em;
+  width: 30em;
+  background-image: url('../img/loginANDsignup.png');
+}
+
+.img_animalencontrado {
+  width: 20em;
+  height: 10em;
+}
+
+.encontrado_title {
+  font-family: 'Zootopia JPosters.com.ar';
+}
+
+.verdeclaro {
+  color: #00b5bd;
+  text-shadow: 2px 2px #3f878a;
+}
+
+.verdeoscuro {
+  color: #267888;
+  text-shadow: 2px 2px #174d57;
+}
 
 .margin_calltoactions {
   padding-top: 3em;

@@ -6,6 +6,7 @@ import LostPetCard from './lostPetCard'
 import jwt_decode from 'jwt-decode'
 import Swal from 'sweetalert2'
 import $ from 'jquery'
+import CeroCases from './cerocases'
 
 function Search(props) {
 
@@ -189,17 +190,19 @@ function Search(props) {
                         </div>
 
                         <div className="d-flex flex-wrap justify-content-center">
-                            {reports.map(report =>
-                                (
-                                    <LostPetCard
-                                        key={report._id}
-                                        report={report}
-                                    />
-                                )
-                            )}
+                            {reports.length === 0 ?
+                                <>
+                                    <CeroCases />
+                                </> :
+                                reports.map(report =>
+                                    (
+                                        <LostPetCard
+                                            key={report._id}
+                                            report={report}
+                                        />
+                                    )
+                                )}
                         </div>
-
-
                     </form>
 
 

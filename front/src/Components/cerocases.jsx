@@ -66,14 +66,13 @@ function CeroCases(props) {
                 <div className="cerocases_container">
 
                     <p className="subtitle_fontstyle text-center nocases_text">
-                        <i>Usted no ha reportado ninguna desaparición.</i>
+                        <i>No hay ningún reporte de desaparición realizado.</i>
                     </p>
 
                     <div className="d-flex align-items-center text_fontstyle cerocases_buttons">
                         <a type="button" className="cta_bottonsstyle mt-5 mb-5 text_fontstyle" href="/reportar">Reportar</a>
                         <button type="button"
                             className="cta_bottonsstyle cta_bottonsstyle-green mt-5 mb-5 text_fontstyle"
-                        // onClick={window.history.back()}
                         >
                             Volver
                     </button>

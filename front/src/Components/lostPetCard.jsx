@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import axiosClient from '../config/axios'
 import jwt_decode from 'jwt-decode'
-import { useEffect } from 'react'
 
 function LostPetCard(props) {
 
@@ -138,6 +137,8 @@ function LostPetCard(props) {
                                     className="petPhotoSize"
                                     src={props.report.imagen}
                                     onClick={options}
+                                    data-toggle="modal"
+                                    data-target="#previewReport_modal"
                                 />
                         }
                     </div>
@@ -160,12 +161,7 @@ function LostPetCard(props) {
                     </div>
 
                 </div>
-
             </section>
-
-
-
-
         </>
     )
 

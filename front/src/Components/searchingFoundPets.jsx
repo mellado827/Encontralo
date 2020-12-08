@@ -89,22 +89,6 @@ function SearchingFoundPets(props) {
         $('.mr-2').not(this).prop('checked', false)
     })
 
-    const emptyValue = e => {
-        e.preventDefault()
-        if (input.length === undefined) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Ups! Parece que hubo un problema',
-                text: 'Ingrese un valor para poder buscar',
-                customClass: {
-                    content: 'text_fontstyle'
-                }
-            })
-        } else {
-            props.history.push(`/encontrados/${decodedData.nickname}/${input}`)
-        }
-    }
-
     return (
         <>
             <Navbar />

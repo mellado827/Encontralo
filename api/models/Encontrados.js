@@ -62,8 +62,8 @@ const encontradosSchema = new Schema({
     celularUsuario: {
         type: String
     },
-    encontrado: {
-        type: Boolean
+    fechaEncontrado: {
+        type: String
     }
 })
 

@@ -7,9 +7,24 @@ import jwt_decode from 'jwt-decode'
 import axiosClient from '../config/axios'
 import Error from './error'
 import CommentBox from './commentBox'
+import FacebookLogin from 'react-facebook-login';
 
 function Comentarios(props) {
     let idcaso = props.match.params.idCaso
+
+    const [accessToken, setAccessToken] = useState("")
+
+    const componentClicked = data => {
+        console.log("data", data)
+    }
+
+    const responseFacebook = (response) => {
+        setAccessToken(response.accessToken)
+    }
+
+    if (accessToken) {
+        console.log("te has logueado")
+    }
 
     const [report, saveReports] = useState([])
     const [commentDB, setCommentDB] = useState([])
@@ -218,6 +233,12 @@ function Comentarios(props) {
         return viralInfo
     }
 
+    const dateFuncion = () => {
+        const date = new Date()
+        const fecha = `${date.getDate()}/${(date.getMonth() + 1)}/${date.getFullYear()}`
+        return fecha
+    }
+
     const subirAnimalEncontrado = async () => {
 
         Swal.fire({
@@ -255,7 +276,7 @@ function Comentarios(props) {
                 formData.append('usuario', animalEncontrado.usuario)
                 formData.append('emailUsuario', animalEncontrado.emailUsuario)
                 formData.append('celularUsuario', animalEncontrado.celularUsuario)
-                formData.append('encontrado', true)
+                formData.append('fechaEncontrado', dateFuncion())
 
                 const postAnimalEncontrado = await axiosClient.post('/encontrados', formData, {
                     headers: {
@@ -315,6 +336,12 @@ function Comentarios(props) {
                                         style={{ display: 'none' }}
                                         onClick={subirAnimalEncontrado}
                                         className="cta_bottonsstyle text_fontstyle ml-5">Encontrado</button>
+                                    <FacebookLogin
+                                        appId="292540865498072"
+                                        autoLoad={true}
+                                        fields="name,email,picture"
+                                        onClick={componentClicked}
+                                        callback={responseFacebook} />
                                 </div>
                             </div>
                             <div className="d-flex flex-wrap justify-content-center">

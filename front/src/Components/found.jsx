@@ -204,22 +204,12 @@ function Found(props) {
                                         />
                                     )
                                     )}
-
                             </div>
-
                         </>
-
                     </div>
-
                 </div>
             </>}
-
-
-
         </>
-
     )
 }
-
-
 export default Found
