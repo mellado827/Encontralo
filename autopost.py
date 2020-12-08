@@ -2,7 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 import time
-import keyboard
+import pyautogui
+# import keyboard
 
 chrome_option = webdriver.ChromeOptions()
 chrome_option.add_argument('--incognito')
@@ -20,3 +21,24 @@ emailInput.send_keys(username)
 passInput = driver.find_element_by_id("pass")
 passInput.send_keys(password)
 passInput.send_keys(Keys.ENTER)
+time.sleep(5)
+
+pyautogui.keyDown('ctrl')
+pyautogui.keyDown('t')
+pyautogui.keyUp('t')
+pyautogui.keyUp('ctrl')
+montevideoGroups = ["112863052073932", "897527373710221"]
+
+for i in range(len(montevideoGroups)):
+    link = 'http://facebook.com/groups/'+montevideoGroups[i]
+    pyautogui.typewrite(link)
+    pyautogui.typewrite('\n')
+
+    pyautogui.keyDown('ctrl')
+    pyautogui.keyDown('enter')
+    pyautogui.keyUp('enter')
+    pyautogui.keyUp('ctrl')
+
+    time.sleep(3)
+
+    pyautogui.write(['f6'])
