@@ -130,6 +130,8 @@ function Search(props) {
                                     <option value="">Tipo de mascota</option>
                                     <option value="Perro">Perro</option>
                                     <option value="Gato">Gato</option>
+                                    <option value="Conejo">Conejo</option>
+                                    <option value="Loro">Loro</option>
                                 </select>
                             </div>
 

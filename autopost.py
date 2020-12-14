@@ -3,7 +3,12 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 import time
 import pyautogui
-# import keyboard
+
+# from selenium.webdriver.common.action_chains import ActionChains
+# from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.support import expected_conditions as EC
+
 
 chrome_option = webdriver.ChromeOptions()
 chrome_option.add_argument('--incognito')
@@ -33,6 +38,10 @@ for i in range(len(montevideoGroups)):
     link = 'http://facebook.com/groups/'+montevideoGroups[i]
     pyautogui.typewrite(link)
     pyautogui.typewrite('\n')
+
+    # post = driver.find_element_by_xpath(
+    #     "//div/span[contains(text(), 'your mind')]")
+    # post.click()
 
     pyautogui.keyDown('ctrl')
     pyautogui.keyDown('enter')

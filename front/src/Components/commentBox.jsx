@@ -32,7 +32,6 @@ function CommentBox(props) {
     }
 
     const deleteComment = () => {
-
         Swal.fire({
             title: '¿Estás seguro?',
             text: "¡No vas a poder revertirlo!",
@@ -47,7 +46,6 @@ function CommentBox(props) {
             }
         }).then(async (result) => {
             if (result.isConfirmed) {
-
                 Swal.fire({
                     title: 'Comentario borrado',
                     text: 'Esperemos que no haya sido un comentario troll. Recargá la página para ver los cambios.',
@@ -56,32 +54,26 @@ function CommentBox(props) {
                         content: 'text_fontstyle'
                     }
                 })
-
                 await axiosClient.delete(`/comentarios/${comentario._id}`)
             }
-
-
         })
-
     }
 
     const [misCasos, setMisCasos] = useState([]);
 
     const chequearUsuarioLogueado = async () => {
-        if (token !== null) {
+        if (token) {
             const consultaCasosDeUsuario = await axiosClient.get(`/reportes/${decodedData.nickname}`)
             var comentariosPermitidosDeBorrar = consultaCasosDeUsuario.data.casosPorUsuario
             comentariosPermitidosDeBorrar.forEach(element => {
                 setMisCasos(element.idPublico)
             })
         }
-
     }
 
     useEffect(() => {
         chequearUsuarioLogueado()
     }, [])
-
 
     return (
         <>
@@ -104,7 +96,6 @@ function CommentBox(props) {
             </div>
         </>
     )
-
 }
 
 export default withRouter(CommentBox)

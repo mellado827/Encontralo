@@ -8,7 +8,7 @@ const reportesSchema = new Schema({
     },
     tipoMascota: {
         type: String,
-        enum: ['Perro', 'Gato'],
+        enum: ['Perro', 'Gato', 'Conejo', 'Loro'],
         required: true
     },
     estado: {

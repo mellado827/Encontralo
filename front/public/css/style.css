@@ -27,6 +27,12 @@
   text-shadow: 2px 2px #3f878a;
 }
 
+.overflow_index {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
 .verdeoscuro {
   color: #267888;
   text-shadow: 2px 2px #174d57;

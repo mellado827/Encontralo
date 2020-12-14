@@ -85,11 +85,9 @@ function EditReport(props) {
                             Authorization: `Bearer ${token}`
                         }
                     })
-
                     guardarUsuarios(clienteConsulta.data)
 
                 } catch (error) {
-                    // Error con autorización
                     console.log(error)
                     if (error.response.status === 500) {
                         props.history.push('/iniciarsesion')
@@ -103,8 +101,6 @@ function EditReport(props) {
         else {
             props.history.push('/iniciarsesion')
         }
-
-
     }, [usuarios])
 
     const [report, saveReport] = useState({
@@ -139,7 +135,6 @@ function EditReport(props) {
 
     const [imagePreview, setImagePreview] = useState('');
 
-
     const removeImage = e => {
         e.preventDefault()
         document.getElementById("img").src = 'https://www.amerikickkansas.com/wp-content/uploads/2017/04/default-image-620x600.jpg'
@@ -169,7 +164,6 @@ function EditReport(props) {
         setSelectedDate(date);
     };
 
-
     if (selectedDate != null) {
         var fecha = `${selectedDate.getDate()}/${(selectedDate.getMonth() + 1)}/${selectedDate.getFullYear()}`
     }
@@ -190,7 +184,6 @@ function EditReport(props) {
     const nombreUsuarioNuevo = report.nombreUsuario ? report.nombreUsuario : caso.nombreUsuario
     const descripcionUsuarioNuevo = report.descripcionUsuario ? report.descripcionUsuario : caso.descripcionUsuario
 
-
     const ViralInfo = () => {
 
         const realSex = () => {
@@ -206,7 +199,6 @@ function EditReport(props) {
                     break;
             }
         }
-
 
         const chip = () => {
             switch (chipNuevo) {
@@ -233,6 +225,8 @@ function EditReport(props) {
         `
 
         return viralInfo
+
+        //añadir "Cualquier cosa contactarse al ${decodedData.celular} antes de publicar la página
     }
 
     //añadir reporte
@@ -268,10 +262,7 @@ function EditReport(props) {
                 })
 
             } else {
-
                 var formData = new URLSearchParams();
-                // const forImage = new FormData()
-
                 formData.append('tipoMascota', tipomascota)
                 formData.append('estado', estadoNuevo)
                 formData.append('raza', razaNuevo)
@@ -305,9 +296,7 @@ function EditReport(props) {
                         }
                     }).then(async (result) => {
                         if (result.isConfirmed) {
-
                             try {
-
                                 Swal.fire({
                                     icon: 'info',
                                     title: 'Cargando...',
@@ -347,9 +336,6 @@ function EditReport(props) {
                                         }
                                     })
                                 }
-
-
-
                             } catch (error) {
                                 if (error.message === "Request failed with status code 413") {
                                     Swal.fire({
@@ -362,7 +348,6 @@ function EditReport(props) {
                                     })
                                 }
                             }
-
                         }
                     })
 
@@ -377,22 +362,16 @@ function EditReport(props) {
                         }
                     })
                 }
-
             }
         }
-
-
     }
 
     return (
         <>
             {casos.length === 0 ? <Presentation /> :
 
-
-
                 casosID.includes(idcaso) && caso.usuario === decodedData.nickname
                     ?
-
                     <>
                         <Navbar />
                         <div className="report">
@@ -400,11 +379,7 @@ function EditReport(props) {
                                 <h1 className="text-center subtitle_fontstyle report_title mt-5">Editar reporte</h1>
                                 <p className="text-center text_fontstyle"><strong><u>Los campos con * son obligatorios</u></strong></p>
                             </div>
-
-                            <div
-                                className="report_container"
-                            >
-
+                            <div className="report_container">
                                 <form
                                     className="pet_form form_style m-3 text_fontstyle d-flex flex-column"
                                     id="pet_form"
@@ -434,7 +409,6 @@ function EditReport(props) {
                                         <option value="Encontrado">Encontrado</option>
                                         <option value="Robado">Robado</option>
                                     </select>
-
                                     <label className="mt-4"> Raza </label>
                                     <input
                                         type="text"
@@ -443,7 +417,6 @@ function EditReport(props) {
                                         id="race"
                                         onChange={updateState}
                                     />
-
                                     <label className="mt-4">Nombre</label>
                                     <input
                                         type="text"
@@ -451,8 +424,6 @@ function EditReport(props) {
                                         name="nombre"
                                         placeholder={caso.nombre ? caso.nombre : undefined}
                                         onChange={updateState} />
-
-
                                     <label className="mt-4"> <u>Sexo</u> <strong>*</strong></label>
                                     <select
                                         name="sexo"
@@ -463,7 +434,6 @@ function EditReport(props) {
                                         <option value="Macho">Macho</option>
                                         <option value="Hembra">Hembra</option>
                                     </select>
-
                                     <div className="petphoto">
                                         <label className="mt-4"> <u>Foto</u> <strong>*</strong></label>
                                         <input
@@ -491,13 +461,8 @@ function EditReport(props) {
                                                 <img src="../../img/close.png" alt="Borrar imagen" className="close_button margin_cb_report"></img>
                                             </button>
                                         </div>
-
                                     </div>
-
-
-
                                     <label className="mt-4"> <u>Descripción</u> <strong>*</strong></label>
-
                                     <div className="petdescription d-flex flex-column">
                                         <textarea
                                             rows="10"
@@ -508,7 +473,6 @@ function EditReport(props) {
                                             onChange={updateState}
                                         ></textarea>
                                     </div>
-
                                     <label className="mt-4"> <u>¿Tiene chip?</u> <strong>*</strong></label>
                                     <div className="d-flex justify-content-around">
                                         <select
@@ -524,7 +488,6 @@ function EditReport(props) {
                                             <option value="No">No</option>
                                         </select>
                                     </div>
-
                                     <div className="last_timeseen d-flex flex-column mt-4">
                                         <label className="mt-4 text-center">Fecha</label>
                                         <div className="d-flex justify-content-center text_fontstyle">
@@ -540,7 +503,6 @@ function EditReport(props) {
                                                 maxDate={currentDay}
                                             />
                                         </div>
-
                                         <label className="mt-5 text_center">Hora</label>
                                         <div className="d-flex justify-content-center">
                                             <input type="time"
@@ -555,11 +517,9 @@ function EditReport(props) {
                                                 onClick={clearHour}
                                             >
                                                 x
-                    </button>
+                                            </button>
                                         </div>
-
                                     </div>
-
                                     <label className="mt-4"> <u>Departamento</u> <strong>*</strong></label>
                                     <div>
                                         <select
@@ -613,18 +573,13 @@ function EditReport(props) {
                                             placeholder={caso.lugar}
                                             onChange={updateState} />
                                     </div>
-
                                 </form>
-
-
                                 <div className="owner_form m-3 d-flex flex-column">
-
                                     <div className="owner_info m-2">
                                         <p className="text-center">
                                             <strong>Información del usuario</strong>
                                         </p>
                                     </div>
-
                                     <label className="mt-4 text_fontstyle">Nombre completo</label>
                                     <input
                                         name="nombreUsuario"
@@ -640,13 +595,11 @@ function EditReport(props) {
                                         className="text_fontstyle"
                                         value={decodedData ? decodedData.nickname : ``}
                                         disabled />
-
                                     <label className="mt-4 text_fontstyle"> <u>Correo electrónico</u> <strong></strong></label>
                                     <input type="email"
                                         className="text_fontstyle"
                                         value={decodedData ? decodedData.email : ``}
                                         disabled />
-
                                     <label className="mt-4 text_fontstyle"> <u>Número de teléfono</u> <strong></strong></label>
                                     <input type="text"
                                         className="text_fontstyle"
@@ -655,9 +608,8 @@ function EditReport(props) {
                                     <p className="text_fontstyle mt-4 text-center grey_color">En caso de que los datos que aparecen en pantalla no
                                     correspondan con su usuario, modifíquelos
                                     antes de reportar la desaparición.
-</p>
+                                    </p>
                                     <a href="/datospersonales" className="text-center text_fontstyle link">Datos personales</a>
-
                                     <label className="mt-4 text_fontstyle">Descripción</label>
                                     <textarea
                                         rows="10"
@@ -676,7 +628,7 @@ function EditReport(props) {
                                             id="report_button"
                                             onClick={editReport}
                                         >Editar
-                </button>
+                                        </button>
                                         <button
                                             type="button"
                                             className="cta_bottonsstyle mt-5 mb-5 text_fontstyle cta_bottonsstyle-green"
@@ -685,16 +637,8 @@ function EditReport(props) {
                                             id="preview_button">Vista previa</button>
                                     </div>
                                 </div>
-
-
-
                             </div>
-
-
-
                         </div>
-
-
 
                         <div id="previewReport_modal" className="modal fade show" role="dialog">
                             <div className="modal-dialog">
@@ -709,7 +653,6 @@ function EditReport(props) {
 
                                         <h1 className="title_fontstyle">SE BUSCA</h1>
                                         <div className="slideshow-container">
-
                                             <div className="petpic_container d-flex justify-content-center">
                                                 <img
                                                     src={imagenNuevo}
@@ -718,12 +661,9 @@ function EditReport(props) {
                                                     className="petphoto_width">
                                                 </img>
                                             </div>
-
                                             <div className="text_fontstyle">
                                                 {ViralInfo()}
                                             </div>
-
-
                                         </div>
 
                                     </div>
@@ -732,15 +672,10 @@ function EditReport(props) {
                             </div>
                         </div>
                     </>
-
-
-
-                    : < Error />}
-
-
+                    : < Error />
+            }
         </>
     )
-
-
 }
+
 export default withRouter(EditReport)

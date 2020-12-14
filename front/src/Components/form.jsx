@@ -13,7 +13,6 @@ export default function Form(props) {
         return "";
     };
 
-
     function emailForm(e) {
         e.preventDefault();
 
@@ -103,7 +102,6 @@ export default function Form(props) {
                             className="mt-3 cta_bottonsstyle text_fontstyle mb-3">Enviar
                         </button>
                     </div>
-
                 </form>
             </div>
         </>

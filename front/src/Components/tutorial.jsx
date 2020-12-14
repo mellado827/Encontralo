@@ -20,20 +20,20 @@ const Tutorial = () => (
                             </div>
                             <h1 className="subtitle_fontstyle text-center">
                                 <strong>
-                                    <span className="color_numHIW"> 1 - </span>Reportas la desaparición
+                                    <span className="color_numHIW"> 1 - </span>Difundís la desaparición
                                 </strong>
                             </h1>
                             <p className="text_fontstyle m-5 text-center">
-                                Para poder reportar la desaparición, tienes que <a href="/iniciarsesion" className="link">iniciar sesión</a> (si no tienes cuenta,
-                  <a href="/registrarse" className="link"> registrarte</a>) con tu cuenta de Encontralo.
+                                Para poder hacerlo, tenés que <a href="/iniciarsesion" className="link">iniciar sesión</a> (si no tenés cuenta,
+                  <a href="/registrarse" className="link"> registrate</a>) con tu cuenta de Encontralo.
                 </p>
                             <p className="text_fontstyle m-2 text-center">
-                                Una vez iniciada la sesión, tienes que <a href="/reportar" className="link">crear un reporte de
+                                Una vez iniciada la sesión, tenés que <a href="/difundir" className="link">difundir la
                     desaparición</a>.
                 </p>
                             <p className="text_fontstyle m-5 text-center">
-                                Con el reporte ya creado, puedes: modificar sus datos, dar de
-                  baja el caso y/o darlo como <u>encontrado</u>.
+                                Con el caso ya creado, podés: modificar sus datos, dar de
+                  baja el caso y/o reportarlo como <u>encontrado</u>.
                 </p>
                         </div>
                     </div>
@@ -60,15 +60,9 @@ const Tutorial = () => (
                   </strong>
                             </h1>
                             <p className="text_fontstyle m-5 text-center">
-                                Una vez hecho el formulario, se empieza a divulgar la noticia. Lo que hace
-                  Encontralo es que, al reportarse una desaparición, <u>automáticamente se
-                    comparte por distintos sitios</u>, como por ejemplo: grupos de Facebook acerca de rescate de animales,
-                  las redes sociales de Encontralo, enviamos emails a
-                  ciertas veterinarias que puedan compartir el aviso, ciertos rescatistas, entre otros.
+                                Una vez hecho el formulario, se empieza a divulgar la noticia en distintos grupos de Facebook
+                                acerca de rescate de animales de forma automática.
                 </p>
-                            <p className="text_fontstyle m-2 text-center">
-                                <u>Al ser automático, ¡No tienes que preocuparte por nada!</u>
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -89,13 +83,11 @@ const Tutorial = () => (
                             </div>
                             <h1 className="subtitle_fontstyle text-center">
                                 <strong>
-                                    <span className="color_numHIW"> 3 - </span>Mantente alerta
+                                    <span className="color_numHIW"> 3 - </span>Mantenete alerta
                   </strong>
                             </h1>
                             <p className="text_fontstyle m-5 text-center">
-                                Nosotros <u>recomendamos activar las notificaciones</u> respecto al progreso
-                  (avisos vía email o WhatsApp). Dichas notificaciones se pueden activar al crear el reporte de
-                  desaparición o, al editarlo, en caso de que ya lo hayas creado.
+                                Cada caso tiene una sección de comentarios donde distintos usuarios van aportando información.
                 </p>
                         </div>
                     </div>

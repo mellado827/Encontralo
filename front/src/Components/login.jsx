@@ -41,9 +41,6 @@ function Login(props) {
                 auth: true
             })
 
-            // let infoUsuario = jwt_decode(token)
-            // console.log(infoUsuario)
-
             //alerta
             Swal.fire({
                 icon: 'success',
@@ -53,23 +50,34 @@ function Login(props) {
                 }
             })
 
-            // if (props.history.goBack().includes('/recuperarcuenta')) {
-            //     props.history.push('/');
-            // } else {
-            //     props.history.goBack();
-            // }
-
+            props.history.goBack();
 
         } catch (error) {
             console.log(error)
-            Swal.fire({
-                icon: 'error',
-                title: 'Ups! Parece que hubo un problema.',
-                customClass: {
-                    content: 'text_fontstyle'
-                },
-                text: 'Intentalo de nuevo más tarde.'
-            })
+
+            if (error.message === "Request failed with status code 404") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ups! Parece que hubo un problema.',
+                    customClass: {
+                        content: 'text_fontstyle'
+                    },
+                    text: 'Usuario no existente. Intentalo de nuevo.'
+                })
+            }
+
+            if (error.message === "Request failed with status code 401") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ups! Parece que hubo un problema.',
+                    customClass: {
+                        content: 'text_fontstyle'
+                    },
+                    text: `La contraseña es incorrecta. Intentalo de nuevo.`
+                })
+            }
+
+
         }
     }
 
@@ -79,7 +87,7 @@ function Login(props) {
 
             <div className="loginANDsignup_background height_shared d-flex justify-content-center align-items-center">
                 <div className="login_container m-2">
-                    <h1 className="subtitle_fontstyle text-center m-3">Inicia sesión</h1>
+                    <h1 className="subtitle_fontstyle text-center m-3">Iniciá sesión</h1>
 
                     <form
                         onSubmit={iniciarSesion}
@@ -119,9 +127,7 @@ function Login(props) {
                         </div>
                     </form>
                     <div className="resetandsignup d-flex justify-content-around m-4 align-items-around">
-                        <a className="text_font text-center" href="/registrarse">¿No eres miembro?</a>
-                        <a className="text_font text-center" href="/olvidemicontrasena">Olvidé mi contraseña</a>
-
+                        <a className="text_font text-center" href="/registrarse">¿No sos miembro?</a>
                     </div>
                 </div>
             </div>

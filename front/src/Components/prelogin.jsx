@@ -3,7 +3,7 @@ import jwt_decode from 'jwt-decode'
 import Swal from 'sweetalert2'
 
 
-function PreLogin(props) {
+function PreLogin() {
 
     var current_time = Date.now() / 1000;
     const token = localStorage.getItem("token")
@@ -59,17 +59,13 @@ function PreLogin(props) {
         })
     }
 
-    const misAnimalesEncontrados = () => {
-        props.history.push(`/encontrados/${decodedData.nickname}`)
-    }
-
     return (
         <div>
             {token !== null ?
                 <div className="dropdown">
                     <span className="dropbtn text_fontstyle">Hola, {decodedData.nickname}</span>
                     <div className="dropdown-content text_fontstyle">
-                        <a href="/reportar">Reportar</a>
+                        <a href="/difundir">Difundir desaparición</a>
                         <a href="/datospersonales">Datos personales</a>
                         <a href="/miscasos">Mis casos</a>
                         <a href={`/misencontrados/${decodedData.nickname}`}>Mis animales encontrados</a>

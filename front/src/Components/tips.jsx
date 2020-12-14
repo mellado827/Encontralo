@@ -31,11 +31,11 @@ const Tips = () => (
                             </h1>
                             <h2 className="text_fontstyle mt-2 bold text-center">*<u>¿Qué debo hacer para evitar que se escapen?</u></h2>
                             <h2 className="text_fontstyle mt-3 ml-3">- <u>Evitar zonas conflictivas</u></h2>
-                            <p className="text_fontstyle mt-1 ml-3">Si por la zona hay una perra en celo o sabes
-                            que tu perro se pone especialmente alterado al pasar por cierto lugar, evítalo.
+                            <p className="text_fontstyle mt-1 ml-3">Si por la zona hay una perra en celo o sabés
+                            que tu perro se pone especialmente alterado al pasar por cierto lugar, evitalo.
 
                             No cuesta nada cambiar un poco la ruta y
-                            evitarle a nuestro perro ciertas distracciones que puedan hacerlo escapar, especialmente si está en fase
+                            evitarle al perro ciertas distracciones que puedan hacerlo escapar, especialmente si está en fase
                             de
               entrenamiento.</p>
                             <h2 className="text_fontstyle mt-2 ml-3">- <u>Responder a la llamada</u></h2>
@@ -46,25 +46,25 @@ const Tips = () => (
               Debemos tener paciencia y no enfadarnos si no acude. Es un proceso lento y depende de la confianza. </p>
                             <h2 className="text_fontstyle mt-2 ml-3">- <u>Respetar la puerta</u></h2>
                             <p className="text_fontstyle mt-1 ml-3">
-                                Si cada vez que abres la puerta de casa y tu perro intenta salir corriendo, debes saber que es un
+                                Si cada vez que abrís la puerta de casa y tu perro intenta salir corriendo, debés saber que es un
                                 problema de educación.
             </p>
                             <p className="text_fontstyle mt-1 ml-3">Cada vez que lo vayas a sacar a pasear,
-                            agarra la correa y dirígete a la puerta.
+                            agarrá la correa y dirígete a la puerta.
                             El perro debe estar tranquilo en el momento
                             que le pongas la correa y posteriormente,
                             cuando abras la puerta. Si no es así dí NO y
-                            cierra la puerta. Repite el proceso todos los
+                            cierra la puerta. Repetí el proceso todos los
               días antes de salir hasta que lo entienda.</p>
 
                             <h2 className="text_fontstyle mt-2 bold text-center">*<u>Consejos para cuidar a tu perro</u></h2>
                             <h2 className="text_fontstyle mt-2 ml-3">- <u>Llevarlo al veterinario</u></h2>
                             <p className="text_fontstyle mt-1 ml-3">
-                                Es bueno tener un veterinario de confianza al cual poder llevarle a nuestro perro para que le hagan
+                                Es bueno tener un veterinario de confianza al cual poder llevarle al perro para que le hagan
                                 chequeos de forma regular. Es la mejor forma de estar seguros de que nuestro perro está bien de salud.
                                 En ocasiones, nos podrá aconsejar sobre algún tratamiento que necesite el animal.
             </p>
-                            <h2 className="text_fontstyle mt-2 ml-3">- <u>Cólocale un microchip</u></h2>
+                            <h2 className="text_fontstyle mt-2 ml-3">- <u>Colocale un microchip</u></h2>
                             <p className="text_fontstyle mt-1 ml-3">
                                 Es útil ante una búsqueda. <i>Un perro con chip es más fácil de ser encontrado cuando ocurre un
                 extravío o hurto.</i> Los dueños tendrán acceso al sistema (con su CI y el número de chip del perro)
@@ -74,7 +74,7 @@ const Tips = () => (
               múltiples castraciones a un mismo perro.</p>
                             <h2 className="text_fontstyle mt-2 ml-3">- <u>Sé leal y paciente</u></h2>
                             <p className="text_fontstyle mt-1 ml-3">
-                                Asegúrate de que las expectativas que tienes depositadas en tu perro son razonables y recuerda siempre
+                                Asegurate de que las expectativas que tienes depositadas en tu perro son razonables y recordá siempre
               que <i>la gran mayoría de los problemas de comportamiento en perros se pueden resolver.</i>
                             </p>
 
@@ -90,14 +90,14 @@ const Tips = () => (
               en cualquier otro lugar, lo mejor es no sacarlo de ahí, y dejarlo tranquilo,
               ya que ahí se sienten más seguros.
             </p>
-                            <h2 className="text_fontstyle mt-2 ml-3">- <u>Aplica el método Wellington Touch</u></h2>
+                            <h2 className="text_fontstyle mt-2 ml-3">- <u>Método Wellington Touch</u></h2>
                             <p className="text_fontstyle mt-1 ml-3">
                                 Para poder hacerlo, se tiene que utilizar una venda y colocarle en el pecho de tu mascota, formando un
                                 “8” alrededor de su cuerpo, atando los extremos en
                                 la columna. Esto ayuda a estimular su circulación y estimulará que su animal se sienta más seguro y
                                 menos nervioso.
             </p>
-                            <h2 className="text_fontstyle mt-2 ml-3">- <u>Haz que se ejercite</u></h2>
+                            <h2 className="text_fontstyle mt-2 ml-3">- <u>Hacé que se ejercite</u></h2>
                             <p className="text_fontstyle mt-1 ml-3">
                                 Es muy importante que durante los días previos a esas jornadas donde tiran fuegos
                                 artificiales, tu perro pasee, juegue, corra y se canse lo
@@ -128,7 +128,7 @@ const Tips = () => (
                             <h2 className="text_fontstyle mt-3 ml-3">- <u>Estimular sus sentidos</u></h2>
                             <p className="text_fontstyle mt-1 ml-3">
                                 Se le pueden proporcionar ratones de trapo para que finjan cazarlos y así, estimular su instinto
-                                predador dentro del hogar. Dedicar tiempo a jugar con nuestro gato es muy importante para mantenerlo
+                                predador dentro del hogar. Dedicar tiempo a jugar con el gato es muy importante para mantenerlo
                                 entretenido y evitar así que busque diversión en otros lugares.
 
             </p>
@@ -155,10 +155,10 @@ const Tips = () => (
 
               Hacer esto es indispensable para llevar una buena relación entre ambos. </p>
 
-                            <h2 className="text_fontstyle mt-2 bold text-center">* <u>Consejos para cuidar a tu gato</u></h2>
+                            <h2 className="text_fontstyle mt-2 bold text-center">* <u>Consejos para cuidar al gato</u></h2>
                             <h2 className="text_fontstyle mt-2 ml-3">- <u>Llevarlo al veterinario</u></h2>
                             <p className="text_fontstyle mt-1 ml-3">
-                                Es bueno tener un veterinario de confianza al cual poder llevarle a nuestro gato para que le hagan
+                                Es bueno tener un veterinario de confianza al cual poder llevarlo para que le hagan
                                 chequeos de forma regular. Es la mejor forma de estar seguros de que nuestra mascota está bien de salud.
                                 En
                                 ocasiones, nos podrá aconsejar sobre algún tratamiento que necesite el animal.
@@ -169,8 +169,8 @@ const Tips = () => (
                                 fuera de ella. Se trata de animales muy limpios que
                                 respetan el entorno donde viven procurando una higiéne insólita.
 
-                                Recuerda que la caja de arena debe estar en un lugar apartado y de cómodo acceso para el gato. También,
-                                debes mantenerla limpia, por lo que recomendamos retirar las heces de forma diaria y cambiar la arena dos
+                                Recordá que la caja de arena debe estar en un lugar apartado y de cómodo acceso para el gato. También
+                                tenés que mantenerla limpia, por lo que recomendamos retirar las heces de forma diaria y cambiar la arena dos
                                 veces a la semana.
             </p>
                             <h2 className="text_fontstyle mt-2 ml-3">- <u>Estimulación mental</u></h2>

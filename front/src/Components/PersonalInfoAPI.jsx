@@ -92,9 +92,10 @@ function PersonalInfoAPI(props) {
     })
 
     const consultaPorEdit = async () => {
-        const consulta = await axiosClient.get(`/usuarios/${decodedData._id != undefined ? decodedData._id : ``}`)
-
-        datosUsuario(consulta.data)
+        if (token) {
+            const consulta = await axiosClient.get(`/usuarios/${decodedData._id}`)
+            datosUsuario(consulta.data)
+        }
     }
 
     useEffect(() => {

@@ -44,15 +44,17 @@ function MyCases(props) {
     const [animalesEncontrados, setAnimalesEncontrados] = useState([])
 
     const Consult = async () => {
-        if (decodedData.nickname) {
+        if (token) {
             const reportsConsult = await axiosClient.get(`/reportes/${decodedData.nickname}/${input}`)
             saveReports(reportsConsult.data)
+
+
+            const misAnimalesEncontrados = await axiosClient.get(`/encontrados/${decodedData.nickname}`)
+            setAnimalesEncontrados(misAnimalesEncontrados.data)
         } else {
             props.history.push("/iniciarsesion")
         }
 
-        const misAnimalesEncontrados = await axiosClient.get(`/encontrados/${decodedData.nickname}`)
-        setAnimalesEncontrados(misAnimalesEncontrados.data)
     }
 
     useEffect(() => {
@@ -148,11 +150,13 @@ function MyCases(props) {
     // cuando el componente carga
     useEffect(() => {
         // consultar la api para traer el reporte
-        const consultarAPI = async () => {
-            const reporteConsulta = await axiosClient.get(`/reportes/${decodedData.nickname}`);
-            verReporte(reporteConsulta.data)
+        if (token) {
+            const consultarAPI = async () => {
+                const reporteConsulta = await axiosClient.get(`/reportes/${decodedData.nickname}`);
+                verReporte(reporteConsulta.data)
+            }
+            consultarAPI();
         }
-        consultarAPI();
     }, [])
 
     for (let indice in reporte.casosPorUsuario) {
@@ -191,6 +195,8 @@ function MyCases(props) {
                                             <option value="">Tipo de mascota</option>
                                             <option value="Perro">Perro</option>
                                             <option value="Gato">Gato</option>
+                                            <option value="Conejo">Conejo</option>
+                                            <option value="Loro">Loro</option>
                                         </select>
                                     </div>
 
@@ -278,21 +284,13 @@ function MyCases(props) {
                                 :
                                 //cero casos
                                 <div className="d-flex justify-content-center align-items-center">
-                                    <div className="cerocases_container">
+                                    <div className="cerocases_container d-flex flex-column align-items-center">
 
                                         <p className="subtitle_fontstyle text-center nocases_text">
-                                            <i>Usted no ha reportado ninguna desaparición.</i>
+                                            <i>Usted no ha difundido ninguna desaparición.</i>
                                         </p>
 
-                                        <div className="d-flex align-items-center text_fontstyle cerocases_buttons">
-                                            <a type="button" className="cta_bottonsstyle mt-5 mb-5 text_fontstyle" href="/reportar">Reportar</a>
-                                            <button type="button"
-                                                className="cta_bottonsstyle cta_bottonsstyle-green mt-5 mb-5 text_fontstyle"
-                                            // onClick={window.history.back()}
-                                            >
-                                                Volver
-                                            </button>
-                                        </div>
+                                        <a type="button" className="cta_bottonsstyle mt-5 mb-5 text_fontstyle" href="/difundir">Difundir</a>
                                     </div>
                                 </div>
 

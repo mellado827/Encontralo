@@ -33,8 +33,6 @@ function Found(props) {
         }
     }
 
-    const [usuarios, guardarUsuarios] = useState([])
-
     const [animalesEncontrados, setAnimalesEncontrados] = useState([])
     const [animalesEncontradosPorUsuario, setanimalesEncontradosPorUsuario] = useState([])
     const [animalesEncontradosPorDep, setanimalesEncontradosPorDep] = useState([])
@@ -113,7 +111,6 @@ function Found(props) {
             { <>
                 <Navbar />
 
-
                 <div className="search search_container">
 
                     <h1 className="text-center subtitle_fontstyle search_title mt-5">
@@ -146,6 +143,8 @@ function Found(props) {
                                         <option value="">Tipo de mascota</option>
                                         <option value="Perro">Perro</option>
                                         <option value="Gato">Gato</option>
+                                        <option value="Conejo">Conejo</option>
+                                        <option value="Loro">Loro</option>
                                     </select>
                                 </div>
 

@@ -37,7 +37,7 @@ function App() {
             <Route path="/" exact component={Index} />
             <Route path="/iniciarsesion" exact component={Login} />
             <Route path="/registrarse" exact component={Signup} />
-            <Route path="/reportar" exact component={Report} />
+            <Route path="/difundir" exact component={Report} />
             <Route path="/datospersonales" exact component={PersonalInfo} />
             <Route path="/contrasena" exact component={Password} />
             <Route path="/buscar" exact component={Search} />
@@ -47,7 +47,7 @@ function App() {
             <Route path="/miscasos/:usuario/:dep" exact component={SearchMyCases} />
             <Route path="/reportes/:idCaso" exact component={Tracing} />
             <Route path="/reportes/:idCaso/editar" exact component={EditReport} />
-            <Route path="/olvidemicontrasena" exact component={SendEmailToResetPass} />
+            {/* <Route path="/olvidemicontrasena" exact component={SendEmailToResetPass} /> */}
             <Route path="/recuperarcuenta/:email" exact component={ResetPassword} />
             <Route path="/encontrados" exact component={Found} />
             <Route path="/encontrados/:comodin" exact component={SearchingFoundPets} />

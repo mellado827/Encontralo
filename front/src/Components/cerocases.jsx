@@ -53,10 +53,6 @@ function CeroCases(props) {
 
             consultarAPI()
         }
-        // else {
-        //     props.history.push('/iniciarsesion')
-        // }
-
 
     }, [usuarios])
 

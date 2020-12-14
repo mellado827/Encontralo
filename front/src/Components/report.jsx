@@ -194,8 +194,8 @@ function Report(props) {
         ${hora ? `a las ${hora}.` : ``}
         ${nombre ? `Responde al nombre de ${nombre}` : `Se desconoce el nombre`}, ${raza ? `raza ${raza}` : `raza no especificada`}.
         ${chip()}. Datos de vital importancia: ${descripcion}. ${nombreUsuario ? `La persona responsable es ${nombreUsuario}.` : ``}
-        ${descripcionUsuario ? `Datos adicionales de la persona responsable: ${descripcionUsuario}` : ``}
-        
+        ${descripcionUsuario ? `Datos adicionales de la persona responsable: ${descripcionUsuario}` : ``}. 
+              
         No cuesta NADA compartir. La calle no es hogar para nadie...
 
         #Uruguay #${departamento} #Animal${estado} #SeBusca
@@ -358,8 +358,8 @@ function Report(props) {
 
             <div className="report">
                 <div className="report_title">
-                    <h1 className="text-center subtitle_fontstyle report_title mt-5">Reportar desaparición</h1>
-                    <p className="text-center text_fontstyle">Completa el siguiente formulario:</p>
+                    <h1 className="text-center subtitle_fontstyle report_title mt-5">Difundir desaparición</h1>
+                    <p className="text-center text_fontstyle">Completá el siguiente formulario:</p>
                     <p className="text-center text_fontstyle"><strong><u>Los campos con * son obligatorios</u></strong></p>
                 </div>
 
@@ -385,6 +385,8 @@ function Report(props) {
                             <option value="">Seleccionar...</option>
                             <option value="Perro">Perro</option>
                             <option value="Gato">Gato</option>
+                            <option value="Conejo">Conejo</option>
+                            <option value="Loro">Loro</option>
                         </select>
 
                         <label className="mt-4"><u>Estado</u> *</label>
