@@ -1,25 +1,14 @@
 const express = require('express')
 const routes = require('./routes')
-const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const database = require("./config/database");
+
+//coneccion a la base de datos
+database.connectDatabase();
 
 //Importar cors 
 const cors = require('cors')
 
-mongoose.Promise = global.Promise
-mongoose.connect('mongodb://localhost/encontralo', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-}).then(() => {
-    console.clear()
-    console.log("------------------------------------------------------")
-    console.log("Base de datos iniciada satisfactoriamente - Encontralo")
-    console.log("------------------------------------------------------")
-
-}).catch(err => {
-    console.log("Error al conectar con la BD: " + err)
-})
 // crear el servidor
 const app = express();
 mongoose.set('useCreateIndex', true)
