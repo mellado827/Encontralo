@@ -1,7 +1,8 @@
 const routerx = require("express-promise-router")
 const usuariosRouter = require('./usuarios')
 const reportesRouter = require('./reportes')
-const comentariosController = require('../controllers/comentariosController')
+const comentariosRouter = require('./comentarios')
+
 const encontradosController = require('../controllers/encontradosController')
 
 //middle para proteger rutas
@@ -13,18 +14,7 @@ module.exports = function () {
 
     router.use('/usuarios', usuariosRouter)
     router.use('/reportes', reportesRouter)
-
-    //----- COMENTARIOS ------
-    //postear nuevo comentario
-    router.post('/comentarios', comentariosController.nuevoComentario)
-
-    //Mostrar todos los comentarios
-    router.get('/comentarios', comentariosController.mostrarTodosComentarios)
-
-    //Mostrar comentarios del reporte de un usuario logueado
-    router.get('/comentarios/:caso', comentariosController.mostrarComentarios)
-
-    router.delete('/comentarios/:id', comentariosController.borrarComentario)
+    router.use('/comentarios', comentariosRouter)
 
     //----- ENCONTRADOS -----
     //publicar un animal encontrado
