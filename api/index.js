@@ -11,7 +11,6 @@ const cors = require('cors')
 
 // crear el servidor
 const app = express();
-mongoose.set('useCreateIndex', true)
 
 app.use(cors());
 app.use(express.json());
