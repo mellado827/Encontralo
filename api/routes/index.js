@@ -1,6 +1,6 @@
 const routerx = require("express-promise-router")
 const usuariosRouter = require('./usuarios')
-const reportesController = require('../controllers/reportesController')
+const reportesRouter = require('./reportes')
 const comentariosController = require('../controllers/comentariosController')
 const encontradosController = require('../controllers/encontradosController')
 
@@ -12,33 +12,7 @@ const router = routerx();
 module.exports = function () {
 
     router.use('/usuarios', usuariosRouter)
-    
-    //*REPORTES*
-
-    //Agregar un reporte
-    router.post('/reportes',
-        reportesController.subirArchivo,
-        reportesController.nuevoReporte)
-
-    //Mostrar todos los reportes
-    router.get('/reportes', reportesController.mostrarReportes)
-
-    //Mostrar reportes por tipo
-    router.get('/reportes/:comodin',
-        reportesController.mostrarReportePorDepartamentoOTipo,
-        // reportesController.misCasos
-    )
-
-    router.get('/reportes/:usuario/:dep',
-        reportesController.departamentoCasos)
-
-    //Actualizar reportes
-    router.patch('/reportes/:idReporte',
-        reportesController.actualizarReporte)
-
-    //Eliminar reportes
-    router.delete('/reportes/:idReporte',
-        reportesController.eliminarReporte)
+    router.use('/reportes', reportesRouter)
 
     //----- COMENTARIOS ------
     //postear nuevo comentario
