@@ -14,4 +14,4 @@ router.get('/:usuario', encontradosController.animalesEncontradosPorUsuario)
 //obtener animales encontrados por: departamento, ID público y tipo de mascota
 router.get('/:usuario/:comodin', encontradosController.departamentoTipoID)
 
-export default router;
+module.exports = router;

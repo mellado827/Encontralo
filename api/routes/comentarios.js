@@ -14,4 +14,4 @@ router.get('/:caso', comentariosController.mostrarComentarios)
 
 router.delete('/:id', comentariosController.borrarComentario)
 
-export default router;
+module.exports = router;

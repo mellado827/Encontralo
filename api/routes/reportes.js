@@ -28,4 +28,4 @@ router.patch("/:idReporte", reportesController.actualizarReporte);
 //Eliminar reportes
 router.delete("/:idReporte", reportesController.eliminarReporte);
 
-export default router;
+module.exports = router;

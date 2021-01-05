@@ -29,4 +29,4 @@ router.put(
 //Eliminar usuario
 router.delete("/:idUsuario", usuarioController.eliminarUsuario);
 
-export default router;
+module.exports = router;
