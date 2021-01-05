@@ -30,7 +30,7 @@ function Login(props) {
         //autenticar
         try {
 
-            const res = await axiosClient.post('/iniciarsesion', credenciales)
+            const res = await axiosClient.post('/usuarios/iniciarsesion', credenciales)
             //extraer el token y colocarlo en localstorage
             const { token } = res.data
             localStorage.setItem('token', token)
