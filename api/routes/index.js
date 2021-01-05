@@ -1,6 +1,5 @@
-const express = require('express')
-const router = express.Router()
-const usuarioController = require('../controllers/usuarioController')
+const routerx = require("express-promise-router")
+const usuariosRouter = require('./usuarios')
 const reportesController = require('../controllers/reportesController')
 const comentariosController = require('../controllers/comentariosController')
 const encontradosController = require('../controllers/encontradosController')
@@ -8,34 +7,12 @@ const encontradosController = require('../controllers/encontradosController')
 //middle para proteger rutas
 const auth = require('../middleware/auth')
 
+const router = routerx();
+
 module.exports = function () {
-    //Agregar nuevos usuarios
-    router.post('/usuarios',
-        usuarioController.nuevoUsuario)
 
-    //Agregar nuevos usuarios
-    router.post('/iniciarsesion', usuarioController.autenticarUsuario)
-
-    //Obtener usuarios
-    router.get('/usuarios',
-        // auth,
-        usuarioController.mostrarUsuarios)
-
-    //Mostrar un usuario en específico
-    router.get('/usuarios/:comodin',
-        usuarioController.mostrarUsuario)
-
-    // router.put('/usuarios/:comodin',
-    // usuarioController.resetPassword)
-
-    //Actualizar usuario
-    router.put('/usuarios/:idUsuario',
-        usuarioController.actualizarUsuario,
-        usuarioController.contraseña)
-
-    //Eliminar usuario
-    router.delete('/usuarios/:idUsuario', usuarioController.eliminarUsuario)
-
+    router.use('/usuarios', usuariosRouter)
+    
     //*REPORTES*
 
     //Agregar un reporte

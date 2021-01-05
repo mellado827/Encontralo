@@ -25,6 +25,7 @@
     "email-existence": "^0.1.6",
     "email-exists": "^0.2.1",
     "express": "^4.17.1",
+    "express-promise-router": "^4.0.1",
     "jsonwebtoken": "^8.5.1",
     "mongo-image-converter": "^1.0.2",
     "mongodb": "^3.6.2",
