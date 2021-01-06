@@ -87,18 +87,17 @@ exports.mostrarReportePorDepartamentoOTipo = async (req, res, next) => {
         })
 
         const casosPorUsuario = await Reportes.find({
-            usuario: req.params.comodin
+            idUsuario: req.params.comodin
         })
-
-        // const reporteEnEspecifico = await Reportes.findById(req.params.comodin)
 
         res.json({
             reportePorDepartamento,
             reportePorTipo,
             reportePorIDpublico,
-            casosPorUsuario,
-            // reporteEnEspecifico
+            casosPorUsuario
         })
+
+        console.log(casosPorUsuario)
 
     } catch (error) {
         console.log(error)

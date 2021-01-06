@@ -182,6 +182,9 @@ exports.mostrarUsuario = async (req, res, next) => {
 
 exports.actualizarUsuario = async (req, res, next) => {
     try {
+
+        var emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
         if (req.body.email.match(emailValido)) {
             var usuario = await Usuarios.findOneAndUpdate({ _id: req.params.idUsuario },
                 req.body, {

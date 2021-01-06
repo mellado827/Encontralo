@@ -41,6 +41,8 @@ function MyCases(props) {
         setInput(e.target.value)
     }
 
+    console.log(decodedData)
+
     const [animalesEncontrados, setAnimalesEncontrados] = useState([])
 
     const Consult = async () => {
@@ -147,12 +149,15 @@ function MyCases(props) {
 
     const [reporte, verReporte] = useState([]);
 
+    console.log(reporte)
+
     // cuando el componente carga
     useEffect(() => {
         // consultar la api para traer el reporte
         if (token) {
             const consultarAPI = async () => {
-                const reporteConsulta = await axiosClient.get(`/reportes/${decodedData.nickname}`);
+                const reporteConsulta = await axiosClient.get(`/reportes/${decodedData._id}`);
+                console.log(reporteConsulta)
                 verReporte(reporteConsulta.data)
             }
             consultarAPI();

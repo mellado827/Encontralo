@@ -9,13 +9,9 @@ const auth = require('../middleware/auth')
 
 const router = routerx();
 
-module.exports = function () {
+router.use('/usuarios', usuariosRouter)
+router.use('/reportes', reportesRouter)
+router.use('/comentarios', comentariosRouter)
+router.use('/encontrados', encontradosRouter)
 
-    router.use('/usuarios', usuariosRouter)
-    router.use('/reportes', reportesRouter)
-    router.use('/comentarios', comentariosRouter)
-    router.use('/encontrados', encontradosRouter)
-
-    return router
-
-}
+module.exports = router

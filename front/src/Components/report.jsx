@@ -94,6 +94,7 @@ function Report(props) {
         descripcionUsuario: '',
         informacionADifundir: '',
         idPublico: '',
+        idUsuario: '',
         usuario: '',
         emailUsuario: '',
         celularUsuario: ''
@@ -241,6 +242,7 @@ function Report(props) {
             formData.append('descripcionUsuario', report.descripcionUsuario)
             formData.append('informacionADifundir', ViralInfo())
             formData.append('idPublico', id)
+            formData.append('idUsuario', decodedData._id)
             formData.append('usuario', decodedData.nickname)
             formData.append('emailUsuario', decodedData.email)
             formData.append('celularUsuario', `0${decodedData.celular}`)

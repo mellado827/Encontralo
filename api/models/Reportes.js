@@ -63,9 +63,9 @@ const reportesSchema = new Schema({
     imagen: {
         type: String
     },
-    // rutaImagen: {
-    //     type: String
-    // },
+    idUsuario: {
+        type: String
+    },
     nombreUsuario: {
         type: String,
         trim: true
