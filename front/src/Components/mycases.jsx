@@ -45,11 +45,11 @@ function MyCases(props) {
 
     const Consult = async () => {
         if (token) {
-            const reportsConsult = await axiosClient.get(`/reportes/${decodedData.nickname}/${input}`)
+            const reportsConsult = await axiosClient.get(`/reportes/${decodedData._id}/${input}`)
             saveReports(reportsConsult.data)
 
 
-            const misAnimalesEncontrados = await axiosClient.get(`/encontrados/${decodedData.nickname}`)
+            const misAnimalesEncontrados = await axiosClient.get(`/encontrados/${decodedData._id}`)
             setAnimalesEncontrados(misAnimalesEncontrados.data)
         } else {
             props.history.push("/iniciarsesion")

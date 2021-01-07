@@ -83,7 +83,7 @@ function LostPetCard(props) {
                         if (resultado.isConfirmed) {
 
                             const consultarAPI = async () => {
-                                const reporteConsulta = await axiosClient.delete(`/reportes/${props.report._id}`);
+                                const reporteConsulta = await axiosClient.delete(`/reportes/${props.report.idPublico}`);
                                 verReporte(reporteConsulta.data)
                             }
                             consultarAPI();

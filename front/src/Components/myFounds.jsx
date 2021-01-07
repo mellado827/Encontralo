@@ -75,7 +75,7 @@ function MyFounds(props) {
     useEffect(() => {
         // consultar la api para traer el reporte
         const consultarAPI = async () => {
-            const reporteConsulta = await axiosClient.get(`/encontrados/${decodedData.nickname}`);
+            const reporteConsulta = await axiosClient.get(`/encontrados/${decodedData._id}`);
             verReporte(reporteConsulta.data.casosPorUsuario)
         }
         consultarAPI();
@@ -122,7 +122,7 @@ function MyFounds(props) {
                 }
             })
         } else {
-            props.history.push(`/encontrados/${decodedData.nickname}/${input}`)
+            props.history.push(`/encontrados/${decodedData._id}/${input}`)
         }
     }
 

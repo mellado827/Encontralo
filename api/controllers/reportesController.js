@@ -148,7 +148,7 @@ exports.departamentoCasos = async (req, res, next) => {
 };
 
 exports.mostrarReporte = async (req, res, next) => {
-  const reporte = await Reportes.findById(req.params.idReporte);
+  const reporte = await Reportes.find({ idPublico: req.params.idReporte });
 
   try {
     if (!reporte) {
@@ -182,7 +182,7 @@ exports.actualizarReporte = async (req, res, next) => {
 //Eliminar un reporte
 exports.eliminarReporte = async (req, res, next) => {
   try {
-    await Reportes.findByIdAndDelete({ _id: req.params.idReporte });
+    await Reportes.findOneAndRemove({ idPublico: req.params.idReporte });
     res.json({ mensaje: "Se ha eliminado el producto" });
   } catch (error) {
     console.log(error);

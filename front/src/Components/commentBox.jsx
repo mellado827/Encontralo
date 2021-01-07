@@ -63,7 +63,7 @@ function CommentBox(props) {
 
     const chequearUsuarioLogueado = async () => {
         if (token) {
-            const consultaCasosDeUsuario = await axiosClient.get(`/reportes/${decodedData.nickname}`)
+            const consultaCasosDeUsuario = await axiosClient.get(`/reportes/${decodedData._id}`)
             var comentariosPermitidosDeBorrar = consultaCasosDeUsuario.data.casosPorUsuario
             comentariosPermitidosDeBorrar.forEach(element => {
                 setMisCasos(element.idPublico)

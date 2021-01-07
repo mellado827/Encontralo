@@ -147,11 +147,12 @@ function Comentarios(props) {
     }
 
     const arr = []
+    const idPublicoURL = window.location.href.split("/")[4]
 
     const chequearUsuarioLogueado = async () => {
         if (token !== null) {
-            const consultaCasosDeUsuario = await axiosClient.get(`/reportes/${decodedData.nickname}`)
-            const comentariosPermitidosDeBorrar = consultaCasosDeUsuario.data.casosPorUsuario
+            const consultaCasosDeUsuario = await axiosClient.get(`/reportes/${idPublicoURL}`)
+            const comentariosPermitidosDeBorrar = consultaCasosDeUsuario.data.reportePorIDpublico
             comentariosPermitidosDeBorrar.forEach(element => {
                 arr.push(element.idPublico)
             })
@@ -260,6 +261,7 @@ function Comentarios(props) {
                 formData.append('descripcionUsuario', animalEncontrado.descripcionUsuario)
                 formData.append('informacionADifundir', informacionADifundir())
                 formData.append('idPublico', animalEncontrado.idPublico)
+                formData.append('idUsuario', decodedData._id)
                 formData.append('usuario', animalEncontrado.usuario)
                 formData.append('emailUsuario', animalEncontrado.emailUsuario)
                 formData.append('celularUsuario', animalEncontrado.celularUsuario)
@@ -271,8 +273,7 @@ function Comentarios(props) {
                     }
                 })
 
-                const quitarCasoActivo = await axiosClient.delete(`/reportes/${animalEncontrado._id}`);
-
+                const quitarCasoActivo = await axiosClient.delete(`/reportes/${idPublicoURL}`);
 
                 if (postAnimalEncontrado.status === 200 && quitarCasoActivo.status === 200) {
                     Swal.fire({
