@@ -1,24 +1,21 @@
 const routerx = require("express-promise-router");
 const reportesController = require("../controllers/reportesController");
+const multiparty = require("connect-multiparty");
 
+let md_upload = multiparty({ uploadDir: "upload/images" });
 const router = routerx();
 
 //Agregar un reporte
-router.post(
-  "/",
-  reportesController.subirArchivo,
-  reportesController.nuevoReporte
-);
+router.post("/", reportesController.nuevoReporte);
 
 //Mostrar todos los reportes
 router.get("/", reportesController.mostrarReportes);
 
+router.post("/upload-image/:id", md_upload, reportesController.upload);
+router.put("/upload-image/:id", md_upload, reportesController.upload);
+
 //Mostrar reportes por tipo
-router.get(
-  "/:comodin",
-  reportesController.mostrarReportePorDepartamentoOTipo
-  // reportesController.misCasos
-);
+router.get("/:comodin", reportesController.mostrarReportePorDepartamentoOTipo);
 
 router.get("/:usuario/:dep", reportesController.departamentoCasos);
 

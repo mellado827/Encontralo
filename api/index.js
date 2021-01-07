@@ -1,32 +1,38 @@
-const express = require('express')
-const routes = require('./routes')
-const bodyParser = require('body-parser')
-const morgan = require('morgan')
+const express = require("express");
+const routes = require("./routes");
+const bodyParser = require("body-parser");
+const morgan = require("morgan");
 const database = require("./config/database");
+require("dotenv").config();
 
 //coneccion a la base de datos
 database.connectDatabase();
 
-//Importar cors 
-const cors = require('cors')
+//Importar cors
+const cors = require("cors");
 
 // crear el servidor
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(morgan("dev"))
+app.use(morgan("dev"));
 
 // habilitar bodyparser
-app.use(bodyParser.json({ limit: '50mb' }));
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(
+  bodyParser.urlencoded({
+    limit: "50mb",
+    extended: true,
+    parameterLimit: 50000,
+  })
+);
 
 // Rutas de la app
-app.use('/', routes);
+app.use("/", routes);
 
 // carpeta publica
-app.use(express.static('images'));
+app.use(express.static("images"));
 
 // puerto
 app.listen(5000);
-

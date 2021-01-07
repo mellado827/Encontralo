@@ -41,8 +41,6 @@ function MyCases(props) {
         setInput(e.target.value)
     }
 
-    console.log(decodedData)
-
     const [animalesEncontrados, setAnimalesEncontrados] = useState([])
 
     const Consult = async () => {
