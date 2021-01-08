@@ -1,7 +1,7 @@
 const Reportes = require("../models/Reportes");
 const { fs, exists } = require("fs");
 const path = require("path");
-const cloudinary = require("cloudinary");
+const cloudinary = require("../config/cloudinary");
 const normalize = require("normalize-path");
 
 //Agregar un reporte
@@ -47,7 +47,7 @@ exports.upload = async (req, res, next) => {
       await Reportes.findOne({
         where: { idPublico: req.params.id },
       }).then(async (reporte) => {
-        const result = await cloudinary.v2.uploader.upload(file_path);
+        const result = await cloudinary.uploader.upload(file_path);
         if (result.url) {
           reporte
             .update({ imagen: result.url })
