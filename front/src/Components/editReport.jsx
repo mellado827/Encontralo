@@ -31,7 +31,7 @@ function EditReport(props) {
     useEffect(() => {
         Consult()
     }, [])
-
+  
     if (caso.length > 0) {
         caso.forEach(element => {
             saveCaso(element)
@@ -101,7 +101,7 @@ function EditReport(props) {
         else {
             props.history.push('/iniciarsesion')
         }
-    }, [usuarios])
+    }, [])
 
     const [report, saveReport] = useState({
         tipoMascota: '',
@@ -369,8 +369,7 @@ function EditReport(props) {
     return (
         <>
             {casos.length === 0 ? <Presentation /> :
-
-                casosID.includes(idcaso) && caso.usuario === decodedData.nickname
+                 casosID.includes(idcaso) && caso.usuario === decodedData.nickname
                     ?
                     <>
                         <Navbar />

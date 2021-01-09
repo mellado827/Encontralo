@@ -3,6 +3,7 @@ const { fs, exists } = require("fs");
 const path = require("path");
 const cloudinary = require("../config/cloudinary");
 const normalize = require("normalize-path");
+const { EEXIST } = require("constants");
 
 //Agregar un reporte
 exports.nuevoReporte = async (req, res, next) => {
@@ -23,7 +24,6 @@ exports.upload = async (req, res, next) => {
     }
 
     let file_path = normalize(req.files.file0.path);
-
     let file_split = file_path.split("/");
     let file_name = file_split[2];
     let ext_split = file_name.split(".");
@@ -44,31 +44,37 @@ exports.upload = async (req, res, next) => {
         });
       });
     } else {
-      await Reportes.findOne({
-        where: { idPublico: req.params.id },
-      }).then(async (reporte) => {
-        const result = await cloudinary.uploader.upload(file_path);
-        if (result.url) {
-          reporte
-            .update({ imagen: result.url })
-            .then((reg) => {
-              res.status(200).json(reg);
-            })
-            .catch(function (err) {
-              res.status(404).send({
-                status: "error",
-                message: "Error al guardar la imagen",
-              });
-              console.log(err);
-            });
-        } else {
-          console.log("ERROR: upload image: ", result);
-          res.status(404).send({
-            status: "error",
-            message: "Error al guardar la imagen",
-          });
-        }
-      });
+      const result = await cloudinary.uploader.upload(file_path);
+      if (result.url) {
+        let reporte = await Reportes.findOneAndUpdate(
+          { idPublico: req.params.id },
+          {
+            imagen: result.url,
+          }
+        );
+        console.log(result.url);
+        console.log("-----");
+        console.log(reporte.imagen);
+        console.log("-----");
+        console.log(reporte);
+        // Reportes.findOne({ idPublico: req.params.id }).then(async (reporte) => {
+        //   reporte
+        //     .update({ imagen: result.url })
+        //     .then(res.status(200).json(reporte))
+        //     .catch(function (err) {
+        //       res.status(402).send({
+        //         status: "error",
+        //         message: "Error al actualizar la imagen",
+        //       });
+        //     });
+        // });
+      } else {
+        console.log("ERROR: upload image: ", result);
+        res.status(404).send({
+          status: "error",
+          message: "Error al guardar la imagen",
+        });
+      }
     }
   } catch (error) {
     console.log(error);
