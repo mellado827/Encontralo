@@ -29,6 +29,9 @@ const reportesSchema = new Schema({
     enum: ["Macho", "Hembra"],
     required: true,
   },
+  imagen: {
+    type: String,
+  },
   descripcion: {
     type: String,
     trim: true,

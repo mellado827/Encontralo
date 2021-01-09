@@ -23,7 +23,7 @@ exports.upload = async (req, res, next) => {
       return res.status(404).send({ status: "Error", message: "file_name" });
     }
 
-    let file_path = normalize(req.files.file0.path);
+    let file_path = normalize(req.files.imagen.path);
     let file_split = file_path.split("/");
     let file_name = file_split[2];
     let ext_split = file_name.split(".");
@@ -32,6 +32,7 @@ exports.upload = async (req, res, next) => {
     //comprueba la extension
     if (
       file_ext != "png" &&
+      file_ext != "PNG" &&
       file_ext != "jpg" &&
       file_ext != "jpeg" &&
       file_ext != "gif"
@@ -46,28 +47,20 @@ exports.upload = async (req, res, next) => {
     } else {
       const result = await cloudinary.uploader.upload(file_path);
       if (result.url) {
-        let reporte = await Reportes.findOneAndUpdate(
+        await Reportes.findOneAndUpdate(
           { idPublico: req.params.id },
-          {
-            imagen: result.url,
+          { imagen: result.url }
+        ).then((reporteNuevo) => {
+          if (reporteNuevo) {
+            res.status(200).json(reporteNuevo);
+            console.log("La imagen ha sido modificada");
+          } else {
+            res.status(402).send({
+              status: "error",
+              message: "Error al actualizar la imagen",
+            });
           }
-        );
-        console.log(result.url);
-        console.log("-----");
-        console.log(reporte.imagen);
-        console.log("-----");
-        console.log(reporte);
-        // Reportes.findOne({ idPublico: req.params.id }).then(async (reporte) => {
-        //   reporte
-        //     .update({ imagen: result.url })
-        //     .then(res.status(200).json(reporte))
-        //     .catch(function (err) {
-        //       res.status(402).send({
-        //         status: "error",
-        //         message: "Error al actualizar la imagen",
-        //       });
-        //     });
-        // });
+        });
       } else {
         console.log("ERROR: upload image: ", result);
         res.status(404).send({

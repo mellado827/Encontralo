@@ -6,12 +6,9 @@ let md_upload = multiparty({ uploadDir: "upload/images" });
 const router = routerx();
 
 //Agregar un reporte
-router.post(
-  "/",
-  md_upload,
-  reportesController.nuevoReporte,
-  reportesController.upload
-);
+// router.post("/", md_upload, reportesController.upload);
+
+router.post("/", reportesController.nuevoReporte);
 
 //Mostrar todos los reportes
 router.get("/", reportesController.mostrarReportes);
