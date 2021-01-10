@@ -1,9 +1,7 @@
 const Reportes = require("../models/Reportes");
 const { fs, exists } = require("fs");
-const path = require("path");
 const cloudinary = require("../config/cloudinary");
 const normalize = require("normalize-path");
-const { EEXIST } = require("constants");
 
 //Agregar un reporte
 exports.nuevoReporte = async (req, res, next) => {
@@ -23,7 +21,7 @@ exports.upload = async (req, res, next) => {
       return res.status(404).send({ status: "Error", message: "file_name" });
     }
 
-    let file_path = normalize(req.files.imagen.path);
+    let file_path = normalize(req.files.file0.path);
     let file_split = file_path.split("/");
     let file_name = file_split[2];
     let ext_split = file_name.split(".");

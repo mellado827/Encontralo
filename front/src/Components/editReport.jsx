@@ -133,7 +133,7 @@ function EditReport(props) {
         })
     }
 
-    const [imagePreview, setImagePreview] = useState('');
+    const [imagePreview, setImagePreview] = useState({});
 
     const removeImage = e => {
         e.preventDefault()
@@ -142,16 +142,16 @@ function EditReport(props) {
     }
 
     const readImage = e => {
-        // return setImagePreview(e.target.files[0])
-        let reader = new FileReader()
-        reader.readAsDataURL(e.target.files[0]) // la paso a base64 porque sino no funciona
-        reader.onload = () => {
-            if (reader.readyState === 2) {
-                setImagePreview(reader.result)
-            }
-        }
-    }
-
+        return setImagePreview(e.target.files[0])
+        // let reader = new FileReader()
+        // reader.readAsDataURL(e.target.files[0]) // la paso a base64 porque sino no funciona
+        // reader.onload = () => {
+        //     if (reader.readyState === 2) {
+        //         setImagePreview(reader.result)
+        //     }
+        // }    
+    }    
+    
     const clearHour = e => {
         e.preventDefault()
         document.getElementById("missing_hour").value = ""
@@ -229,6 +229,23 @@ function EditReport(props) {
         //añadir "Cualquier cosa contactarse al ${decodedData.celular} antes de publicar la página
     }
 
+    const subirImagen = async () => {
+        var formData = new FormData();
+        formData.append('file0', imagePreview)
+
+        await axiosClient.put(`/reportes/${idcaso}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(async (result) => {
+            console.log(result)            
+        }).catch((error) => {
+            Swal.fire({
+                text: error
+            })
+        }) 
+    }
+
     //añadir reporte
     const editReport = e => {
 
@@ -269,7 +286,7 @@ function EditReport(props) {
                 formData.append('nombre', nombreNuevo)
                 formData.append('sexo', sexoNuevo)
                 formData.append('fecha', fechaNuevo)
-                formData.append('imagen', imagenNuevo)
+                
                 formData.append('descripcion', descripcionNuevo)
                 formData.append('tieneChip', chipNuevo)
                 formData.append('hora', horaNuevo)
@@ -295,6 +312,7 @@ function EditReport(props) {
                             content: 'text_fontstyle'
                         }
                     }).then(async (result) => {
+                        subirImagen()
                         if (result.isConfirmed) {
                             try {
                                 Swal.fire({
