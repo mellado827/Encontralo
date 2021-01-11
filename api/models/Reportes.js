@@ -63,6 +63,7 @@ const reportesSchema = new Schema({
       "Montevideo",
       "Paysandu",
       "Rio Negro",
+      "Rivera",
       "Rocha",
       "Salto",
       "San Jose",

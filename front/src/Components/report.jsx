@@ -604,6 +604,7 @@ function Report(props) {
                 <option value="Montevideo">Montevideo</option>
                 <option value="Paysandu">Paysandú</option>
                 <option value="Rio Negro">Río Negro</option>
+                <option value="Rivera">Rivera</option>
                 <option value="Rocha">Rocha</option>
                 <option value="Salto">Salto</option>
                 <option value="San Jose">San José</option>
