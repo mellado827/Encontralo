@@ -134,6 +134,7 @@ function EditReport(props) {
     const removeImage = e => {
         e.preventDefault()
         document.getElementById("img").src = 'https://res.cloudinary.com/encontralo/image/upload/v1610327793/default-image_kzjjpj.jpg'
+        document.getElementById("file_attachment").value = ""
     }
 
     const readImage = e => {
@@ -252,18 +253,8 @@ function EditReport(props) {
 
         let ok = !tipoMascota.length && !estado.length && !raza.length && !nombre.length && !sexo.length && !descripcion.length
             && !tieneChip.length && !hora.length && !selectedDate && !departamento.length && !localidad.length && !lugar.length
-            && !nombreUsuario.length && !descripcionUsuario.length && !imagePreview
+            && !nombreUsuario.length && !descripcionUsuario.length && (!caso.imagen || !imagenNueva)
 
-        if ((document.getElementById("file_attachment").value === "")) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Ups! Parece que hubo un problema.',
-                text: 'No podés dejar el reporte sin foto. Intentalo de nuevo.',
-                customClass: {
-                    content: 'text_fontstyle'
-                }
-            })
-        } else {
             if (ok === true) {
                 Swal.fire({
                     icon: 'error',
@@ -377,7 +368,6 @@ function EditReport(props) {
                     })
                 }
             }
-        }
     }
 
     console.log(casosID.includes(idcaso))

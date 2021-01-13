@@ -65,14 +65,23 @@ function CommentBox(props) {
         if (token) {
             const consultaCasosDeUsuario = await axiosClient.get(`/reportes/${decodedData._id}`)
             var comentariosPermitidosDeBorrar = consultaCasosDeUsuario.data.casosPorUsuario
+            console.log(comentariosPermitidosDeBorrar)
             comentariosPermitidosDeBorrar.forEach(element => {
-                setMisCasos(element.idPublico)
+                if(element.idPublico.includes(idcaso)) {
+                    setMisCasos(element.idPublico)
+                }
             })
         }
     }
 
+    const [nombresUsuario, setNombresUsuarios] = useState([])
+    
+
     useEffect(() => {
         chequearUsuarioLogueado()
+        if(token) {
+            setNombresUsuarios(decodedData.nickname)
+        }
     }, [])
 
     return (
@@ -80,7 +89,7 @@ function CommentBox(props) {
             <div className="text_fontstyle" id="CajaComentario">
                 <p>Mensaje: {comentario.comentario}</p>
                 <p>De: {comentario.usuarioRemitente} - {comentario.fechaComentario} a las {comentario.horaComentario}</p>
-                {token != null && (decodedData.nickname === comentario.usuarioRemitente || misCasos.includes(idcaso))
+                {token != null && (misCasos.includes(idcaso) || decodedData.nickname === comentario.usuarioRemitente)
                     ?
                     <img
                         id="delete_button"

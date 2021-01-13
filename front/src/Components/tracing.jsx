@@ -146,24 +146,18 @@ function Comentarios(props) {
 
     }
 
-    const arr = []
     const idPublicoURL = window.location.href.split("/")[4]
 
     const chequearUsuarioLogueado = async () => {
         if (token !== null) {
-            const consultaCasosDeUsuario = await axiosClient.get(`/reportes/${idPublicoURL}`)
-            const comentariosPermitidosDeBorrar = consultaCasosDeUsuario.data.reportePorIDpublico
-            comentariosPermitidosDeBorrar.forEach(element => {
-                arr.push(element.idPublico)
-            })
-            if (arr.includes(idcaso)) {
-
-                if (document.getElementById("encontrado") && document.getElementById("edit_report")) {
+            const consultaCaso = await axiosClient.get(`/reportes/${idcaso}`)
+            const reporte = consultaCaso.data.reportePorIDpublico
+            reporte.forEach(element => {
+                if (element.idUsuario === decodedData._id) {
                     document.getElementById("encontrado").style.display = "block"
                     document.getElementById("edit_report").style.display = "block"
                 }
-            }
-
+            })
         }
     }
 
@@ -296,8 +290,6 @@ function Comentarios(props) {
                     setTimeout(() => {
                         props.history.push('/')
                     }, 2000);
-
-
                 }
             }
         })

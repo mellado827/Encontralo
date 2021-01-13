@@ -222,17 +222,17 @@ function PersonalInfoAPI(props) {
                     type="text"
                     name="nickname"
                     maxLength="12"
-                    onChange={actualizarState}
+                    // onChange={actualizarState}
                     id="username_personalinfo"
                     placeholder={usuario.nickname ? usuario.nickname : ``}
-                    className="text_fontstyle" />
-                <button title="Modificar"
+                    className="text_fontstyle mr-5" />
+                {/* <button title="Modificar"
                     id="modify_button"
                     onClick={enableNickname}
                     className="transparent mb-5"
                 >
                     <img src="./img/edit.png" alt="edit" className="modify_button" />
-                </button>
+                </button> */}
             </div>
             <div className="text-center mt-4 personaldata_item">
                 <p className="text_fontstyle"><u>Email</u></p>
