@@ -147,8 +147,6 @@ function MyCases(props) {
 
     const [reporte, verReporte] = useState([]);
 
-    console.log(reporte)
-
     // cuando el componente carga
     useEffect(() => {
         // consultar la api para traer el reporte

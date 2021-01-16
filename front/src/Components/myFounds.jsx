@@ -138,7 +138,7 @@ function MyFounds(props) {
 
                         <div className="margin">
                             <h1 className="subtitle_fontstyle text_center">
-                                ¡Encontraste {reporte.length} animalitos!
+                                ¡Encontraste {reporte.length} animalito(s)!
                     </h1>
                             <h1 className="text_fontstyle text_center"><u>Elegí la forma de buscar activándola:</u></h1>
 
@@ -190,6 +190,7 @@ function MyFounds(props) {
                                         <option value="Montevideo">Montevideo</option>
                                         <option value="Paysandú">Paysandú</option>
                                         <option value="Río Negro">Río Negro</option>
+                                        <option value="Rivera">Rivera</option>
                                         <option value="Rocha">Rocha</option>
                                         <option value="Salto">Salto</option>
                                         <option value="San José">San José</option>

@@ -1,5 +1,5 @@
 const Reportes = require("../models/Reportes");
-const { fs, exists } = require("fs");
+const { fs } = require("fs");
 const cloudinary = require("../config/cloudinary");
 const normalize = require("normalize-path");
 

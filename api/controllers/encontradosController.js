@@ -49,12 +49,12 @@ exports.animalesEncontradosPorUsuario = async (req, res, next) => {
 exports.departamentoTipoID = async (req, res, next) => {
   try {
     const casosPorDepartamento = await Encontrados.find({
-      usuario: req.params.usuario,
+      idUsuario: req.params.usuario,
       departamento: req.params.comodin,
     });
 
     const casosPorTipo = await Encontrados.find({
-      usuario: req.params.usuario,
+      idUsuario: req.params.usuario,
       tipoMascota: req.params.comodin,
     });
 

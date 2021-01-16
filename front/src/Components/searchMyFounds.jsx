@@ -5,6 +5,7 @@ import LostPetCard from './lostPetCard'
 import jwt_decode from 'jwt-decode'
 import Navbar from './navbar'
 import Swal from 'sweetalert2'
+import Presentation from './presentation'
 
 function SearchMyFounds(props) {
 
@@ -71,7 +72,6 @@ function SearchMyFounds(props) {
     document.title = "Encontralo - Mis casos"
 
     const [casosporTipo, setCasosPorTipo] = useState([])
-    const [casosporIDPublico, setcasosporIDPublico] = useState([])
 
     // cuando el componente carga
     useEffect(() => {
@@ -85,8 +85,6 @@ function SearchMyFounds(props) {
         }
         consultarAPI();
     }, [])
-
-    console.log(casosporTipo)
 
     return (
         <>

@@ -300,7 +300,7 @@ function EditReport(props) {
                     }).then(async (result) => {             
                         if (result.isConfirmed) {
                             try {
-                                subirImagen()
+                                
 
                                 Swal.fire({
                                     icon: 'info',
@@ -315,7 +315,7 @@ function EditReport(props) {
                                     headers: {
                                         'Content-Type': 'application/x-www-form-urlencoded'
                                     }
-                                })
+                                }).then(subirImagen())
 
                                 if (editReport.status === 200) {
                                     Swal.fire({

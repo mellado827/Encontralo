@@ -142,8 +142,6 @@ function Comentarios(props) {
                 console.log(error)
             }
         }
-
-
     }
 
     const idPublicoURL = window.location.href.split("/")[4]

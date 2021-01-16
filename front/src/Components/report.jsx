@@ -113,14 +113,14 @@ function Report(props) {
   };
 
   const readImage = (e) => {
-    // return setImagePreview(e.target.files[0])
-    let reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]); // la paso a base64 porque sino no funciona
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setImagePreview(reader.result);
-      }
-    };
+    return setImagePreview(e.target.files[0])
+    // let reader = new FileReader();
+    // reader.readAsDataURL(e.target.files[0]); // la paso a base64 porque sino no funciona
+    // reader.onload = () => {
+    //   if (reader.readyState === 2) {
+    //     setImagePreview(reader.result);
+    //   }
+    // };
   };
 
   const clearHour = (e) => {
@@ -168,6 +168,19 @@ function Report(props) {
       selectedDate.getMonth() + 1
     }/${selectedDate.getFullYear()}`;
   }
+
+  const subirImagen = async (e) => {
+    let idTrue = null
+    e ? idTrue = e : idTrue = id
+    var formData = new FormData();
+    formData.append('file0', imagePreview)
+
+    await axiosClient.put(`/reportes/${idTrue}`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+}
 
   const ViralInfo = () => {
     const {
@@ -282,7 +295,6 @@ function Report(props) {
       formData.append("nombre", report.nombre);
       formData.append("sexo", report.sexo);
       formData.append("fecha", fecha);
-      formData.append("imagen", imagePreview);
       formData.append("descripcion", report.descripcion);
       formData.append("tieneChip", report.tieneChip);
       formData.append("hora", report.hora);
@@ -314,7 +326,9 @@ function Report(props) {
           },
         }).then(async (result) => {
           if (result.isConfirmed) {
+    
             try {
+              
               Swal.fire({
                 icon: "loading",
                 title: "Subiendo reporte...",
@@ -324,35 +338,39 @@ function Report(props) {
                 },
               });
 
-              const postReport = await axiosClient.post("/reportes", formData, {
+              await axiosClient.post("/reportes", formData, {
                 headers: {
                   "Content-Type": "application/x-www-form-urlencoded",
                 },
-              });
+              }).then(res => {
+                subirImagen(res.data.idPublico)
 
-              if (postReport.status === 200) {
-                Swal.fire({
-                  icon: "success",
-                  title: "¡Reporte realizado!",
-                  text: `¡Suerte y no te  rindas! Puedes ver el reporte en "Buscar un animal perdido" o "Mis Casos" con el siguiente ID: ${id}`,
-                  customClass: {
-                    content: "text_fontstyle",
-                  },
-                });
+                if (res.status === 200) {              
 
-                setTimeout(() => {
-                  window.location.reload();
-                }, 2000);
-              } else {
-                Swal.fire({
-                  icon: "error",
-                  title: "Ups! Parece que hubo un problema.",
-                  text: `Intentalo de nuevo más tarde.`,
-                  customClass: {
-                    content: "text_fontstyle",
-                  },
-                });
-              }
+                  Swal.fire({
+                    icon: "success",
+                    title: "¡Reporte realizado!",
+                    text: `¡Suerte y no te  rindas! Puedes ver el reporte en "Buscar un animal perdido" o "Mis Casos" con el siguiente ID: ${id}`,
+                    customClass: {
+                      content: "text_fontstyle",
+                    },
+                  });
+  
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 2000);
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    title: "Ups! Parece que hubo un problema.",
+                    text: `Intentalo de nuevo más tarde.`,
+                    customClass: {
+                      content: "text_fontstyle",
+                    },
+                  });
+                }
+              })
+
             } catch (error) {
               console.log(error);
 
