@@ -101,27 +101,32 @@ function Report(props) {
   };
 
   const [imagePreview, setImagePreview] = useState(
-    "https://www.amerikickkansas.com/wp-content/uploads/2017/04/default-image-620x600.jpg"
+    "https://res.cloudinary.com/encontralo/image/upload/v1610327793/default-image_kzjjpj.jpg"
   );
 
-  const removeImage = (e) => {
-    e.preventDefault();
-    setImagePreview(
-      "https://www.amerikickkansas.com/wp-content/uploads/2017/04/default-image-620x600.jpg"
-    );
-    document.getElementById("file_attachment").value = "";
-  };
+  const removeImage = e => {
+    e.preventDefault()
+    document.getElementById("img").src = 'https://res.cloudinary.com/encontralo/image/upload/v1610327793/default-image_kzjjpj.jpg'
+    document.getElementById("file_attachment").value = ""
+}
 
   const readImage = (e) => {
     return setImagePreview(e.target.files[0])
-    // let reader = new FileReader();
-    // reader.readAsDataURL(e.target.files[0]); // la paso a base64 porque sino no funciona
-    // reader.onload = () => {
-    //   if (reader.readyState === 2) {
-    //     setImagePreview(reader.result);
-    //   }
-    // };
   };
+
+  const [imagenNueva, setImagenNueva] = useState('')
+
+    const vistaPreviaImagenNueva = e => {
+        let reader = new FileReader()
+        reader.readAsDataURL(e.target.files[0]) // la paso a base64 porque sino no funciona
+         reader.onload = () => {
+             if (reader.readyState === 2) {
+                setImagenNueva(reader.result)
+             } 
+         } 
+
+         readImage(e)
+    }
 
   const clearHour = (e) => {
     e.preventDefault();
@@ -505,11 +510,11 @@ function Report(props) {
                 style={{ overflow: "hidden" }}
                 id="file_attachment"
                 accept="image/*"
-                onChange={readImage}
+                onChange={vistaPreviaImagenNueva}
               />
               <div className="petpic_container d-flex justify-content-center">
                 <img
-                  src={imagePreview}
+                  src={imagenNueva ? imagenNueva : imagePreview}
                   alt=""
                   id="img"
                   className="petphoto_width"

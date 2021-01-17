@@ -32,6 +32,7 @@ exports.upload = async (req, res, next) => {
       file_ext != "png" &&
       file_ext != "PNG" &&
       file_ext != "jpg" &&
+      file_ext != "jfif" &&
       file_ext != "jpeg" &&
       file_ext != "gif"
     ) {

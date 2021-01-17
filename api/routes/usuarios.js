@@ -15,7 +15,7 @@ router.post("/iniciarsesion", usuarioController.autenticarUsuario);
 //Mostrar un usuario en específico
 router.get("/:comodin", usuarioController.mostrarUsuario);
 
-router.post("/reset/:comodin", usuarioController.resetPassword);
+router.post("/reset/:comodin", usuarioController.enviarEmail);
 
 //Actualizar usuario
 router.put(

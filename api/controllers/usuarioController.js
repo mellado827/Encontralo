@@ -120,7 +120,7 @@ exports.mostrarUsuario = async (req, res, next) => {
   res.json(usuario);
 };
 
-exports.resetPassword = async (req, res, next) => {
+exports.enviarEmail = async (req, res, next) => {
   const consultaEmail = await Usuarios.find({ email: req.params.comodin });
   console.log(consultaEmail);
   try {
