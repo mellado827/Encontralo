@@ -16,8 +16,8 @@ let transporter = nodeMailer.createTransport({
   },
 });
 
-console.log(process.env.host_email);
-console.log(process.env.pwd_email);
+// console.log(process.env.host_email);
+// console.log(process.env.pwd_email);
 
 //Nuevo usuario
 exports.nuevoUsuario = async (req, res, next) => {

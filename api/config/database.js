@@ -3,16 +3,15 @@ const mongoose = require("mongoose");
 function connectDatabase() {
   mongoose.Promise = global.Promise;
   const dbUrlDev = `mongodb://localhost/encontralo`;
-  // const dbPablo = `mongodb+srv://${process.env.USR_DB_PAB}:${process.env.PSW_DB_PAB}@cluster0-kzisw.gcp.mongodb.net/encontralo-devr?retryWrites=true&w=majority`;
-  // const dbUrlPro = `mongodb+srv://${process.env.USR_DB_PRO}:${process.env.PSW_DB_PRO}@cluster0-kzisw.gcp.mongodb.net/db-encontralo?retryWrites=true&w=majority`;
-  let dbConnect = dbUrlDev;
+  const dbUrlPro = `mongodb://${process.env.user_db_production}:${process.env.pwd_db_production}@${process.env.host_db}:${process.env.port_db}/${process.env.name_db}?retryWrites=true&w=majority`;
+  let dbConnect = "";
 
-  // process.env.NODE_ENV = process.env.NODE_ENV || "dev";
-  // if (process.env.NODE_ENV == "dev") {
-  //   dbConnect = dbPablo;
-  // } else {
-  //   dbConnect = dbUrlPro;
-  // }
+  process.env.NODE_ENV = process.env.NODE_ENV || "dev";
+  if (process.env.NODE_ENV == "dev") {
+    dbConnect = dbUrlDev;
+  } else {
+    dbConnect = dbUrlPro;
+  }
 
   mongoose
     .connect(dbConnect, {
@@ -22,7 +21,6 @@ function connectDatabase() {
       useFindAndModify: false,
     })
     .then(() => {
-      console.clear();
       console.log("------------------------------------------------------");
       console.log("Base de datos iniciada satisfactoriamente - Encontralo");
       console.log("------------------------------------------------------");
