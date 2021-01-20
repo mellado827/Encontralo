@@ -1,6 +1,6 @@
 const Usuarios = require("../models/Usuarios");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 var salt = bcrypt.genSaltSync();
 const nodeMailer = require("nodemailer");
 require("dotenv").config();
