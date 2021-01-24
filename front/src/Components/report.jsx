@@ -36,10 +36,6 @@ function Report(props) {
 
   const id = shortid.generate();
 
-  window.onbeforeunload = function () {
-    return "";
-  };
-
   document.title = "Reportar / Encontralo";
 
   const [usuarios, guardarUsuarios] = useState([]);
@@ -106,8 +102,8 @@ function Report(props) {
 
   const removeImage = e => {
     e.preventDefault()
-    document.getElementById("img").src = 'https://res.cloudinary.com/encontralo/image/upload/v1610327793/default-image_kzjjpj.jpg'
     document.getElementById("file_attachment").value = ""
+    setImagenNueva('https://res.cloudinary.com/encontralo/image/upload/v1610327793/default-image_kzjjpj.jpg')
 }
 
   const readImage = (e) => {
@@ -154,7 +150,8 @@ function Report(props) {
       !departamento.length ||
       !localidad.length ||
       !lugar.length ||
-      imagePreview;
+      imagenNueva === "https://res.cloudinary.com/encontralo/image/upload/v1610327793/default-image_kzjjpj.jpg" ||
+      imagePreview === "https://res.cloudinary.com/encontralo/image/upload/v1610327793/default-image_kzjjpj.jpg"
 
     if (ok === true) {
       return ok;
@@ -258,6 +255,9 @@ function Report(props) {
 
   //añadir reporte
   const addReport = (e) => {
+    console.log(imagePreview)
+console.log("---------")
+console.log(imagenNueva)
     e.preventDefault();
 
     const {
@@ -279,7 +279,8 @@ function Report(props) {
       !departamento.length ||
       !localidad.length ||
       !lugar.length ||
-      imagePreview;
+      imagenNueva === "https://res.cloudinary.com/encontralo/image/upload/v1610327793/default-image_kzjjpj.jpg" ||
+      imagePreview === "https://res.cloudinary.com/encontralo/image/upload/v1610327793/default-image_kzjjpj.jpg";
 
     if (ok === true) {
       Swal.fire({
