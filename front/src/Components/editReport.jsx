@@ -660,7 +660,7 @@ function EditReport(props) {
                                         <div className="slideshow-container">
                                             <div className="petpic_container d-flex justify-content-center">
                                                 <img
-                                                    src={imagenNuevo}
+                                                    src={imagenNueva}
                                                     alt=""
                                                     id="img"
                                                     className="petphoto_width">

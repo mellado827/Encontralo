@@ -786,7 +786,7 @@ function Report(props) {
               <div className="slideshow-container">
                 <div className="petpic_container d-flex justify-content-center">
                   <img
-                    src={imagePreview}
+                    src={imagenNueva}
                     alt=""
                     id="img"
                     className="petphoto_width"
