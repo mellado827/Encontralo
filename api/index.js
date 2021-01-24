@@ -1,6 +1,6 @@
 const express = require("express");
 const routes = require("./routes");
-const bodyParser = require("body-parser");
+const path = require('path');
 const morgan = require("morgan");
 const database = require("./config/database");
 require("dotenv").config();
@@ -19,14 +19,9 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 // habilitar bodyparser
-app.use(bodyParser.json({ limit: "50mb" }));
-app.use(
-  bodyParser.urlencoded({
-    limit: "50mb",
-    extended: true,
-    parameterLimit: 50000,
-  })
-);
+app.use(express.urlencoded({extended:true}));
+//configurando direccion de archivos estaticos publicos
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Rutas de la app
 app.use("/", routes);
@@ -35,4 +30,7 @@ app.use("/", routes);
 app.use(express.static("images"));
 
 // puerto
-app.listen(5000);
+app.set('port', process.env.PORT || 5000);
+app.listen(app.get('port'), () => {
+  console.log('Server runing on port ' + app.get('port'));
+});
