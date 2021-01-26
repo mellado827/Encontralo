@@ -83,7 +83,10 @@ exports.contraseña = async (req, res) => {
                   );
                 };
                 modifyPass();
-                pass && res.json({mensaje: "¡Contraseña actualizada correctamente!"});
+                pass &&
+                  res.json({
+                    mensaje: "¡Contraseña actualizada correctamente!",
+                  });
               } else {
                 res.json({
                   mensaje:
@@ -170,10 +173,25 @@ exports.enviarEmail = async (req, res, next) => {
 //Actualizar usuario
 
 exports.actualizarUsuario = async (req, res, next) => {
+  // bcrypt.hash(currentPassword, salt, function (err) {});
+  // let contrasena = await bcrypt.hash(req.body.NewPassword, 10);
+
   try {
+    async function modifyPass() {
+      const newPassword = req.body.NewPassword;
+
+      bcrypt.hash(newPassword, 10, async function (err, newPasswordHash) {
+        const pass = await Usuarios.findByIdAndUpdate(
+          { _id: req.params.idUsuario },
+          { contrasena: newPasswordHash }
+        );
+        console.log(pass);
+      });
+    }
+
     let email = req.body.email;
 
-    email ? matchFn() : reset_pwdFn();
+    email ? matchFn() : modifyPass();
 
     async function matchFn() {
       var emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -190,24 +208,6 @@ exports.actualizarUsuario = async (req, res, next) => {
         return res.json({ mensaje: "Correo electrónico inválido" });
       }
     }
-
-    async function reset_pwdFn() {
-      // bcrypt.hash(currentPassword, salt, function (err) {});
-      // let contrasena = await bcrypt.hash(req.body.NewPassword, 10);
-      bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(req.body.NewPassword, salt, function(err, hash) {
-          let ok = Usuarios.findOneAndUpdate(
-            { _id: req.params.idUsuario },
-            {
-            contrasena: hash,
-            },
-          );
-          ok && res.status(200);
-        });
-    });
-      
-    }
-    
   } catch (error) {
     console.log(error);
     if (error.code === 11000) {

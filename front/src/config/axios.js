@@ -1,9 +1,12 @@
-import axios from 'axios';
+import axios from "axios";
 
-let api = window.location.host == 'localhost:3000' ? 'http://localhost:5000' : 'https://api.encontralo.org/';
+let api =
+  window.location.host == "localhost:3000"
+    ? "http://localhost:5000"
+    : "https://api.encontralo.org/";
 
 const axiosClient = axios.create({
-    baseURL: api
+  baseURL: api,
 });
 
-export default axiosClient
+export default axiosClient;
