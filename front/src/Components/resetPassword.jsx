@@ -8,7 +8,7 @@ import SeePasswordPage3 from "../Functions/seePasswordPage3";
 import jwt_decode from "jwt-decode";
 
 function ResetPassword(props) {
-  debugger;
+  // debugger;
   var decodedData = jwt_decode(props.match.params.email);
 
   document.title = "Encontralo - Cambiar contraseña";

@@ -81,11 +81,9 @@ exports.contraseña = async (req, res) => {
                     { _id: req.params.idUsuario },
                     { contrasena: confirmedPasswordHash }
                   );
-                  res.json({
-                    mensaje: "¡Contraseña actualizada correctamente!",
-                  });
                 };
                 modifyPass();
+                pass && res.json({mensaje: "¡Contraseña actualizada correctamente!"});
               } else {
                 res.json({
                   mensaje:
@@ -122,7 +120,7 @@ exports.mostrarUsuario = async (req, res, next) => {
 
 exports.enviarEmail = async (req, res, next) => {
   const consultaEmail = await Usuarios.findOne({ email: req.params.comodin });
-  console.log(consultaEmail)
+  // console.log(consultaEmail)
   try {
     if (consultaEmail) {
       const email = consultaEmail.email;
@@ -156,42 +154,6 @@ exports.enviarEmail = async (req, res, next) => {
         } else {
           console.log("Sent: " + info.response);
           res.status(200).json(email);
-          // const newPassword = req.body.NewPassword;
-          // const confirmedPassword = req.body.ConfirmedPassword;
-
-          // bcrypt.hash(newPassword, 10, function (err, newPasswordHash) {
-          //   if (err) {
-          //     console.log(err);
-          //   } else {
-          //     bcrypt.hash(
-          //       confirmedPassword,
-          //       10,
-          //       function (err, confirmedPasswordHash) {
-          //         if (err) {
-          //           console.log(err);
-          //         } else {
-          //           if (
-          //             bcrypt.compareSync(newPassword, confirmedPasswordHash)
-          //           ) {
-          //             const modifyPass = async () => {
-          //               const newpass = await Usuarios.findOneAndUpdate(
-          //                 { email: req.params.comodin },
-          //                 { contrasena: confirmedPasswordHash }
-          //               );
-          //               res.status(200).json({
-          //                 mensaje: "¡Contraseña actualizada correctamente!",
-          //               });
-          //               console.log("probá ahora");
-          //             };
-          //             modifyPass();
-          //           } else {
-          //             res.status(404).json({ mensaje: "Error" });
-          //           }
-          //         }
-          //       }
-          //     );
-          //   }
-          // });
         }
       });
     } else {
@@ -230,14 +192,20 @@ exports.actualizarUsuario = async (req, res, next) => {
     }
 
     async function reset_pwdFn() {
-      let contrasena = await bcrypt.hash(req.body.NewPassword, 10);
-      await Usuarios.findOneAndUpdate(
-        { _id: req.params.idUsuario },
-        {
-        contrasena: contrasena,
-        },
-      );
-      return res.status(200);
+      // bcrypt.hash(currentPassword, salt, function (err) {});
+      // let contrasena = await bcrypt.hash(req.body.NewPassword, 10);
+      bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(req.body.NewPassword, salt, function(err, hash) {
+          let ok = Usuarios.findOneAndUpdate(
+            { _id: req.params.idUsuario },
+            {
+            contrasena: hash,
+            },
+          );
+          ok && res.status(200);
+        });
+    });
+      
     }
     
   } catch (error) {
