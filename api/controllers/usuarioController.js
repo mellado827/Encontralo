@@ -121,14 +121,15 @@ exports.mostrarUsuario = async (req, res, next) => {
 };
 
 exports.enviarEmail = async (req, res, next) => {
-  const consultaEmail = await Usuarios.find({ email: req.params.comodin });
+  const consultaEmail = await Usuarios.findOne({ email: req.params.comodin });
+  console.log(consultaEmail)
   try {
     if (consultaEmail) {
-      const email = consultaEmail[0].email;
+      const email = consultaEmail.email;
 
       const token = jwt.sign(
         {
-          _id: consultaEmail[0]._id,
+          _id: consultaEmail._id,
         },
         "LLAVESECRETA",
         {
@@ -141,7 +142,7 @@ exports.enviarEmail = async (req, res, next) => {
         to: email,
         subject: "Recuperación de cuenta - Encontralo",
         html: `<h1>Recuperación de cuenta</h1>
-                    <h3>¡Hola ${consultaEmail[0].nickname}! Vimos que no te acordás de la contraseña de tu cuenta en Encontralo, por eso te enviamos este email.
+                    <h3>¡Hola ${consultaEmail.nickname}! Vimos que no te acordás de la contraseña de tu cuenta en Encontralo, por eso te enviamos este email.
                     Te vamos a pedir que le des click al siguiente link para que puedas cambiar tu contraseña: </h3>
                     <a href="http://localhost:3000/recuperarcuenta/${token}">Recuperar cuenta</a>`,
       };
@@ -208,21 +209,37 @@ exports.enviarEmail = async (req, res, next) => {
 
 exports.actualizarUsuario = async (req, res, next) => {
   try {
-    var emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     let email = req.body.email;
 
-    if (email.match(emailValido)) {
-      var usuario = await Usuarios.findOneAndUpdate(
-        { _id: req.params.idUsuario },
-        req.body,
-        {
-          new: true,
-        }
-      );
-      res.json(usuario);
-    } else {
-      res.json({ mensaje: "Correo electrónico inválido" });
+    email ? matchFn() : reset_pwdFn();
+
+    async function matchFn() {
+      var emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (email.match(emailValido)) {
+        var usuario = await Usuarios.findOneAndUpdate(
+          { _id: req.params.idUsuario },
+          req.body,
+          {
+            new: true,
+          }
+        );
+        return res.json(usuario);
+      } else {
+        return res.json({ mensaje: "Correo electrónico inválido" });
+      }
     }
+
+    async function reset_pwdFn() {
+      let contrasena = await bcrypt.hash(req.body.NewPassword, 10);
+      await Usuarios.findOneAndUpdate(
+        { _id: req.params.idUsuario },
+        {
+        contrasena: contrasena,
+        },
+      );
+      return res.status(200);
+    }
+    
   } catch (error) {
     console.log(error);
     if (error.code === 11000) {
@@ -249,7 +266,9 @@ exports.autenticarUsuario = async (req, res, next) => {
   //buscar el usuario
   const { email, contrasena } = req.body;
 
-  const usuario = await Usuarios.findOne({ email });
+  const usuario = await Usuarios.findOne({ email: email });
+
+  // console.log(usuario)
 
   if (!usuario) {
     //Si el usuario no existe
