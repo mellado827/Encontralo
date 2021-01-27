@@ -185,7 +185,7 @@ exports.actualizarUsuario = async (req, res, next) => {
           { _id: req.params.idUsuario },
           { contrasena: newPasswordHash }
         );
-        console.log(pass);
+        res.status(200).json({ message: "¡Cambio de contraseña exitoso!" });
       });
     }
 

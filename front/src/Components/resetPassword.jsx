@@ -15,14 +15,14 @@ function ResetPassword(props) {
 
   const [contrasenas, guardarContrasenas] = useState({});
 
-  const Consult = async () => {
-    const resetPass = await axiosClient.put(`/usuarios/${decodedData._id}`);
-    console.log(resetPass);
-  };
+  // const Consult = async () => {
+  //   const resetPass = await axiosClient.put(`/usuarios/${decodedData._id}`);
+  //   console.log(resetPass);
+  // };
 
-  useEffect(() => {
-    Consult();
-  }, []);
+  // useEffect(() => {
+  //   Consult();
+  // }, []);
 
   const actualizarState = (e) => {
     guardarContrasenas({
