@@ -8,7 +8,7 @@ function connectDatabase() {
 
   process.env.NODE_ENV = process.env.NODE_ENV || "dev";
   if (process.env.NODE_ENV == "dev") {
-    dbConnect = dbUrlDev;
+    dbConnect = dbUrlPro;
   } else {
     dbConnect = dbUrlPro;
   }
