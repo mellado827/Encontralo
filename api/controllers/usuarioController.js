@@ -5,7 +5,7 @@ var salt = bcrypt.genSaltSync();
 const nodeMailer = require("nodemailer");
 require("dotenv").config();
 const configEmail = require("../config/email");
-const token = require('../services/token');
+// const token = require('../services/token');
 
 let transporter = nodeMailer.createTransport({
   host: configEmail.host,
@@ -16,9 +16,6 @@ let transporter = nodeMailer.createTransport({
     pass: configEmail.pass,
   },
 });
-
-// console.log(process.env.host_email);
-// console.log(process.env.pwd_email);
 
 //Nuevo usuario
 exports.nuevoUsuario = async (req, res, next) => {
