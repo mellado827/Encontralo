@@ -249,22 +249,22 @@ exports.autenticarUsuario = async (req, res, next) => {
       //Si el pass es incorrecto
       await res.status(401).json({ mensaje: "Contraseña incorrecta" });
     } else {
-      let tokenReturn = await token.encode(usuario._id,usuario.nickname);
-      // Si el pass es correcto, firmar el token
-      // const token = jwt.sign(
-      //   {
-      //     email: usuario.email,
-      //     nickname: usuario.nickname,
-      //     celular: usuario.celular,
-      //     _id: usuario._id,
-      //   },
-      //   "LLAVESECRETA",
-      //   {
-      //     expiresIn: "1hr",
-      //   }
-      // );
+      // let tokenReturn = await token.encode(usuario._id,usuario.nickname);
+      //Si el pass es correcto, firmar el token
+      const token = jwt.sign(
+        {
+          email: usuario.email,
+          nickname: usuario.nickname,
+          celular: usuario.celular,
+          _id: usuario._id,
+        },
+        "LLAVESECRETA",
+        {
+          expiresIn: "1hr",
+        }
+      );
       //retornar el token
-      res.json({ tokenReturn });
+      res.json({ token });
     }
   }
 };

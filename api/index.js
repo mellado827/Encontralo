@@ -23,6 +23,10 @@ app.use(express.urlencoded({extended:true}));
 //configurando direccion de archivos estaticos publicos
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // Rutas de la app
 app.use("/", routes);
 
