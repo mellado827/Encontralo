@@ -1,0 +1,148 @@
+.search_container {
+    height: 100vh;
+    background-image: url(../img/report_background.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: auto;
+    background-position: center;
+}
+
+.search {
+    padding-top: 6em;
+}
+
+.margin_mobile {
+        margin: 2em;
+}
+
+.pettype_size {
+    display: flex;
+    align-self: center;
+    width: 10em;
+}
+
+.see_petreport {
+    display: none;
+}
+
+.pet_photo:hover + .see_petreport {
+    transition: 0.3s;
+    display: flex;
+}
+/* 
+.see_petreport img {
+    max-width: 100%;
+    border-radius: 50%;
+} */
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.search_button button:hover {
+    color: white;
+    background-color: #006073;
+    border: 0.1px solid #00b5bd;
+}
+
+.search_button {
+    display: flex;
+    align-items: center;
+}
+
+.pets_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reportCards {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15em;
+}
+
+.petPhotoSize {
+    max-width: 100%;
+    max-height: 100%;
+    cursor: pointer;
+}
+
+.margin_title {
+    margin-top: 30em;
+}
+
+.margin {
+    margin-top: 10em;
+}
+
+.width_search_types {
+    width: 20em;
+}
+
+@media screen and (min-width: 32em) {
+    .reportCards {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 0;
+    }      
+}
+
+.pet1 {
+    height: 20em;
+    width: 15em;
+    background-color: #bfecee;
+    margin: 1em;
+}
+
+.pet_photo {
+    height: 65%;
+    background-color: #d7d1d2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.trash_button {
+    width: 75%;
+    height: 75%;
+    cursor: pointer;
+}
+
+.pet_photo:hover {
+    opacity: 80%;
+    transition: 0.3s;
+}
+
+.pet1:hover > .see_petreport {
+    display: block;
+}
+
+.petinfo {
+    height: 50%;
+    background-color: #267888;
+}
+
+@media screen and (min-width: 64em) {
+    .search_form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .row_petsform {
+        width: 15em;
+    }
+
+    .finder {
+        width: 20em;
+    } 
+
+    .pets_container {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
