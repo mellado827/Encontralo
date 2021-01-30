@@ -1,0 +1,114 @@
+.personaldata {
+  width: 40em;
+  height: 32em;
+  background-color: white;
+  border: 2px solid #333;
+  overflow: scroll visible;
+  overflow-x: hidden;
+}
+
+.cellphoneValidStyles {
+  width: 100%;
+  display: flex;
+  margin-top: 0.5em;
+  justify-content: center;
+}
+
+.margin_closebutton {
+  margin-left: 2em;
+}
+
+.transparent {
+  border-color: transparent;
+  background-color: transparent;
+}
+
+.modify_button {
+  width: 1em;
+  margin-left: 1em;
+}
+
+.modify_button:hover {
+  width: 1.5em;
+  margin-left: 1em;
+  transition: 0.5s;
+}
+
+.gray_color {
+  color: gray;
+}
+
+.save_changes {
+  background-color: #267888;
+  border: 1px solid #267888;
+  border-radius: 5px;
+  height: 3em;
+}
+
+.delete_accountB {
+  background-color: #cc5c42;
+  border: 1px solid #cc5c42;
+  border-radius: 5px;
+  height: 3em;
+}
+
+.modal_buttons {
+  color: #fff;
+  height: 3em;
+  width: 8em;
+}
+
+.delete_warning {
+  color: #cc5c42;
+}
+
+.option1_button {
+  background-color: #00b5bd;
+  border: 1px solid #00b5bd;
+}
+
+.option2_button {
+  background-color: #267888;
+  border: 1px solid #267888;
+}
+
+.return_button {
+  background-color: #6cdee3;
+  border: 1px solid #6cdee3;
+  border-radius: 5px;
+  height: 3em;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.personalinfo_buttons {
+  align-items: center;
+}
+
+@media screen and (min-width: 768px) {
+  .personaldata {
+    overflow: scroll visible;
+    overflow-x: auto;
+  }
+  .save_changes {
+    width: 15em;
+  }
+
+  .modal-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .delete_accountB {
+    width: 15em;
+  }
+
+  .return_button {
+    width: 15em;
+  }
+}

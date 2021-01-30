@@ -1,0 +1,17 @@
+.error_container {
+    height: 100vh;
+    background-image: url('../img/error.png');
+    background-size: cover;
+}
+
+.notfound_logo {
+    width: 5em;
+    height: 5em;
+}
+
+@media screen and (min-width: 64em) {
+    .notfound_logo {
+        width: 10em;
+        height: 10em;
+    }
+}
