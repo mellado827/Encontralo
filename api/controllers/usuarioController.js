@@ -5,6 +5,7 @@ var salt = bcrypt.genSaltSync();
 const nodeMailer = require("nodemailer");
 require("dotenv").config();
 const configEmail = require("../config/email");
+// const token = require('../services/token');
 
 let transporter = nodeMailer.createTransport({
   host: configEmail.host,
@@ -15,9 +16,6 @@ let transporter = nodeMailer.createTransport({
     pass: configEmail.pass,
   },
 });
-
-// console.log(process.env.host_email);
-// console.log(process.env.pwd_email);
 
 //Nuevo usuario
 exports.nuevoUsuario = async (req, res, next) => {
@@ -236,7 +234,7 @@ exports.autenticarUsuario = async (req, res, next) => {
 
   const usuario = await Usuarios.findOne({ email: email });
 
-  // console.log(usuario)
+  console.log(usuario)
 
   if (!usuario) {
     //Si el usuario no existe
@@ -248,7 +246,8 @@ exports.autenticarUsuario = async (req, res, next) => {
       //Si el pass es incorrecto
       await res.status(401).json({ mensaje: "Contraseña incorrecta" });
     } else {
-      // Si el pass es correcto, firmar el token
+      // let tokenReturn = await token.encode(usuario._id,usuario.nickname);
+      //Si el pass es correcto, firmar el token
       const token = jwt.sign(
         {
           email: usuario.email,
