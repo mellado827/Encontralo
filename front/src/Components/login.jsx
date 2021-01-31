@@ -51,8 +51,8 @@ function Login(props) {
           content: "text_fontstyle",
         },
       });
-
-      props.history.goBack();
+      props.history.push("/")
+      // props.history.goBack();
     } catch (error) {
       console.log(error);
 

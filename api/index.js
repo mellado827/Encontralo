@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Rutas de la app
-app.use("/", routes);
+app.use("/api", routes);
 
 // carpeta publica
 app.use(express.static("images"));
