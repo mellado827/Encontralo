@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import jwt_decode from 'jwt-decode'
 import Swal from 'sweetalert2'
 import axiosClient from '../config/axios'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import $ from 'jquery'
 
 function PersonalInfoAPI(props) {
@@ -58,7 +58,7 @@ function PersonalInfoAPI(props) {
         if (token !== null) {
             const consultarAPI = () => {
                 try {
-                    const clienteConsulta = axiosClient.get('/usuarios', {
+                    const clienteConsulta = axiosClient.get('/api/usuarios', {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
@@ -93,7 +93,7 @@ function PersonalInfoAPI(props) {
 
     const consultaPorEdit = async () => {
         if (token) {
-            const consulta = await axiosClient.get(`/usuarios/${decodedData._id}`)
+            const consulta = await axiosClient.get(`/api/usuarios/${decodedData._id}`)
             datosUsuario(consulta.data)
         }
     }
@@ -146,7 +146,7 @@ function PersonalInfoAPI(props) {
 
 
                     try {
-                        axiosClient.put(`/usuarios/${decodedData._id ? decodedData._id : ``}`, usuario)
+                        axiosClient.put(`/api/usuarios/${decodedData._id ? decodedData._id : ``}`, usuario)
                             .then(res => {
 
                                 if (res.data.mensaje === "Datos ya existentes" ||
@@ -276,10 +276,10 @@ function PersonalInfoAPI(props) {
 
             <div className="text-center mt-4 personaldata_item">
                 <p className="text_fontstyle"><u>Contraseña</u></p>
-                <a href="/contrasena">
+                <Link to="/contrasena">
                     <img src="./img/closed.png"
                         title="Cambia tu contraseña" alt="edit" className="modify_button" />
-                </a>
+                </Link>
             </div>
 
             <div className="d-flex text-center mt-4 justify-content-center">

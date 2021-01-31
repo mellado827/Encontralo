@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import Navbar from "./navbar";
 import shortid from "shortid";
 import axiosClient from "../../src/config/axios";
@@ -44,7 +44,7 @@ function Report(props) {
     if (token !== null) {
       const consultarAPI = async () => {
         try {
-          const clienteConsulta = await axiosClient.get("/usuarios", {
+          const clienteConsulta = await axiosClient.get("/api/usuarios", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -177,7 +177,7 @@ function Report(props) {
     var formData = new FormData();
     formData.append('file0', imagePreview)
 
-    await axiosClient.put(`/reportes/${idTrue}`, formData, {
+    await axiosClient.put(`/api/reportes/${idTrue}`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
@@ -255,9 +255,6 @@ function Report(props) {
 
   //añadir reporte
   const addReport = (e) => {
-    console.log(imagePreview)
-console.log("---------")
-console.log(imagenNueva)
     e.preventDefault();
 
     const {
@@ -344,7 +341,7 @@ console.log(imagenNueva)
                 },
               });
 
-              await axiosClient.post("/reportes", formData, {
+              await axiosClient.post("/api/reportes", formData, {
                 headers: {
                   "Content-Type": "application/x-www-form-urlencoded",
                 },
@@ -722,12 +719,12 @@ console.log(imagenNueva)
               En caso de que los datos que aparecen en pantalla no correspondan
               con su usuario, modifíquelos antes de reportar la desaparición.
             </p>
-            <a
-              href="/datospersonales"
+            <Link
+              to="/datospersonales"
               className="text-center text_fontstyle link"
             >
               Datos personales
-            </a>
+            </Link>
 
             <label className="mt-4 text_fontstyle">Descripción</label>
             <textarea

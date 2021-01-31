@@ -38,7 +38,7 @@ function SendEmailToResetPass(props) {
                     title: 'Enviando petición...'
                 })
 
-                const peticion = await axiosClient.post(`/usuarios/reset/${email}`)
+                const peticion = await axiosClient.post(`/api/usuarios/reset/${email}`)
 
                 if (peticion.status === 200) {
                     Swal.fire({

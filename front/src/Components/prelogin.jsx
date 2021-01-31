@@ -1,7 +1,7 @@
 import React from 'react'
 import jwt_decode from 'jwt-decode'
 import Swal from 'sweetalert2'
-
+import {Link} from 'react-router-dom'
 
 function PreLogin() {
 
@@ -65,17 +65,17 @@ function PreLogin() {
                 <div className="dropdown">
                     <span className="dropbtn text_fontstyle">Hola, {decodedData.nickname}</span>
                     <div className="dropdown-content text_fontstyle">
-                        <a href="/difundir">Difundir desaparición</a>
-                        <a href="/datospersonales">Datos personales</a>
-                        <a href="/miscasos">Mis casos</a>
-                        <a href={`/misencontrados/${decodedData.nickname}`}>Mis animales encontrados</a>
-                        <a href="" onClick={logout}>Cerrar sesión</a>
+                        <Link to="/difundir">Difundir desaparición</Link>
+                        <Link to="/datospersonales">Datos personales</Link>
+                        <Link to="/miscasos">Mis casos</Link>
+                        <Link to={`/misencontrados/${decodedData.nickname}`}>Mis animales encontrados</Link>
+                        <Link to="" onClick={logout}>Cerrar sesión</Link>
                     </div>
                 </div>
                 :
-                <a className="navbar-brand text_fontstyle" href="/iniciarsesion">
+                <Link className="navbar-brand text_fontstyle" to="/iniciarsesion">
                     Iniciar sesión
-                </a>
+                </Link>
             }
         </div>
     )

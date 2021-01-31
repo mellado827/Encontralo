@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 const Contact = () => (
     <>
@@ -24,10 +25,10 @@ const Contact = () => (
                 <strong> Don't be shy.</strong>
             </p>
             <div className="sm d-flex flex-row">
-                <a className="socialmedia d-flex justify-content-center m-3" href="/formulario"
+                <Link className="socialmedia d-flex justify-content-center m-3" to="/formulario"
                     title="Formulario">
                     <img className="m-3" src="./img/email.png" alt="Formulario" />
-                </a>
+                </Link>
             </div>
         </div>
     </>

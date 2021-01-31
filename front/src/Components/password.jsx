@@ -39,7 +39,7 @@ function Password(props) {
     if (token !== null) {
       const consultarAPI = () => {
         try {
-          const clienteConsulta = axiosClient.get("/usuarios", {
+          const clienteConsulta = axiosClient.get("/api/usuarios", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -61,7 +61,7 @@ function Password(props) {
   }, [usuarios]);
 
   const consultaPorEdit = async () => {
-    const consulta = await axiosClient.get(`/usuarios/${decodedData._id}`);
+    const consulta = await axiosClient.get(`/api/usuarios/${decodedData._id}`);
     datosUsuario(consulta.data);
   };
 
@@ -104,7 +104,7 @@ function Password(props) {
         // enviar petición
         axiosClient
           .put(
-            `/usuarios/${decodedData._id ? decodedData._id : ``}`,
+            `/api/usuarios/${decodedData._id ? decodedData._id : ``}`,
             contrasenas
           )
           .then((res) => {

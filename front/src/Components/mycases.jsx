@@ -6,7 +6,8 @@ import jwt_decode from 'jwt-decode'
 import Swal from 'sweetalert2'
 import $ from 'jquery'
 import Presentation from './presentation'
-
+import {Link} from 'react-router-dom'
+ 
 function MyCases(props) {
 
     const [input, setInput] = useState({})
@@ -45,11 +46,11 @@ function MyCases(props) {
 
     const Consult = async () => {
         if (token) {
-            const reportsConsult = await axiosClient.get(`/reportes/${decodedData._id}/${input}`)
+            const reportsConsult = await axiosClient.get(`/api/reportes/${decodedData._id}/${input}`)
             saveReports(reportsConsult.data)
 
 
-            const misAnimalesEncontrados = await axiosClient.get(`/encontrados/${decodedData._id}`)
+            const misAnimalesEncontrados = await axiosClient.get(`/api/encontrados/${decodedData._id}`)
             setAnimalesEncontrados(misAnimalesEncontrados.data)
         } else {
             props.history.push("/iniciarsesion")
@@ -117,7 +118,7 @@ function MyCases(props) {
         if (token !== null) {
             const consultarAPI = async () => {
                 try {
-                    const clienteConsulta = await axiosClient.get('/usuarios', {
+                    const clienteConsulta = await axiosClient.get('/api/usuarios', {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
@@ -152,7 +153,7 @@ function MyCases(props) {
         // consultar la api para traer el reporte
         if (token) {
             const consultarAPI = async () => {
-                const reporteConsulta = await axiosClient.get(`/reportes/${decodedData._id}`);
+                const reporteConsulta = await axiosClient.get(`/api/reportes/${decodedData._id}`);
                 console.log(reporteConsulta)
                 verReporte(reporteConsulta.data)
             }
@@ -291,7 +292,7 @@ function MyCases(props) {
                                             <i>Usted no ha difundido ninguna desaparición.</i>
                                         </p>
 
-                                        <a type="button" className="cta_bottonsstyle mt-5 mb-5 text_fontstyle" href="/difundir">Difundir</a>
+                                        <Link type="button" className="cta_bottonsstyle mt-5 mb-5 text_fontstyle" to="/difundir">Difundir</Link>
                                     </div>
                                 </div>
 

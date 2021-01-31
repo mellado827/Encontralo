@@ -26,9 +26,6 @@ router.put(
 );
 
 //Eliminar usuario
-router.delete(
-  "/:idUsuario",
-  usuarioController.eliminarUsuario
-);
+router.delete("/:idUsuario", usuarioController.eliminarUsuario);
 
 module.exports = router;
