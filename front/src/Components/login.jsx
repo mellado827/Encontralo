@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import SeePassword from "../Functions/seePassword";
 import Swal from "sweetalert2";
 import axiosClient from "../../src/config/axios";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 //Context
 import { CRMContext } from "../context/CRMContext";
@@ -29,10 +29,9 @@ function Login(props) {
     //autenticar
     try {
       // debugger
-      const res = await axiosClient.post(
-        "/usuarios/iniciarsesion",
-        credenciales
-      );
+      const res = await axiosClient.post("/api/usuarios/iniciarsesion", credenciales, {
+      })
+      
       //extraer el token y colocarlo en localstorage
       const { token } = res.data;
       localStorage.setItem("token", token);
@@ -135,14 +134,14 @@ function Login(props) {
             </div>
           </form>
           <div className="resetandsignup d-flex justify-content-around m-4 align-items-around">
-            <a className="text_font text-center" href="/olvidemicontrasena">
+            <Link className="text_font text-center" to="/olvidemicontrasena">
               Olvidé mi contraseña
-            </a>
+            </Link>
           </div>
           <div className="resetandsignup d-flex justify-content-around m-4 align-items-around">
-            <a className="text_font text-center" href="/registrarse">
+            <Link className="text_font text-center" to="/registrarse">
               ¿No sos miembro?
-            </a>
+            </Link>
           </div>
         </div>
       </div>

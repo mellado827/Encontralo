@@ -234,7 +234,7 @@ exports.autenticarUsuario = async (req, res, next) => {
 
   const usuario = await Usuarios.findOne({ email: email });
 
-  console.log(usuario)
+  console.log(usuario);
 
   if (!usuario) {
     //Si el usuario no existe

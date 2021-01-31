@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 const Tutorial = () => (
     <div className="tutorial" id="tutorial">
@@ -24,12 +25,12 @@ const Tutorial = () => (
                                 </strong>
                             </h1>
                             <p className="text_fontstyle m-5 text-center">
-                                Para poder hacerlo, tenés que <a href="/iniciarsesion" className="link">iniciar sesión</a> (si no tenés cuenta,
-                  <a href="/registrarse" className="link"> registrate</a>) con tu cuenta de Encontralo.
+                                Para poder hacerlo, tenés que <Link to="/iniciarsesion" className="link">iniciar sesión</Link> (si no tenés cuenta,
+                  <Link to="/registrarse" className="link"> registrate</Link>) con tu cuenta de Encontralo.
                 </p>
                             <p className="text_fontstyle m-2 text-center">
-                                Una vez iniciada la sesión, tenés que <a href="/difundir" className="link">difundir la
-                    desaparición</a>.
+                                Una vez iniciada la sesión, tenés que <Link to="/difundir" className="link">difundir la
+                    desaparición</Link>.
                 </p>
                             <p className="text_fontstyle m-5 text-center">
                                 Con el caso ya creado, podés: modificar sus datos, dar de

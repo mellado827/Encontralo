@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import jwt_decode from 'jwt-decode'
 import Swal from 'sweetalert2'
 import axiosClient from '../config/axios'
+import {Link} from 'react-router-dom'
 
 function CeroCases(props) {
 
@@ -66,7 +67,7 @@ function CeroCases(props) {
                     </p>
 
                     <div className="d-flex align-items-center text_fontstyle cerocases_buttons">
-                        <a type="button" className="cta_bottonsstyle mt-5 mb-5 text_fontstyle" href="/reportar">Reportar</a>
+                        <Link className="cta_bottonsstyle mt-5 mb-5 text_fontstyle" to="/difundir">Reportar</Link>
                         <button type="button"
                             className="cta_bottonsstyle cta_bottonsstyle-green mt-5 mb-5 text_fontstyle"
                         >

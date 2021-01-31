@@ -38,15 +38,15 @@ function Found(props) {
     const [animalesEncontradosPorDep, setanimalesEncontradosPorDep] = useState([])
 
     const Consult = async () => {
-        const todosAnimalesEncontrados = await axiosClient.get("/encontrados")
+        const todosAnimalesEncontrados = await axiosClient.get("/api/encontrados")
         setAnimalesEncontrados(todosAnimalesEncontrados.data)
 
         if (token) {
-            const consultaAnimalesEncontradosPorUsuario = await axiosClient.get(`/encontrados/${decodedData.nickname}`)
+            const consultaAnimalesEncontradosPorUsuario = await axiosClient.get(`/api/encontrados/${decodedData.nickname}`)
             setanimalesEncontradosPorUsuario(consultaAnimalesEncontradosPorUsuario.data)
         }
 
-        const consultaAnimalesEncontradosPorDep = await axiosClient.get(`/encontrados/${input}`)
+        const consultaAnimalesEncontradosPorDep = await axiosClient.get(`/api/encontrados/${input}`)
         setanimalesEncontradosPorDep(consultaAnimalesEncontradosPorDep.data.casosPorDepartamento)
     }
 
@@ -58,7 +58,7 @@ function Found(props) {
 
     const emptyValue = e => {
         e.preventDefault()
-        props.history.push(`/misencontrados/${decodedData.nickname}`)
+        props.history.push(`/api/misencontrados/${decodedData.nickname}`)
     }
 
     $('.mr-2').on('change', function () {

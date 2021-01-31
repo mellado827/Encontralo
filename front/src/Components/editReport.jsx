@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { withRouter } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import Navbar from './navbar'
 import axiosClient from '../../src/config/axios'
 import Swal from 'sweetalert2'
@@ -614,7 +614,7 @@ function EditReport(props) {
                                     correspondan con su usuario, modifíquelos
                                     antes de reportar la desaparición.
                                     </p>
-                                    <a href="/datospersonales" className="text-center text_fontstyle link">Datos personales</a>
+                                    <Link to="/datospersonales" className="text-center text_fontstyle link">Datos personales</Link>
                                     <label className="mt-4 text_fontstyle">Descripción</label>
                                     <textarea
                                         rows="10"

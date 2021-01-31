@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Rutas de la app
-app.use("/", routes);
+app.use("/api", routes);
 
 // carpeta publica
 app.use(express.static("images"));
@@ -32,5 +32,5 @@ app.use(express.static("images"));
 // puerto
 app.set("port", process.env.PORT || 5000);
 app.listen(app.get("port"), () => {
-  console.log("Server runing on port " + app.get("port"));
+  console.log("Server running on port " + app.get("port"));
 });

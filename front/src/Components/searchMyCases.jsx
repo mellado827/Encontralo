@@ -41,7 +41,7 @@ function SearchMyCases(props) {
         if (token !== null) {
             const consultarAPI = async () => {
                 try {
-                    const clienteConsulta = await axiosClient.get('/usuarios', {
+                    const clienteConsulta = await axiosClient.get('/api/usuarios', {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
@@ -74,7 +74,7 @@ function SearchMyCases(props) {
     useEffect(() => {
         // consultar la api para traer el reporte
         const consultarAPI = async () => {
-            const reporteConsulta = await axiosClient.get(`/reportes/${usuario}/${dep}`);
+            const reporteConsulta = await axiosClient.get(`/api/reportes/${usuario}/${dep}`);
             verReporte(reporteConsulta.data)
         }
         consultarAPI();

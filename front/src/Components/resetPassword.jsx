@@ -61,7 +61,7 @@ function ResetPassword(props) {
         });
 
         axiosClient
-          .put(`/usuarios/${decodedData._id}`, contrasenas)
+          .put(`/api/usuarios/${decodedData._id}`, contrasenas)
           .then((res) => {
             if (res.status === 200) {
               Swal.fire({

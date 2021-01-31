@@ -47,10 +47,11 @@ function Signup() {
         e.preventDefault();
 
         // enviar petición
-        axiosClient.post('/usuarios', user)
+      axiosClient.post('/api/usuarios', user)
             .then(res => {
+                console.log(res)
 
-                if (res.data.mensaje.includes("ya está en uso")) {
+                if (res.data.includes("ya está en uso")) {
                     Swal.fire({
                         title: 'Hubo un error',
                         icon: 'error',
