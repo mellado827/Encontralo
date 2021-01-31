@@ -41,7 +41,7 @@ function PersonalInfo(props) {
         if (token !== null) {
             const consultarAPI = () => {
                 try {
-                    const clienteConsulta = axiosClient.get('/api/usuarios', {
+                    const clienteConsulta = axiosClient.get('/usuarios', {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }

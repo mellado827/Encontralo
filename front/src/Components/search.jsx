@@ -26,7 +26,7 @@ function Search(props) {
     }
 
     const Consult = async () => {
-        const reportsConsult = await axiosClient.get('/api/reportes')
+        const reportsConsult = await axiosClient.get('/reportes')
         saveReports(reportsConsult.data)
     }
 

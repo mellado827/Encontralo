@@ -44,7 +44,7 @@ function Report(props) {
     if (token !== null) {
       const consultarAPI = async () => {
         try {
-          const clienteConsulta = await axiosClient.get("/api/usuarios", {
+          const clienteConsulta = await axiosClient.get("/usuarios", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -177,7 +177,7 @@ function Report(props) {
     var formData = new FormData();
     formData.append('file0', imagePreview)
 
-    await axiosClient.put(`/api/reportes/${idTrue}`, formData, {
+    await axiosClient.put(`/reportes/${idTrue}`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
@@ -333,7 +333,7 @@ function Report(props) {
             try {
               
               Swal.fire({
-                icon: "loading",
+                icon: "info",
                 title: "Subiendo reporte...",
                 text: "Esperá, por favor.",
                 customClass: {
@@ -341,7 +341,7 @@ function Report(props) {
                 },
               });
 
-              await axiosClient.post("/api/reportes", formData, {
+              await axiosClient.post("/reportes", formData, {
                 headers: {
                   "Content-Type": "application/x-www-form-urlencoded",
                 },
@@ -359,9 +359,9 @@ function Report(props) {
                     },
                   });
   
-                  setTimeout(() => {
-                    window.location.reload();
-                  }, 2000);
+                  // setTimeout(() => {
+                  //   window.location.reload();
+                  // }, 2000);
                 } else {
                   Swal.fire({
                     icon: "error",

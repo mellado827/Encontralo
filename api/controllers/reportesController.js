@@ -21,7 +21,10 @@ exports.upload = async (req, res, next) => {
       return res.status(404).send({ status: "Error", message: "file_name" });
     }
 
+    console.log(req.files);
+
     let file_path = normalize(req.files.file0.path);
+    console.log(req.files);
     let file_split = file_path.split("/");
     let file_name = file_split[2];
     let ext_split = file_name.split(".");

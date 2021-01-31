@@ -58,7 +58,7 @@ function PersonalInfoAPI(props) {
         if (token !== null) {
             const consultarAPI = () => {
                 try {
-                    const clienteConsulta = axiosClient.get('/api/usuarios', {
+                    const clienteConsulta = axiosClient.get('/usuarios', {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
@@ -93,7 +93,7 @@ function PersonalInfoAPI(props) {
 
     const consultaPorEdit = async () => {
         if (token) {
-            const consulta = await axiosClient.get(`/api/usuarios/${decodedData._id}`)
+            const consulta = await axiosClient.get(`/usuarios/${decodedData._id}`)
             datosUsuario(consulta.data)
         }
     }
@@ -146,7 +146,7 @@ function PersonalInfoAPI(props) {
 
 
                     try {
-                        axiosClient.put(`/api/usuarios/${decodedData._id ? decodedData._id : ``}`, usuario)
+                        axiosClient.put(`/usuarios/${decodedData._id ? decodedData._id : ``}`, usuario)
                             .then(res => {
 
                                 if (res.data.mensaje === "Datos ya existentes" ||

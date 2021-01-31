@@ -54,7 +54,7 @@ function CommentBox(props) {
                         content: 'text_fontstyle'
                     }
                 })
-                await axiosClient.delete(`/comentarios/${comentario._id}`)
+                await axiosClient.delete(`/api/comentarios/${comentario._id}`)
             }
         })
     }

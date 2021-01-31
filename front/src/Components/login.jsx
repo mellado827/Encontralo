@@ -29,7 +29,7 @@ function Login(props) {
     //autenticar
     try {
       // debugger
-      const res = await axiosClient.post("/api/usuarios/iniciarsesion", credenciales, {
+      const res = await axiosClient.post("/usuarios/iniciarsesion", credenciales, {
       })
       
       //extraer el token y colocarlo en localstorage

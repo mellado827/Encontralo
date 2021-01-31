@@ -17,10 +17,10 @@ function Comentarios(props) {
     const [commentDB, setCommentDB] = useState([])
 
     const Consult = async () => {
-        const reportConsult = await axiosClient.get(`/api/reportes/${idcaso}`)
+        const reportConsult = await axiosClient.get(`/reportes/${idcaso}`)
         saveReports(reportConsult.data.reportePorIDpublico)
 
-        const commentConsult = await axiosClient.get(`/api/comentarios/${idcaso}`)
+        const commentConsult = await axiosClient.get(`/comentarios/${idcaso}`)
         setCommentDB(commentConsult.data)
     }
 
@@ -106,7 +106,7 @@ function Comentarios(props) {
                 }).then(async (result) => {
                     if (result.isConfirmed) {
 
-                        await axiosClient.post('/api/comentarios', data, {
+                        await axiosClient.post('/comentarios', data, {
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
                             }
@@ -148,7 +148,7 @@ function Comentarios(props) {
 
     const chequearUsuarioLogueado = async () => {
         if (token !== null) {
-            const consultaCaso = await axiosClient.get(`/api/reportes/${idcaso}`)
+            const consultaCaso = await axiosClient.get(`/reportes/${idcaso}`)
             const reporte = consultaCaso.data.reportePorIDpublico
             reporte.forEach(element => {
                 if (element.idUsuario === decodedData._id) {

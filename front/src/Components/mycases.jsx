@@ -46,11 +46,11 @@ function MyCases(props) {
 
     const Consult = async () => {
         if (token) {
-            const reportsConsult = await axiosClient.get(`/api/reportes/${decodedData._id}/${input}`)
+            const reportsConsult = await axiosClient.get(`/reportes/${decodedData._id}/${input}`)
             saveReports(reportsConsult.data)
 
 
-            const misAnimalesEncontrados = await axiosClient.get(`/api/encontrados/${decodedData._id}`)
+            const misAnimalesEncontrados = await axiosClient.get(`/encontrados/${decodedData._id}`)
             setAnimalesEncontrados(misAnimalesEncontrados.data)
         } else {
             props.history.push("/iniciarsesion")
@@ -118,7 +118,7 @@ function MyCases(props) {
         if (token !== null) {
             const consultarAPI = async () => {
                 try {
-                    const clienteConsulta = await axiosClient.get('/api/usuarios', {
+                    const clienteConsulta = await axiosClient.get('/usuarios', {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
@@ -153,7 +153,7 @@ function MyCases(props) {
         // consultar la api para traer el reporte
         if (token) {
             const consultarAPI = async () => {
-                const reporteConsulta = await axiosClient.get(`/api/reportes/${decodedData._id}`);
+                const reporteConsulta = await axiosClient.get(`/reportes/${decodedData._id}`);
                 console.log(reporteConsulta)
                 verReporte(reporteConsulta.data)
             }
