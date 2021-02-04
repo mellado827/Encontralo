@@ -22,12 +22,13 @@ import Found from "./Components/found";
 import MyFounds from "./Components/myFounds";
 import SearchMyFounds from "./Components/searchMyFounds";
 import SearchingFoundPets from "./Components/searchingFoundPets";
+import { HashRouter } from "react-router-dom";
 
 function App() {
   const [auth, guardarAuth] = useContext(CRMContext);
 
   return (
-    <Router>
+    <HashRouter>
       <>
         <CRMProvider value={[auth, guardarAuth]}>
           <Switch>
@@ -80,7 +81,7 @@ function App() {
           </Switch>
         </CRMProvider>
       </>
-    </Router>
+    </HashRouter>
   );
 }
 

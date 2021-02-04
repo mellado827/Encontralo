@@ -154,7 +154,6 @@ function MyCases(props) {
         if (token) {
             const consultarAPI = async () => {
                 const reporteConsulta = await axiosClient.get(`/reportes/${decodedData._id}`);
-                console.log(reporteConsulta)
                 verReporte(reporteConsulta.data)
             }
             consultarAPI();

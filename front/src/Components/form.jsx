@@ -51,7 +51,7 @@ export default function Form(props) {
     return (
         <>
             <Navbar />
-            <div className="report d-flex flex-column justify-content-center align-items-center">
+            <div className="d-flex flex-column justify-content-center align-items-center form_background">
 
                 <div className="report_title mt-5">
                     <h1 className="text-center subtitle_fontstyle report_title">Formulario</h1>
