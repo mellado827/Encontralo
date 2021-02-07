@@ -204,17 +204,19 @@ function Search(props) {
                         </div>
 
                         <div className="d-flex flex-wrap justify-content-center" onLoad={visibleHandle}>
-                            {visible === null ? spinner() : 
-                            
-                            reports.length > 0 ?
-                                reports.map(report =>
-                                    (
-                                        <LostPetCard
-                                            key={report._id}
-                                            report={report}
-                                        />
-                                    )
-                                ) : spinner()}
+                            {                         
+                            reports.length > 0 
+                                ?
+                                    reports.map(report =>
+                                        (
+                                            <LostPetCard
+                                                key={report._id}
+                                                report={report}
+                                            />
+                                        )
+                                ) 
+                                : spinner()
+                            }
                         </div>
                     </form>
 

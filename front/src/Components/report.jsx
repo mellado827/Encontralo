@@ -177,11 +177,15 @@ function Report(props) {
     var formData = new FormData();
     formData.append('file0', imagePreview)
 
-    await axiosClient.put(`/reportes/${idTrue}`, formData, {
+    try {
+      await axiosClient.put(`/reportes/${idTrue}`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
     })
+    } catch (error) {
+      console.log(error)
+    }
 }
 
   const ViralInfo = () => {

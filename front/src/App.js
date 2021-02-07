@@ -4,7 +4,12 @@ import Report from "./Components/report";
 import Error from "./Components/error";
 import Login from "./Components/login";
 import Signup from "./Components/signup";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  BrowserRouter,
+} from "react-router-dom";
 import Password from "./Components/password";
 import Search from "./Components/search";
 import PersonalInfo from "./Components/personalinfo";
@@ -28,7 +33,7 @@ function App() {
   const [auth, guardarAuth] = useContext(CRMContext);
 
   return (
-    <HashRouter>
+    <BrowserRouter>
       <>
         <CRMProvider value={[auth, guardarAuth]}>
           <Switch>
@@ -81,7 +86,7 @@ function App() {
           </Switch>
         </CRMProvider>
       </>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 
