@@ -133,12 +133,14 @@ function Login(props) {
               </button>
             </div>
           </form>
-          <div className="resetandsignup d-flex justify-content-around m-4 align-items-around">
-            <Link className="text_font text-center" to="/olvidemicontrasena">
+          <div className="resetandsignup d-flex justify-content-around m-5">
+          <Link className="text_font text-center" to="/olvidemicontrasena">
               Olvidé mi contraseña
             </Link>
-          </div>
-          <div className="resetandsignup d-flex justify-content-around m-4 align-items-around">
+            <Link className="text_font text-center" to="/">
+              Volver a Inicio
+            </Link>
+           
             <Link className="text_font text-center" to="/registrarse">
               ¿No sos miembro?
             </Link>
