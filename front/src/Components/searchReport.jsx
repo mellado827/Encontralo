@@ -15,7 +15,7 @@ function SearchReport(props) {
     useEffect(() => {
         // consultar la api para traer el reporte
         const consultarAPI = async () => {
-            const reporteConsulta = await axiosClient.get(`/api/reportes/${inputReporte}`);
+            const reporteConsulta = await axiosClient.get(`/reportes/${inputReporte}`);
             verReporte(reporteConsulta.data)
         }
         consultarAPI();

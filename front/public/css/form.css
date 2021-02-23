@@ -1,23 +1,29 @@
 .form {
-    height: auto;
-    margin-top: 2em;
-    width: 100%;
-    justify-content: center;
-    background-color: rgba(255,255,255,0.7);
+  height: auto;
+  margin-top: 2em;
+  width: 100%;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.form_background {
+  background-image: url("../img/report_background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .input_sizeForm {
-    width: 75%;
-  }
+  width: 75%;
+}
 
-  @media screen and (min-width: 64em) {
-    .input_sizeForm {
-      width: 50%;
-      flex-direction: column;
-    }
-    .form {
-        width: 50%;
-    }
+@media screen and (min-width: 64em) {
+  .input_sizeForm {
+    width: 50%;
+    flex-direction: column;
+  }
+  .form {
+    width: 50%;
+  }
 }
 
 .loader {
@@ -30,6 +36,10 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

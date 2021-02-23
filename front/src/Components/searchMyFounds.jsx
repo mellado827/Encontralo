@@ -42,7 +42,7 @@ function SearchMyFounds(props) {
         if (token !== null) {
             const consultarAPI = async () => {
                 try {
-                    const clienteConsulta = await axiosClient.get('/api/usuarios', {
+                    const clienteConsulta = await axiosClient.get('/usuarios', {
                         headers: {
                             Authorization: `Bearer ${token}`
                         }
@@ -77,10 +77,10 @@ function SearchMyFounds(props) {
     useEffect(() => {
         // consultar la api para traer el reporte
         const consultarAPI = async () => {
-            const reporteConsultaPorDepartamento = await axiosClient.get(`/api/encontrados/${usuario}/${comodin}`);
+            const reporteConsultaPorDepartamento = await axiosClient.get(`/encontrados/${usuario}/${comodin}`);
             verReporte(reporteConsultaPorDepartamento.data.casosPorDepartamento)
 
-            const reporteConsultaPorTipoMascota = await axiosClient.get(`/api/encontrados/${usuario}/${comodin}`);
+            const reporteConsultaPorTipoMascota = await axiosClient.get(`/encontrados/${usuario}/${comodin}`);
             setCasosPorTipo(reporteConsultaPorTipoMascota.data.casosPorTipo)
         }
         consultarAPI();

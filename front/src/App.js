@@ -4,7 +4,12 @@ import Report from "./Components/report";
 import Error from "./Components/error";
 import Login from "./Components/login";
 import Signup from "./Components/signup";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  BrowserRouter,
+} from "react-router-dom";
 import Password from "./Components/password";
 import Search from "./Components/search";
 import PersonalInfo from "./Components/personalinfo";
@@ -22,12 +27,13 @@ import Found from "./Components/found";
 import MyFounds from "./Components/myFounds";
 import SearchMyFounds from "./Components/searchMyFounds";
 import SearchingFoundPets from "./Components/searchingFoundPets";
+import { HashRouter } from "react-router-dom";
 
 function App() {
   const [auth, guardarAuth] = useContext(CRMContext);
 
   return (
-    <Router>
+    <BrowserRouter>
       <>
         <CRMProvider value={[auth, guardarAuth]}>
           <Switch>
@@ -80,7 +86,7 @@ function App() {
           </Switch>
         </CRMProvider>
       </>
-    </Router>
+    </BrowserRouter>
   );
 }
 

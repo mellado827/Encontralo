@@ -7,6 +7,7 @@ import jwt_decode from 'jwt-decode'
 import Swal from 'sweetalert2'
 import $ from 'jquery'
 import CeroCases from './cerocases'
+import Presentation from './presentation'
 
 function Search(props) {
 
@@ -26,7 +27,7 @@ function Search(props) {
     }
 
     const Consult = async () => {
-        const reportsConsult = await axiosClient.get('/api/reportes')
+        const reportsConsult = await axiosClient.get('/reportes')
         saveReports(reportsConsult.data)
     }
 
@@ -101,6 +102,17 @@ function Search(props) {
         }
     }
 
+    const [visible, setVisible] = useState(false)
+
+    const visibleHandle = () => {
+        return setVisible(true)
+    }
+
+    const spinner = () => {
+        return (
+            <div className="lds-heart"><div></div></div>
+        )
+    }
 
     return (
         <>
@@ -191,19 +203,20 @@ function Search(props) {
                                 className="text_fontstyle cta_bottonsstyle">Buscar</button>
                         </div>
 
-                        <div className="d-flex flex-wrap justify-content-center">
-                            {reports.length === 0 ?
-                                <>
-                                    <CeroCases />
-                                </> :
-                                reports.map(report =>
-                                    (
-                                        <LostPetCard
-                                            key={report._id}
-                                            report={report}
-                                        />
-                                    )
-                                )}
+                        <div className="d-flex flex-wrap justify-content-center" onLoad={visibleHandle}>
+                            {                         
+                            reports.length > 0 
+                                ?
+                                    reports.map(report =>
+                                        (
+                                            <LostPetCard
+                                                key={report._id}
+                                                report={report}
+                                            />
+                                        )
+                                ) 
+                                : spinner()
+                            }
                         </div>
                     </form>
 

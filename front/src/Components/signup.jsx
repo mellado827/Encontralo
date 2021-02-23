@@ -47,9 +47,8 @@ function Signup() {
         e.preventDefault();
 
         // enviar petición
-      axiosClient.post('/api/usuarios', user)
+      axiosClient.post('/usuarios', user)
             .then(res => {
-                console.log(res)
 
                 if (res.data.includes("ya está en uso")) {
                     Swal.fire({

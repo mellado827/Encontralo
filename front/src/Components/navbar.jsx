@@ -1,5 +1,6 @@
 import React from 'react';
 import Prelogin from './prelogin'
+import {Link} from 'react-router-dom'
 
 const Navbar = () => (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -10,10 +11,10 @@ const Navbar = () => (
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
             <ul className="navbar-nav">
                 <li className="nav-item">
-                    <a className="nav-link text_fontstyle" href="/">Inicio</a>
+                    <Link className="nav-link text_fontstyle" to="/">Inicio</Link>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link text_fontstyle" href="/#calltoaction">¿Qué querés hacer?</a>
+                    <Link className="nav-link text_fontstyle" to="/#calltoaction">¿Qué querés hacer?</Link>
                 </li>
                 <li className="nav-item">
                     <a className="nav-link text_fontstyle" href="/#tutorial">¿Cómo funciona?</a>
