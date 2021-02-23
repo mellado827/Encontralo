@@ -10,9 +10,7 @@ const router = routerx();
 
 router.post(
   "/",
-  md_upload,
   reportesController.nuevoReporte,
-  reportesController.upload
 );
 
 //Mostrar todos los reportes
