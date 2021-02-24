@@ -33,7 +33,7 @@ function App() {
   const [auth, guardarAuth] = useContext(CRMContext);
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <>
         <CRMProvider value={[auth, guardarAuth]}>
           <Switch>
@@ -86,7 +86,7 @@ function App() {
           </Switch>
         </CRMProvider>
       </>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
