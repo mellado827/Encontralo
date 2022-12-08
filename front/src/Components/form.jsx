@@ -9,45 +9,6 @@ export default function Form(props) {
 
     document.title = "Encontralo / formulario "
 
-    window.onbeforeunload = function () {
-        return "";
-    };
-
-    function emailForm(e) {
-        e.preventDefault();
-
-        Swal.fire({
-            text: `Enviando formulario...`,
-            customClass: {
-                content: 'text_fontstyle'
-            }
-        })
-
-        emailjs.sendForm('encontralo', 'template_yf2moyf', e.target, 'user_mOJKehHBkb7ul8DMSXNQF')
-            .then(() => {
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Formulario enviado satisfactoriamente!',
-                    text: 'El equipo de Encontralo lo estará revisando a la brevedad.',
-                    customClass: {
-                        content: 'text_fontstyle'
-                    }
-                })
-                setTimeout(() => {
-                    props.history.push('/')
-                }, 3000);
-            }, () => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Ups!',
-                    text: 'Hubo un error, inténtalo de nuevo más tarde',
-                    customClass: {
-                        content: 'text_fontstyle'
-                    }
-                })
-            });
-    }
-
     return (
         <>
             <Navbar />
@@ -55,12 +16,12 @@ export default function Form(props) {
 
                 <div className="report_title mt-5">
                     <h1 className="text-center subtitle_fontstyle report_title">Formulario</h1>
-                    <p className="text-center text_fontstyle">Si quieres unirte a Encontralo, brindar alguna idea o demás, ¡Estamos abiertos! Don't be shy.</p>
-                    <p className="text-center text_fontstyle"><strong><u>Los campos con * son obligatorios</u></strong></p>
+                    <p className="text-center text_fontstyle">Contactate con nosotros completando los siguientes campos.</p>
+                    <p className="text-center text_fontstyle"><strong><u>Todos son obligatorios.</u></strong></p>
 
                 </div>
 
-                <form className="form d-flex flex-column justify-content-start" onSubmit={emailForm}>
+                <form className="form d-flex flex-column justify-content-start">
                     <div className="d-flex flex-column align-items-center">
                         <div className="form-group m-3 pt-3 input_sizeForm">
                             <label htmlFor="formGroupExampleInput"
@@ -98,7 +59,6 @@ export default function Form(props) {
                                 rows="8"></textarea>
                         </div>
                         <button type="submit"
-                            onClick={e => e.target.value === null ? alert("Ingresa todos los campos") : ``}
                             className="mt-3 cta_bottonsstyle text_fontstyle mb-3">Enviar
                         </button>
                     </div>

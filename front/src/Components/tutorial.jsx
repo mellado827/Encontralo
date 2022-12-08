@@ -24,18 +24,9 @@ const Tutorial = () => (
                                     <span className="color_numHIW"> 1 - </span>Difundís la desaparición
                                 </strong>
                             </h1>
-                            <p className="text_fontstyle m-5 text-center">
-                                Para poder hacerlo, tenés que <Link to="/iniciarsesion" className="link">iniciar sesión</Link> (si no tenés cuenta,
-                  <Link to="/registrarse" className="link"> registrate</Link>) con tu cuenta de Encontralo.
-                </p>
                             <p className="text_fontstyle m-2 text-center">
-                                Una vez iniciada la sesión, tenés que <Link to="/difundir" className="link">difundir la
-                    desaparición</Link>.
-                </p>
-                            <p className="text_fontstyle m-5 text-center">
-                                Con el caso ya creado, podés: modificar sus datos, dar de
-                  baja el caso y/o reportarlo como <u>encontrado</u>.
-                </p>
+                                Difundís la desaparición <Link to="/difundir" className="link">clickeando aquí.</Link>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -63,7 +54,7 @@ const Tutorial = () => (
                             <p className="text_fontstyle m-5 text-center">
                                 Una vez hecho el formulario, se empieza a divulgar la noticia en distintos grupos de Facebook
                                 acerca de rescate de animales de forma automática.
-                </p>
+                            </p>
                         </div>
                     </div>
                 </div>

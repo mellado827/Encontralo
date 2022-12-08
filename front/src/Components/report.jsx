@@ -40,31 +40,6 @@ function Report(props) {
 
   const [usuarios, guardarUsuarios] = useState([]);
 
-  useEffect(() => {
-    if (token !== null) {
-      const consultarAPI = async () => {
-        try {
-          const clienteConsulta = await axiosClient.get("/usuarios", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          guardarUsuarios(clienteConsulta.data);
-        } catch (error) {
-          // Error con autorización
-          if (error.response.status === 500) {
-            props.history.push("/iniciarsesion");
-          }
-        }
-      };
-
-      consultarAPI();
-    } else {
-      props.history.push("/iniciarsesion");
-    }
-  }, []);
-
   const [report, saveReport] = useState({
     tipoMascota: "",
     estado: "",
