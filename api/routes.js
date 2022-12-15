@@ -22,7 +22,7 @@ routes.post('/',(req,res) => {
         connection.query('INSERT INTO perdidos SET ?',[req.body], (error, rows) => {
             if(error) return res.send(error)
 
-            res.send('post hecho!')
+            res.send('post hecho')
         })
     })
 })

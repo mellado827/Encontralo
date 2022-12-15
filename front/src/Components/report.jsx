@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import Swal from 'sweetalert2';
 import Navbar from "./navbar";
 import shortid from "shortid";
-import axiosClient from "../../src/config/axios";
 import Datepicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
@@ -16,23 +16,26 @@ function Report() {
   const [report, saveReport] = useState({
     tipoMascota: "",
     estadoMascota: "",
+    razaMascota: "",
     nombreMascota: "",
     sexoMascota: "",
     descripcionMascota: "",
     chipMascota: "",
     fechaMascota: "",
+    horaPerdidoMascota: "",
     departamentoPerdidoMascota: "",
     localidadPerdidoMascota: "",
     lugarPerdidoMascota: "",
     nombreResponsableMascota: "",
     descripcionResponsableMascota: "",
-    viralInfo: ""
+    viralInfo: "",
+    imagenMascota: ""
   });
 
   const updateState = (e) => {
     saveReport({
       ...report,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     });
   };
 
@@ -69,9 +72,47 @@ function Report() {
     document.getElementById("missing_hour").value = "";
   };
 
+  const createReport = () => {
+    const requestInit = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(report)
+    }
+    fetch('http://localhost:9000/api', requestInit)
+    .then(res => {
+      if(res.status == 200) {
+        Swal.fire({
+          icon: 'success',
+          title: 'La publicación ha sido realizada correctamente!',
+          text: 'Éxitos. Cualquier novedad te avisaremos.'
+        })
+      }
+    })
+
+    //reiniciando state del libro
+    saveReport({
+      tipoMascota: "",
+      estadoMascota: "",
+      razaMascota: "",
+      nombreMascota: "",
+      sexoMascota: "",
+      descripcionMascota: "",
+      chipMascota: "",
+      fechaMascota: "",
+      horaPerdidoMascota: "",
+      departamentoPerdidoMascota: "",
+      localidadPerdidoMascota: "",
+      lugarPerdidoMascota: "",
+      nombreResponsableMascota: "",
+      descripcionResponsableMascota: "",
+      idPublico: "",
+      viralInfo: "",
+      imagenMascota: ""
+    })
+  }
+
   //validar reporte
   const validateReport = () => {
-    debugger;
     const {
       tipoMascota,
       estadoMascota,
@@ -82,20 +123,26 @@ function Report() {
       localidadPerdidoMascota,
       lugarPerdidoMascota
     } = report;
-    let ok =
-      !tipoMascota.length ||
-      !estadoMascota.length ||
-      !sexoMascota.length ||
-      !descripcionMascota.length ||
-      !chipMascota.length ||
-      !departamentoPerdidoMascota.length ||
-      !localidadPerdidoMascota.length ||
-      !lugarPerdidoMascota.length ||
-      imagenNueva === "https://res.cloudinary.com/encontralo/image/upload/v1610327793/default-image_kzjjpj.jpg" ||
-      imagePreview === "https://res.cloudinary.com/encontralo/image/upload/v1610327793/default-image_kzjjpj.jpg"
-
-    if (ok === true) {
-      return ok;
+    
+    if(
+      tipoMascota.length != "" &&
+      estadoMascota.length  != "" &&
+      sexoMascota.length  != "" &&
+      descripcionMascota.length  != "" &&
+      chipMascota.length  != ""  &&
+      departamentoPerdidoMascota.length  != "" &&
+      localidadPerdidoMascota.length != "" &&
+      lugarPerdidoMascota.length != "" &&
+      imagePreview != "https://res.cloudinary.com/encontralo/image/upload/v1610327793/default-image_kzjjpj.jpg"
+    ) 
+    {
+      createReport()
+      console.log("true")
+      return true;
+    }
+    else {
+      alert("Complete los campos obligatorios.")
+      return false;
     }
   };
 
@@ -181,6 +228,10 @@ function Report() {
     return viralInfo;
   };
 
+  const handleSubmit = () => {
+
+  }
+
   return (
     <>
       <Navbar />
@@ -204,6 +255,7 @@ function Report() {
           <form
             className="pet_form form_style m-3 text_fontstyle d-flex flex-column"
             id="pet_form"
+            onSubmit={handleSubmit}
           >
             <div className="petinfo m-2">
               <p className="text-center">
@@ -269,14 +321,15 @@ function Report() {
                 <u>Foto</u> <strong>*</strong>
               </label>
               <input
-                name="imagen"
+                name="imagenMascota"
                 className="file_attachment"
                 type="file"
                 required={true}
                 style={{ overflow: "hidden" }}
                 id="file_attachment"
                 accept="image/*"
-                onChange={vistaPreviaImagenNueva}
+                onChange={(e) => {vistaPreviaImagenNueva(e); updateState(e)}} 
+                // onChange={vistaPreviaImagenNueva, updateState}
               />
               <div className="petpic_container d-flex justify-content-center">
                 <img
@@ -338,11 +391,10 @@ function Report() {
               <label className="mt-4 text-center">Fecha</label>
               <div className="d-flex justify-content-center text_fontstyle">
                 <Datepicker
-                  name="fecha"
                   id="missing_date"
                   placeholderText="Introduce la fecha"
                   selected={selectedDate}
-                  onChange={selectedInputDate}
+                  onChange={(e) => {selectedInputDate(e); updateState(e)}}
                   locale="es"
                   isClearable={selectedInputDate}
                   dateFormat="dd/MM/yyyy"
@@ -444,61 +496,20 @@ function Report() {
 
             <label className="mt-4 text_fontstyle">Nombre completo</label>
             <input
-              name="nombreUsuario"
+              name="nombreResponsableMascota"
               type="text"
               className="text_fontstyle"
               id="owner_name"
               onChange={updateState}
             />
-
-            <label className="mt-4 text_fontstyle">
-              {" "}
-              <u>Usuario</u> <strong></strong>
-            </label>
-            <input
-              type="text"
-              className="text_fontstyle"
-              disabled
-            />
-
-            <label className="mt-4 text_fontstyle">
-              {" "}
-              <u>Correo electrónico</u> <strong></strong>
-            </label>
-            <input
-              type="email"
-              className="text_fontstyle"
-              disabled
-            />
-
-            <label className="mt-4 text_fontstyle">
-              {" "}
-              <u>Número de teléfono</u> <strong></strong>
-            </label>
-            <input
-              type="text"
-              className="text_fontstyle"
-              disabled
-            />
-            <p className="text_fontstyle mt-4 text-center grey_color">
-              En caso de que los datos que aparecen en pantalla no correspondan
-              con su usuario, modifíquelos antes de reportar la desaparición.
-            </p>
-            <Link
-              to="/datospersonales"
-              className="text-center text_fontstyle link"
-            >
-              Datos personales
-            </Link>
-
             <label className="mt-4 text_fontstyle">Descripción</label>
             <textarea
               rows="10"
-              name="descripcionUsuario"
+              name="descripcionResponsableMascota"
               className="text_fontstyle"
-              id="owner_description"
-              placeholder="Ofrezco recompensa, si me llaman y no contesto llamen a este número: 094124356, etc."
               onChange={updateState}
+              id="owner_description"
+              placeholder="Ej: Ofrezco recompensa, si me llaman y no contesto llamen a este número: 094124356, etc."
             ></textarea>
             <div className="report_buttons d-flex justify-content-around">
               <button
@@ -506,6 +517,7 @@ function Report() {
                 className="cta_bottonsstyle mt-5 mb-5 text_fontstyle"
                 data-toggle="modal"
                 data-target="#areyousure"
+                onClick={validateReport}
                 id="report_button"
               >
                 Reportar
@@ -515,7 +527,7 @@ function Report() {
                 className="cta_bottonsstyle mt-5 mb-5 text_fontstyle cta_bottonsstyle-green"
                 data-toggle="modal"
                 data-target="#previewReport_modal"
-                disabled={validateReport()}
+                onClick={validateReport}
                 id="preview_button"
               >
                 Vista previa
