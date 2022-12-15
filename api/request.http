@@ -9,36 +9,38 @@ Content-Type: application/json
 {
  "tipoMascota": "Perro",
  "estadoMascota": "Perdido",
- "nombreMascota": "Prueba",
+ "nombreMascota": "Prueba 5",
  "sexoMascota": "Macho",
- "descripcionMascota": "Prueba 1",
+ "descripcionMascota": "Es miedoso 2",
  "chipMascota": "No",
- "fechaMascota": "7/12/2022",
+ "fechaMascota": "",
  "departamentoPerdidoMascota": "Montevideo",
- "localidadPerdidoMascota": "Montevideo",
- "lugarPerdidoMascota": "Prueba",
- "nombreResponsableMascota": "Prueba",
- "descripcionResponsableMascota": "Prueba"
+ "localidadPerdidoMascota": "Cerro",
+ "lugarPerdidoMascota": "Cibils y Alianza",
+ "nombreResponsableMascota": "Carlos",
+ "descripcionResponsableMascota": "Llamen al 099123456",
+ "viralInfo": "Perro perdido en Montevideo, Brazo Oriental, más específicamente en: Cerrito esq Quesas Responde al nombre de Prueba 1, raza no especificada. Tiene chip. Datos de vital importancia: Es miedoso. . No cuesta NADA compartir. La calle no es hogar para nadie... #Uruguay #Montevideo #AnimalPerdido #SeBusca"
 }
 
 ###
-DELETE http://localhost:9000/api/3 HTTP/1.1
+DELETE http://localhost:9000/api/13 HTTP/1.1
 
 ###
-PUT http://localhost:9000/api/4 HTTP/1.1
+PUT http://localhost:9000/api/15 HTTP/1.1
 Content-Type: application/json
 
 {
  "tipoMascota": "Perro",
  "estadoMascota": "Perdido",
- "nombreMascota": "Prueba",
+ "nombreMascota": "Prueba 6",
  "sexoMascota": "Macho",
- "descripcionMascota": "Update descripcion 3",
+ "descripcionMascota": "Es miedoso 2",
  "chipMascota": "No",
- "fechaMascota": "7/12/2022",
+ "fechaMascota": "",
  "departamentoPerdidoMascota": "Montevideo",
- "localidadPerdidoMascota": "Montevideo",
- "lugarPerdidoMascota": "Prueba",
- "nombreResponsableMascota": "Prueba",
- "descripcionResponsableMascota": "Prueba"
+ "localidadPerdidoMascota": "Cerro",
+ "lugarPerdidoMascota": "Cibils y Alianza",
+ "nombreResponsableMascota": "Carlos",
+ "descripcionResponsableMascota": "Llamen al 099123456",
+ "viralInfo": "Perro perdido en Montevideo, Brazo Oriental, más específicamente en: Cerrito esq Quesas Responde al nombre de Prueba 1, raza no especificada. Tiene chip. Datos de vital importancia: Es miedoso. . No cuesta NADA compartir. La calle no es hogar para nadie... #Uruguay #Montevideo #AnimalPerdido #SeBusca"
 }

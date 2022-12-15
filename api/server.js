@@ -2,6 +2,7 @@
 const express = require('express')
 const mysql = require('mysql')
 const myconexion = require('express-myconnection')
+const cors = require('cors')
 
 const routes = require('./routes')
 
@@ -20,6 +21,7 @@ const dbOptions = {
 //middleware ---
 app.use(myconexion(mysql, dbOptions, 'single'))
 app.use(express.json())
+app.use(cors())
 
 //routes ---
 app.get('/', (req,res) => {

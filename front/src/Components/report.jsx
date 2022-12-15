@@ -3,65 +3,30 @@ import { withRouter, Link } from "react-router-dom";
 import Navbar from "./navbar";
 import shortid from "shortid";
 import axiosClient from "../../src/config/axios";
-import Swal from "sweetalert2";
 import Datepicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
-import { useEffect } from "react";
-import jwt_decode from "jwt-decode";
 registerLocale("es", es);
 
-function Report(props) {
-  var current_time = Date.now() / 1000;
-
-  var token = localStorage.getItem("token");
-
-  if (token !== null) {
-    var decodedData = jwt_decode(token);
-
-    if (decodedData.exp < current_time) {
-      localStorage.removeItem("token");
-      Swal.fire({
-        icon: "warning",
-        title: "Ha expirado tu sesión",
-        customClass: {
-          content: "text_fontstyle",
-        },
-        text:
-          "Por cuestiones de seguridad, la sesión dura una hora. ¡Vuelve a iniciar si deseas!",
-      });
-    }
-  }
-
-  const id = shortid.generate();
+function Report() {
 
   document.title = "Reportar / Encontralo";
 
-  const [usuarios, guardarUsuarios] = useState([]);
-
   const [report, saveReport] = useState({
     tipoMascota: "",
-    estado: "",
-    raza: "",
-    nombre: "",
-    sexo: "",
-    imagen: "",
-    descripcion: "",
-    tieneChip: "",
-    fecha: "",
-    hora: "",
-    departamento: "",
-    localidad: "",
-    lugar: "",
-    nombreUsuario: "",
-    descripcionUsuario: "",
-    informacionADifundir: "",
-    idPublico: "",
-    idUsuario: "",
-    usuario: "",
-    emailUsuario: "",
-    celularUsuario: "",
+    estadoMascota: "",
+    nombreMascota: "",
+    sexoMascota: "",
+    descripcionMascota: "",
+    chipMascota: "",
+    fechaMascota: "",
+    departamentoPerdidoMascota: "",
+    localidadPerdidoMascota: "",
+    lugarPerdidoMascota: "",
+    nombreResponsableMascota: "",
+    descripcionResponsableMascota: "",
+    viralInfo: ""
   });
 
   const updateState = (e) => {
@@ -106,25 +71,26 @@ function Report(props) {
 
   //validar reporte
   const validateReport = () => {
+    debugger;
     const {
       tipoMascota,
-      estado,
-      sexo,
-      descripcion,
-      tieneChip,
-      departamento,
-      localidad,
-      lugar,
+      estadoMascota,
+      sexoMascota,
+      descripcionMascota,
+      chipMascota,
+      departamentoPerdidoMascota,
+      localidadPerdidoMascota,
+      lugarPerdidoMascota
     } = report;
     let ok =
       !tipoMascota.length ||
-      !estado.length ||
-      !sexo.length ||
-      !descripcion.length ||
-      !tieneChip.length ||
-      !departamento.length ||
-      !localidad.length ||
-      !lugar.length ||
+      !estadoMascota.length ||
+      !sexoMascota.length ||
+      !descripcionMascota.length ||
+      !chipMascota.length ||
+      !departamentoPerdidoMascota.length ||
+      !localidadPerdidoMascota.length ||
+      !lugarPerdidoMascota.length ||
       imagenNueva === "https://res.cloudinary.com/encontralo/image/upload/v1610327793/default-image_kzjjpj.jpg" ||
       imagePreview === "https://res.cloudinary.com/encontralo/image/upload/v1610327793/default-image_kzjjpj.jpg"
 
@@ -146,49 +112,32 @@ function Report(props) {
     }/${selectedDate.getFullYear()}`;
   }
 
-  const subirImagen = async (e) => {
-    let idTrue = null
-    e ? idTrue = e : idTrue = id
-    var formData = new FormData();
-    formData.append('file0', imagePreview)
-
-    try {
-      await axiosClient.put(`/reportes/${idTrue}`, formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
-    })
-    } catch (error) {
-      console.log(error)
-    }
-}
-
   const ViralInfo = () => {
     const {
       tipoMascota,
-      estado,
-      sexo,
-      raza,
-      nombre,
-      hora,
-      descripcion,
-      tieneChip,
-      departamento,
-      localidad,
-      lugar,
+      estadoMascota,
+      sexoMascota,
+      descripcionMascota,
+      nombreMascota,
+      chipMascota,
+      horaPerdidoMascota,
+      razaMascota,
+      departamentoPerdidoMascota,
+      localidadPerdidoMascota,
+      lugarPerdidoMascota,
       nombreUsuario,
       descripcionUsuario,
     } = report;
 
     const realSex = () => {
-      switch (sexo) {
+      switch (sexoMascota) {
         case "Macho":
-          const macho = `${tipoMascota} ${estado.toLowerCase()}`;
+          const macho = `${tipoMascota} ${estadoMascota.toLowerCase()}`;
           return macho;
         case "Hembra":
           const hembra = `${
             tipoMascota.substr(0, tipoMascota.length - 1) + "a"
-          } ${estado.toLowerCase().substr(0, estado.length - 1) + "a"}`;
+          } ${estadoMascota.toLowerCase().substr(0, estadoMascota.length - 1) + "a"}`;
           return hembra;
         default:
           break;
@@ -196,7 +145,7 @@ function Report(props) {
     };
 
     const chip = () => {
-      switch (tieneChip) {
+      switch (chipMascota) {
         case "Si":
           return "Tiene chip";
         case "No se":
@@ -208,14 +157,14 @@ function Report(props) {
       }
     };
 
-    const viralInfo = `${realSex()} en ${departamento}, ${localidad}, más específicamente en: ${lugar} ${
+    const viralInfo = `${realSex()} en ${departamentoPerdidoMascota}, ${localidadPerdidoMascota}, más específicamente en: ${lugarPerdidoMascota} ${
       selectedDate ? `el día ${fecha}` : ``
     }
-        ${hora ? `a las ${hora}.` : ``}
+        ${horaPerdidoMascota ? `a las ${horaPerdidoMascota}.` : ``}
         ${
-          nombre ? `Responde al nombre de ${nombre}` : `Se desconoce el nombre`
-        }, ${raza ? `raza ${raza}` : `raza no especificada`}.
-        ${chip()}. Datos de vital importancia: ${descripcion}. ${
+          nombreMascota ? `Responde al nombre de ${nombreMascota}` : `Se desconoce el nombre`
+        }, ${razaMascota ? `raza ${razaMascota}` : `raza no especificada`}.
+        ${chip()}. Datos de vital importancia: ${descripcionMascota}. ${
       nombreUsuario ? `La persona responsable es ${nombreUsuario}.` : ``
     }
         ${
@@ -226,170 +175,10 @@ function Report(props) {
               
         No cuesta NADA compartir. La calle no es hogar para nadie...
 
-        #Uruguay #${departamento} #Animal${estado} #SeBusca
+        #Uruguay #${departamentoPerdidoMascota} #Animal${estadoMascota} #SeBusca
         `;
 
     return viralInfo;
-  };
-
-  //añadir reporte
-  const addReport = (e) => {
-    e.preventDefault();
-
-    const {
-      tipoMascota,
-      estado,
-      sexo,
-      descripcion,
-      tieneChip,
-      departamento,
-      localidad,
-      lugar,
-    } = report;
-    let ok =
-      !tipoMascota.length ||
-      !estado.length ||
-      !sexo.length ||
-      !descripcion.length ||
-      !tieneChip.length ||
-      !departamento.length ||
-      !localidad.length ||
-      !lugar.length ||
-      imagenNueva === "https://res.cloudinary.com/encontralo/image/upload/v1610327793/default-image_kzjjpj.jpg" ||
-      imagePreview === "https://res.cloudinary.com/encontralo/image/upload/v1610327793/default-image_kzjjpj.jpg";
-
-    if (ok === true) {
-      Swal.fire({
-        icon: "error",
-        title: "Ups! Parece que hubo un problema.",
-        text:
-          "Completá todos los campos obligatorios para poder crear un reporte.",
-        customClass: {
-          content: "text_fontstyle",
-        },
-      });
-    } else {
-      var formData = new URLSearchParams();
-
-      formData.append("tipoMascota", report.tipoMascota);
-      formData.append("estado", report.estado);
-      formData.append("raza", report.raza);
-      formData.append("nombre", report.nombre);
-      formData.append("sexo", report.sexo);
-      formData.append("fecha", fecha);
-      formData.append("descripcion", report.descripcion);
-      formData.append("tieneChip", report.tieneChip);
-      formData.append("hora", report.hora);
-      formData.append("departamento", report.departamento);
-      formData.append("localidad", report.localidad);
-      formData.append("lugar", report.lugar);
-      formData.append("nombreUsuario", report.nombreUsuario);
-      formData.append("descripcionUsuario", report.descripcionUsuario);
-      formData.append("informacionADifundir", ViralInfo());
-      formData.append("idPublico", id);
-      formData.append("idUsuario", decodedData._id);
-      formData.append("usuario", decodedData.nickname);
-      formData.append("emailUsuario", decodedData.email);
-      formData.append("celularUsuario", `0${decodedData.celular}`);
-
-      try {
-        Swal.fire({
-          title: "¿Estás seguro/a?",
-          text:
-            "Un reporte puede ser modificado después de haber sido creado (reescribiendo los datos, no borrándolos), pero la información modificada quedará en el sitio, no al difundirse el reporte. Si llegás a realizar un reporte troll, tu cuenta será eliminada.",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Si, quiero reportar!",
-          cancelButtonText: "Cancelar",
-          customClass: {
-            content: "text_fontstyle",
-          },
-        }).then(async (result) => {
-          if (result.isConfirmed) {
-    
-            try {
-              
-              Swal.fire({
-                icon: "info",
-                title: "Subiendo reporte...",
-                text: "Esperá, por favor.",
-                customClass: {
-                  content: "text_fontstyle",
-                },
-              });
-
-              await axiosClient.post("/reportes", formData, {
-                headers: {
-                  "Content-Type": "application/x-www-form-urlencoded",
-                },
-              }).then(res => {
-                subirImagen(res.data.idPublico)
-
-                if (res.status === 200) {              
-
-                  Swal.fire({
-                    icon: "success",
-                    title: "¡Reporte realizado!",
-                    text: `¡Suerte y no te  rindas! Puedes ver el reporte en "Buscar un animal perdido" o "Mis Casos" con el siguiente ID: ${id}`,
-                    customClass: {
-                      content: "text_fontstyle",
-                    },
-                  });
-  
-                  // setTimeout(() => {
-                  //   window.location.reload();
-                  // }, 2000);
-                } else {
-                  Swal.fire({
-                    icon: "error",
-                    title: "Ups! Parece que hubo un problema.",
-                    text: `Intentalo de nuevo más tarde.`,
-                    customClass: {
-                      content: "text_fontstyle",
-                    },
-                  });
-                }
-              })
-
-            } catch (error) {
-              console.log(error);
-
-              if (error.message === "Request failed with status code 413") {
-                Swal.fire({
-                  icon: "error",
-                  title: "Ups! Parece que hubo un problema.",
-                  text: `Ingresá una imagen más pequeña o con menos calidad por favor 😅`,
-                  customClass: {
-                    content: "text_fontstyle",
-                  },
-                });
-              } else {
-                Swal.fire({
-                  icon: "error",
-                  title: "Ups! Parece que hubo un problema.",
-                  text: `Intentalo de nuevo más tarde.`,
-                  customClass: {
-                    content: "text_fontstyle",
-                  },
-                });
-              }
-            }
-          }
-        });
-      } catch (error) {
-        Swal.fire({
-          title: "Hubo un error",
-          text: `Inténtalo de nuevo más tarde`,
-          icon: "error",
-          customClass: {
-            content: "text_fontstyle",
-          },
-        });
-        console.log(error);
-      }
-    }
   };
 
   return (
@@ -443,7 +232,7 @@ function Report(props) {
             </label>
             <select
               id="itwas"
-              name="estado"
+              name="estadoMascota"
               required={true}
               onChange={updateState}
             >
@@ -454,13 +243,13 @@ function Report(props) {
             </select>
 
             <label className="mt-4"> Raza </label>
-            <input type="text" name="raza" id="race" onChange={updateState} />
+            <input type="text" name="razaMascota" id="race" onChange={updateState} />
 
             <label className="mt-4">Nombre</label>
             <input
               type="text"
               id="pet_name"
-              name="nombre"
+              name="nombreMascota"
               onChange={updateState}
             />
 
@@ -468,7 +257,7 @@ function Report(props) {
               {" "}
               <u>Sexo</u> <strong>*</strong>
             </label>
-            <select name="sexo" required={true} onChange={updateState}>
+            <select name="sexoMascota" required={true} onChange={updateState}>
               <option value="">Seleccionar...</option>
               <option value="Macho">Macho</option>
               <option value="Hembra">Hembra</option>
@@ -521,7 +310,7 @@ function Report(props) {
                 rows="10"
                 required={true}
                 id="pet_description"
-                name="descripcion"
+                name="descripcionMascota"
                 onChange={updateState}
                 placeholder="Es miedoso, le falta un ojo, tiene collar de identificacion, responde a ciertos sonidos, se recompensa a la persona que lo encuentre, etc. "
               ></textarea>
@@ -535,7 +324,7 @@ function Report(props) {
               <select
                 required={true}
                 id="pet_sex"
-                name="tieneChip"
+                name="chipMascota"
                 onChange={updateState}
               >
                 <option value="">Seleccionar...</option>
@@ -565,7 +354,7 @@ function Report(props) {
               <div className="d-flex justify-content-center">
                 <input
                   type="time"
-                  name="hora"
+                  name="horaPerdidoMascota"
                   id="missing_hour"
                   onChange={updateState}
                 />
@@ -586,7 +375,7 @@ function Report(props) {
             <div>
               <select
                 required={true}
-                name="departamento"
+                name="departamentoPerdidoMascota"
                 className="text_fontstyle lastplace"
                 id="select_departament"
                 onChange={updateState}
@@ -621,7 +410,7 @@ function Report(props) {
               <input
                 required={true}
                 type="text"
-                name="localidad"
+                name="localidadPerdidoMascota"
                 className="lastplace"
                 placeholder="Ejemplo: Brazo Oriental"
                 id="zone"
@@ -637,7 +426,7 @@ function Report(props) {
               <input
                 required={true}
                 type="text"
-                name="lugar"
+                name="lugarPerdidoMascota"
                 className="lastplace"
                 id="last_placePet"
                 placeholder="Ejemplo: Luis Alberto de Herrera y Burgues"
@@ -669,7 +458,6 @@ function Report(props) {
             <input
               type="text"
               className="text_fontstyle"
-              value={decodedData ? decodedData.nickname : ``}
               disabled
             />
 
@@ -680,7 +468,6 @@ function Report(props) {
             <input
               type="email"
               className="text_fontstyle"
-              value={decodedData ? decodedData.email : ``}
               disabled
             />
 
@@ -691,7 +478,6 @@ function Report(props) {
             <input
               type="text"
               className="text_fontstyle"
-              value={`${decodedData ? decodedData.celular : ``}`}
               disabled
             />
             <p className="text_fontstyle mt-4 text-center grey_color">
@@ -721,7 +507,6 @@ function Report(props) {
                 data-toggle="modal"
                 data-target="#areyousure"
                 id="report_button"
-                onClick={addReport}
               >
                 Reportar
               </button>

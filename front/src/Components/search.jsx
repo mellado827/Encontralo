@@ -1,8 +1,23 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Navbar from './navbar'
 import { withRouter } from 'react-router-dom'
+import { useState } from 'react';
+import LostPetCard from './lostPetCard'
 
-function Search(props) {
+function Search() {
+
+    document.title = "Buscar / Encontralo";
+
+    const [pets, setPets] = useState([])
+
+    useEffect(() => {
+       const getLostFromDB =  () => {
+        fetch('http://localhost:9000/api')
+        .then(res => res.json())
+        .then(res => setPets(res))
+       }
+       getLostFromDB()
+    }, [])
 
     return (
         <>
@@ -74,9 +89,10 @@ function Search(props) {
                                 id="search_button"
                                 className="text_fontstyle cta_bottonsstyle">Buscar</button>
                         </div>
+                        <div className='pets_container'>
+                            <LostPetCard pets={pets} />
+                        </div>
                     </form>
-
-
                 </div>
             </div>
         </>
