@@ -3,11 +3,13 @@ const express = require('express')
 const mysql = require('mysql')
 const myconexion = require('express-myconnection')
 const cors = require('cors')
-
 const routes = require('./routes')
-
 const app = express()
+
 app.set('port',process.env.PORT || 9000)
+
+app.use(express.json({limit: '50mb'}))
+app.use(express.urlencoded({limit: '50mb', extended: true}))
 
 //database connection
 const dbOptions = {
@@ -33,4 +35,4 @@ app.use('/api', routes)
 //server running ---
 app.listen(app.get('port'), ()=> {
     console.log("server is running on port",app.get('port'))
-})
+}) 

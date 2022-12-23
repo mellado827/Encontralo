@@ -12,19 +12,19 @@ const Navbar = () => (
                     <Link className="nav-link text_fontstyle" to="/">Inicio</Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link text_fontstyle" to="/#calltoaction">¿Qué querés hacer?</Link>
+                    <Link className="nav-link text_fontstyle" to="/">¿Qué querés hacer?</Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link text_fontstyle" to="/#tutorial">¿Cómo funciona?</Link>
+                    <Link className="nav-link text_fontstyle" to="/tutorial">¿Cómo funciona?</Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link text_fontstyle" to="/#tips">Tips</Link>
+                    <Link className="nav-link text_fontstyle" to="/tips">Tips</Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link text_fontstyle" to="/#about">Acerca de</Link>
+                    <Link className="nav-link text_fontstyle" to="/about">Acerca de</Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link text_fontstyle" to="/#contact">Contacto</Link>
+                    <Link className="nav-link text_fontstyle" to="/contact">Contacto</Link>
                 </li>
             </ul>
         </div>

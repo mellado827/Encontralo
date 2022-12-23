@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import Swal from 'sweetalert2';
 import Navbar from "./navbar";
-import shortid from "shortid";
 import Datepicker from "react-datepicker";
+import { generate } from "shortid";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
@@ -12,6 +12,8 @@ registerLocale("es", es);
 function Report() {
 
   document.title = "Reportar / Encontralo";
+
+  const id = generate();
 
   const [report, saveReport] = useState({
     tipoMascota: "",
@@ -29,121 +31,78 @@ function Report() {
     nombreResponsableMascota: "",
     descripcionResponsableMascota: "",
     viralInfo: "",
+    idPublico: `${id}`,
     imagenMascota: ""
   });
 
-  const updateState = (e) => {
-    saveReport({
-      ...report,
-      [e.target.name]: e.target.value
-    });
-  };
+  const [fileInputState, setFileInputState] = useState('')
+  const [previewSource, setPreviewSource] = useState()
+  
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0]
+    previewFile(file)
+  }  
 
-  const [imagePreview, setImagePreview] = useState(
-    "https://res.cloudinary.com/encontralo/image/upload/v1610327793/default-image_kzjjpj.jpg"
-  );
-
-  const removeImage = e => {
-    e.preventDefault()
-    document.getElementById("file_attachment").value = ""
-    setImagenNueva('https://res.cloudinary.com/encontralo/image/upload/v1610327793/default-image_kzjjpj.jpg')
-}
-
-  const readImage = (e) => {
-    return setImagePreview(e.target.files[0])
-  };
-
-  const [imagenNueva, setImagenNueva] = useState('')
-
-    const vistaPreviaImagenNueva = e => {
-        let reader = new FileReader()
-        reader.readAsDataURL(e.target.files[0]) // la paso a base64 porque sino no funciona
-         reader.onload = () => {
-             if (reader.readyState === 2) {
-                setImagenNueva(reader.result)
-             } 
-         } 
-
-         readImage(e)
+  const previewFile = (file) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onloadend = () => {
+      setPreviewSource(reader.result)
     }
+  }
+
+  const updateState = (e) => {
+     if (e && e.target && e.target.name) {
+
+      saveReport({
+        ...report,
+        [e.target.name]: e.target.value
+      }); 
+    }
+  };
 
   const clearHour = (e) => {
     e.preventDefault();
     document.getElementById("missing_hour").value = "";
   };
 
-  const createReport = () => {
-    const requestInit = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(report)
-    }
-    fetch('http://localhost:9000/api', requestInit)
-    .then(res => {
-      if(res.status == 200) {
-        Swal.fire({
-          icon: 'success',
-          title: 'La publicación ha sido realizada correctamente!',
-          text: 'Éxitos. Cualquier novedad te avisaremos.'
-        })
-      }
-    })
-
-    //reiniciando state del libro
-    saveReport({
-      tipoMascota: "",
-      estadoMascota: "",
-      razaMascota: "",
-      nombreMascota: "",
-      sexoMascota: "",
-      descripcionMascota: "",
-      chipMascota: "",
-      fechaMascota: "",
-      horaPerdidoMascota: "",
-      departamentoPerdidoMascota: "",
-      localidadPerdidoMascota: "",
-      lugarPerdidoMascota: "",
-      nombreResponsableMascota: "",
-      descripcionResponsableMascota: "",
-      idPublico: "",
-      viralInfo: "",
-      imagenMascota: ""
-    })
-  }
-
   //validar reporte
-  const validateReport = () => {
-    const {
-      tipoMascota,
-      estadoMascota,
-      sexoMascota,
-      descripcionMascota,
-      chipMascota,
-      departamentoPerdidoMascota,
-      localidadPerdidoMascota,
-      lugarPerdidoMascota
-    } = report;
+  const validateReport = (e) => {
+    // const {
+    //   tipoMascota,
+    //   estadoMascota,
+    //   sexoMascota,
+    //   descripcionMascota,
+    //   chipMascota,
+    //   departamentoPerdidoMascota,
+    //   localidadPerdidoMascota,
+    //   lugarPerdidoMascota
+    // } = report;
     
-    if(
-      tipoMascota.length != "" &&
-      estadoMascota.length  != "" &&
-      sexoMascota.length  != "" &&
-      descripcionMascota.length  != "" &&
-      chipMascota.length  != ""  &&
-      departamentoPerdidoMascota.length  != "" &&
-      localidadPerdidoMascota.length != "" &&
-      lugarPerdidoMascota.length != "" &&
-      imagePreview != "https://res.cloudinary.com/encontralo/image/upload/v1610327793/default-image_kzjjpj.jpg"
-    ) 
-    {
-      createReport()
-      console.log("true")
-      return true;
-    }
-    else {
-      alert("Complete los campos obligatorios.")
-      return false;
-    }
+    // if(
+    //   tipoMascota.length != "" &&
+    //   estadoMascota.length  != "" &&
+    //   sexoMascota.length  != "" &&
+    //   descripcionMascota.length  != "" &&
+    //   chipMascota.length  != ""  &&
+    //   departamentoPerdidoMascota.length  != "" &&
+    //   localidadPerdidoMascota.length != "" &&
+    //   lugarPerdidoMascota.length != ""
+    // ) 
+    // {
+      
+    // createReport()
+    // return true;
+    // }
+
+    // else {
+    //   Swal.fire({
+    //     icon: 'error',
+    //     title: 'Error',
+    //     text: 'Completa todos los campos obligatorios.'
+    //   // })
+    //   // return false;
+    // }
   };
 
   const [selectedDate, setSelectedDate] = useState(null);
@@ -167,13 +126,10 @@ function Report() {
       descripcionMascota,
       nombreMascota,
       chipMascota,
-      horaPerdidoMascota,
       razaMascota,
       departamentoPerdidoMascota,
       localidadPerdidoMascota,
       lugarPerdidoMascota,
-      nombreUsuario,
-      descripcionUsuario,
     } = report;
 
     const realSex = () => {
@@ -194,43 +150,101 @@ function Report() {
     const chip = () => {
       switch (chipMascota) {
         case "Si":
-          return "Tiene chip";
+          return "Tiene chip.";
         case "No se":
-          return "No se sabe si tiene chip";
+          return "No se sabe si tiene chip.";
         case "No":
-          return "No tiene chip";
+          return "No tiene chip.";
         default:
           break;
       }
     };
 
-    const viralInfo = `${realSex()} en ${departamentoPerdidoMascota}, ${localidadPerdidoMascota}, más específicamente en: ${lugarPerdidoMascota} ${
-      selectedDate ? `el día ${fecha}` : ``
-    }
-        ${horaPerdidoMascota ? `a las ${horaPerdidoMascota}.` : ``}
-        ${
-          nombreMascota ? `Responde al nombre de ${nombreMascota}` : `Se desconoce el nombre`
-        }, ${razaMascota ? `raza ${razaMascota}` : `raza no especificada`}.
-        ${chip()}. Datos de vital importancia: ${descripcionMascota}. ${
-      nombreUsuario ? `La persona responsable es ${nombreUsuario}.` : ``
-    }
-        ${
-          descripcionUsuario
-            ? `Datos adicionales de la persona responsable: ${descripcionUsuario}`
-            : ``
-        }. 
-              
-        No cuesta NADA compartir. La calle no es hogar para nadie...
+    const textOfViralInfo =`${realSex()} en ${departamentoPerdidoMascota}, ${localidadPerdidoMascota}, más específicamente en ${lugarPerdidoMascota}.
+    ${nombreMascota ? `Responde al nombre de ${nombreMascota}.` : 'Se desconoce el nombre.'} ${razaMascota ? `Es de raza ${razaMascota}.` : `${`Se desconoce su raza.`}`}
+    Más información sobre el caso: ${descripcionMascota}. ${chip()} ¡Por favor difundir! #Uruguay #${departamentoPerdidoMascota} #LaCalleNoEsHogarParaNadie .`
 
-        #Uruguay #${departamentoPerdidoMascota} #Animal${estadoMascota} #SeBusca
-        `;
-
-    return viralInfo;
+    return textOfViralInfo;
   };
 
-  const handleSubmit = () => {
-
+  const updateViralInfo = () => {
+    saveReport(report => ({
+      ...report,
+      viralInfo: ViralInfo()
+    }));
   }
+
+  const handleSubmitFile = () => {
+    if (!previewSource) {
+      console.log("no seleccionaste nada")
+    } else {
+      saveReport({
+        ...report.imagenMascota = previewSource
+      })
+      uploadImage()
+    }
+  }
+
+  const uploadImage = async () => {
+    try {
+      const requestInit = {
+        method: 'POST',
+        body: JSON.stringify(report),
+        headers: {'Content-Type': 'application/json'}
+      }
+     const response = await fetch('http://localhost:9000/api', requestInit)
+     const data = await response.json()
+     
+     var imageUrl = data.url
+     console.log(imageUrl)
+
+   } catch (error) {
+      console.log(error)
+    }
+  }
+
+    const createReport = () => {
+
+      updateViralInfo()
+
+      // const requestInit = {
+      //   method: 'POST',
+      //   headers: {'Content-Type': 'application/json'},
+      //   body: JSON.stringify(report)
+      // }
+      // fetch('http://localhost:9000/api', requestInit)
+      // .then(res => {
+      //   // if(res.status == 200) {
+      //   //   // Swal.fire({
+      //   //   //   icon: 'success',
+      //   //   //   title: 'La publicación ha sido realizada correctamente.',
+      //   //   //   text: `¡No te rindas!. Cualquier novedad te avisaremos. Tomá el ID del caso por cualquier cosa: ${report.idPublico}`
+      //   //   // })
+      //   // }
+      // }
+      // )
+  
+      //reiniciando state del libro
+      saveReport({
+        tipoMascota: "",
+        estadoMascota: "",
+        razaMascota: "",
+        nombreMascota: "",
+        sexoMascota: "",
+        descripcionMascota: "",
+        chipMascota: "",
+        fechaMascota: "",
+        horaPerdidoMascota: "",
+        departamentoPerdidoMascota: "",
+        localidadPerdidoMascota: "",
+        lugarPerdidoMascota: "",
+        nombreResponsableMascota: "",
+        descripcionResponsableMascota: "",
+        idPublico: "",
+        viralInfo: "",
+        imagenMascota: ""
+      })
+    }
 
   return (
     <>
@@ -255,7 +269,6 @@ function Report() {
           <form
             className="pet_form form_style m-3 text_fontstyle d-flex flex-column"
             id="pet_form"
-            onSubmit={handleSubmit}
           >
             <div className="petinfo m-2">
               <p className="text-center">
@@ -328,28 +341,16 @@ function Report() {
                 style={{ overflow: "hidden" }}
                 id="file_attachment"
                 accept="image/*"
-                onChange={(e) => {vistaPreviaImagenNueva(e); updateState(e)}} 
-                // onChange={vistaPreviaImagenNueva, updateState}
+                onChange={handleFileInputChange}
+                value={fileInputState}
               />
               <div className="petpic_container d-flex justify-content-center">
                 <img
-                  src={imagenNueva ? imagenNueva : imagePreview}
                   alt=""
+                  src={previewSource}
                   id="img"
                   className="petphoto_width"
                 ></img>
-                <button
-                  type="button"
-                  id="close_button_petimage"
-                  className="close_button button_removeimage"
-                  onClick={removeImage}
-                >
-                  <img
-                    src="../../img/close.png"
-                    alt="Cambiar imagen"
-                    className="close_button margin_cb_report"
-                  ></img>
-                </button>
               </div>
             </div>
 
@@ -513,11 +514,11 @@ function Report() {
             ></textarea>
             <div className="report_buttons d-flex justify-content-around">
               <button
-                type="submit"
+                type="button"
+                onClick={handleSubmitFile}
                 className="cta_bottonsstyle mt-5 mb-5 text_fontstyle"
                 data-toggle="modal"
                 data-target="#areyousure"
-                onClick={validateReport}
                 id="report_button"
               >
                 Reportar
@@ -527,7 +528,6 @@ function Report() {
                 className="cta_bottonsstyle mt-5 mb-5 text_fontstyle cta_bottonsstyle-green"
                 data-toggle="modal"
                 data-target="#previewReport_modal"
-                onClick={validateReport}
                 id="preview_button"
               >
                 Vista previa
@@ -560,14 +560,14 @@ function Report() {
               <div className="slideshow-container">
                 <div className="petpic_container d-flex justify-content-center">
                   <img
-                    src={imagenNueva}
+                    src={fileInputState}
                     alt=""
                     id="img"
                     className="petphoto_width"
                   ></img>
                 </div>
 
-                <div className="text_fontstyle">{ViralInfo()}</div>
+                <div className="text_fontstyle" name="viralInfo" onChange={(e) => {updateState(e); ViralInfo(e)}}>{ViralInfo()}</div>
               </div>
             </div>
           </div>

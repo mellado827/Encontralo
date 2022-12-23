@@ -9,6 +9,7 @@
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "better-react-spinkit": "^2.0.4",
+    "cloudinary": "^1.33.0",
     "email-existence": "^0.1.6",
     "emailjs-com": "^2.6.3",
     "encrypt": "0.0.1",
