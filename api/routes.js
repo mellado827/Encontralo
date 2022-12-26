@@ -14,20 +14,18 @@ routes.get('/',(req,res) => {
     })
 })
 
-//añadir animal perdido
-routes.post('/', async (req,res) => {
+//upload image to cloudinary
+routes.post('/image', async (req,res) => {
    try {
-    var image = req.body.imagenMascota
+    var image = req.body.data
 
-    const uploadedResponse = await cloudinary.uploader.upload(image, {
-        upload_preset: 'ml_default'
-    })
+     const uploadedResponse = await cloudinary.uploader.upload(image, {
+         upload_preset: 'ml_default'
+     })
 
-   console.log(uploadedResponse.url)
-
-   if(uploadedResponse.url) {
-  res.status(200).json({ url: uploadedResponse.url });
-   }
+    if(uploadedResponse.url) {
+        res.status(200).json({ url: uploadedResponse.url });
+    }
         
    } catch (error) {
     console.error(error)
@@ -35,15 +33,22 @@ routes.post('/', async (req,res) => {
         msg: 'noo'
     })
    }
-    // req.getConnection((error, connection) => {
-    //     if(error) return res.send(error)
-    
-    //     connection.query('INSERT INTO perdidos SET ?',[req.body], (error, rows) => {
-    //         if(error) return res.send(error)
-    //         res.send('post hecho')
-    //     })
-    // })
 })
+
+//upload lost pet
+routes.post('/', (req,res) => {
+     req.getConnection((error, connection) => {
+         if(error) return res.send(error)
+
+         connection.query('INSERT INTO perdidos SET ?',[req.body], (error, rows) => {
+            console.log(req.body.imagenMascota)
+             if(error) return res.send(error)
+             console.log('post hecho!')
+             res.send('post hecho')
+         })
+     })
+})
+
 
 //actualizar animal perdido
 routes.put('/:id',(req,res) => {

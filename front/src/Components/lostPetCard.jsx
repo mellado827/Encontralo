@@ -8,7 +8,7 @@ function LostPetCard({pets}) {
             {pets.map( pet => (
                 <div className="pet1" key ={pet.id}>
                     <div className="pet_photo">
-                        <img src={pet.imagenMascota} alt="Imagen" />
+                        <img src={pet.imagenMascota} alt="Imagen" className='petPhoto' />
                     </div>
                     <div className="petinfo">
                     <h2 className="text_fontstyle text-center mt-2">{pet.nombreMascota ? pet.nombreMascota : pet.tipoMascota}</h2>

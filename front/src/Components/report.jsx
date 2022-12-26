@@ -35,6 +35,7 @@ function Report() {
     imagenMascota: ""
   });
 
+  const [imageCloudinaryURL, setimageCloudinaryURL] = useState()
   const [fileInputState, setFileInputState] = useState('')
   const [previewSource, setPreviewSource] = useState()
   
@@ -178,52 +179,46 @@ function Report() {
     if (!previewSource) {
       console.log("no seleccionaste nada")
     } else {
-      saveReport({
-        ...report.imagenMascota = previewSource
-      })
-      uploadImage()
+      uploadImageAndReport()
     }
   }
 
-  const uploadImage = async () => {
+  const uploadImageAndReport = async () => {
     try {
       const requestInit = {
         method: 'POST',
-        body: JSON.stringify(report),
+        body: JSON.stringify({data: previewSource}),
         headers: {'Content-Type': 'application/json'}
       }
-     const response = await fetch('http://localhost:9000/api', requestInit)
+     const response = await fetch('http://localhost:9000/api/image', requestInit)
      const data = await response.json()
-     
-     var imageUrl = data.url
-     console.log(imageUrl)
+     console.log(data)
 
-   } catch (error) {
-      console.log(error)
-    }
-  }
+      if(data.url) {
+        saveReport({
+          ...report.imagenMascota = data.url
+        })
 
-    const createReport = () => {
+        const requestInit = {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(report)
+        }
+        console.log(report)
 
-      updateViralInfo()
-
-      // const requestInit = {
-      //   method: 'POST',
-      //   headers: {'Content-Type': 'application/json'},
-      //   body: JSON.stringify(report)
-      // }
-      // fetch('http://localhost:9000/api', requestInit)
-      // .then(res => {
-      //   // if(res.status == 200) {
-      //   //   // Swal.fire({
-      //   //   //   icon: 'success',
-      //   //   //   title: 'La publicación ha sido realizada correctamente.',
-      //   //   //   text: `¡No te rindas!. Cualquier novedad te avisaremos. Tomá el ID del caso por cualquier cosa: ${report.idPublico}`
-      //   //   // })
-      //   // }
-      // }
-      // )
-  
+      await fetch('http://localhost:9000/api', requestInit)
+        .then(res => {
+          console.log(res)
+          if(res.status == 200) {
+            Swal.fire({
+              icon: 'success',
+              title: 'La publicación ha sido realizada correctamente.',
+              text: `¡No te rindas!. Cualquier novedad te avisaremos. Tomá el ID del caso por cualquier cosa: ${report.idPublico}`
+            })
+          }
+        }
+        )
+      
       //reiniciando state del libro
       saveReport({
         tipoMascota: "",
@@ -244,7 +239,15 @@ function Report() {
         viralInfo: "",
         imagenMascota: ""
       })
+
+      } else {
+        console.log('Imagen no adjuntada.')
+      }
+
+   } catch (error) {
+      console.log(error)
     }
+  }
 
   return (
     <>
