@@ -35,9 +35,12 @@ function Report() {
     imagenMascota: ""
   });
 
-  const [imageCloudinaryURL, setimageCloudinaryURL] = useState()
+  //images
   const [fileInputState, setFileInputState] = useState('')
   const [previewSource, setPreviewSource] = useState()
+
+  //viral info state
+  const [caseInfo, setCaseInfo] = useState('')
   
   const handleFileInputChange = (e) => {
     const file = e.target.files[0]
@@ -53,13 +56,12 @@ function Report() {
   }
 
   const updateState = (e) => {
-     if (e && e.target && e.target.name) {
+    ViralInfo()   
 
-      saveReport({
-        ...report,
-        [e.target.name]: e.target.value
-      }); 
-    }
+    saveReport({
+      ...report,
+      [e.target.name]: e.target.value
+    });  
   };
 
   const clearHour = (e) => {
@@ -67,43 +69,43 @@ function Report() {
     document.getElementById("missing_hour").value = "";
   };
 
-  //validar reporte
-  const validateReport = (e) => {
-    // const {
-    //   tipoMascota,
-    //   estadoMascota,
-    //   sexoMascota,
-    //   descripcionMascota,
-    //   chipMascota,
-    //   departamentoPerdidoMascota,
-    //   localidadPerdidoMascota,
-    //   lugarPerdidoMascota
-    // } = report;
+  //validate completed report
+  const validateReport = () => {
+     const {
+       tipoMascota,
+       estadoMascota,
+       sexoMascota,
+       descripcionMascota,
+       chipMascota,
+       departamentoPerdidoMascota,
+       localidadPerdidoMascota,
+       lugarPerdidoMascota
+     } = report;
     
-    // if(
-    //   tipoMascota.length != "" &&
-    //   estadoMascota.length  != "" &&
-    //   sexoMascota.length  != "" &&
-    //   descripcionMascota.length  != "" &&
-    //   chipMascota.length  != ""  &&
-    //   departamentoPerdidoMascota.length  != "" &&
-    //   localidadPerdidoMascota.length != "" &&
-    //   lugarPerdidoMascota.length != ""
-    // ) 
-    // {
-      
-    // createReport()
-    // return true;
-    // }
-
-    // else {
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Error',
-    //     text: 'Completa todos los campos obligatorios.'
-    //   // })
-    //   // return false;
-    // }
+     if(
+       tipoMascota.length != "" &&
+       estadoMascota.length  != "" &&
+       sexoMascota.length  != "" &&
+       descripcionMascota.length  != "" &&
+       chipMascota.length  != ""  &&
+       departamentoPerdidoMascota.length  != "" &&
+       localidadPerdidoMascota.length != "" &&
+       lugarPerdidoMascota.length != ""
+     ) {
+      Swal.fire({
+        title: 'SE BUSCA',
+        text: caseInfo,
+        imageUrl: previewSource
+       }) 
+     }
+    else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Completa todos los campos obligatorios.'
+      })
+      return false;
+    }
   };
 
   const [selectedDate, setSelectedDate] = useState(null);
@@ -119,61 +121,42 @@ function Report() {
     }/${selectedDate.getFullYear()}`;
   }
 
-  const ViralInfo = () => {
-    const {
-      tipoMascota,
-      estadoMascota,
-      sexoMascota,
-      descripcionMascota,
-      nombreMascota,
-      chipMascota,
-      razaMascota,
-      departamentoPerdidoMascota,
-      localidadPerdidoMascota,
-      lugarPerdidoMascota,
-    } = report;
+   const ViralInfo = () => {
 
-    const realSex = () => {
-      switch (sexoMascota) {
-        case "Macho":
-          const macho = `${tipoMascota} ${estadoMascota.toLowerCase()}`;
-          return macho;
-        case "Hembra":
-          const hembra = `${
-            tipoMascota.substr(0, tipoMascota.length - 1) + "a"
-          } ${estadoMascota.toLowerCase().substr(0, estadoMascota.length - 1) + "a"}`;
-          return hembra;
-        default:
-          break;
-      }
-    };
+     const realSex = () => {
+       switch (report.sexoMascota) {
+         case "Macho":
+           const macho = `${report.tipoMascota} ${report.estadoMascota.toLowerCase()}`;
+           return macho;
+         case "Hembra":
+           const hembra = `${
+             report.tipoMascota.substr(0, report.tipoMascota.length - 1) + "a"
+           } ${report.estadoMascota.toLowerCase().substr(0, report.estadoMascota.length - 1) + "a"}`;
+           return hembra;
+         default:
+           break;
+       }
+     };
 
-    const chip = () => {
-      switch (chipMascota) {
-        case "Si":
-          return "Tiene chip.";
-        case "No se":
-          return "No se sabe si tiene chip.";
-        case "No":
-          return "No tiene chip.";
-        default:
-          break;
-      }
-    };
+     const chip = () => {
+       switch (report.chipMascota) {
+         case "Si":
+           return "Tiene chip.";
+         case "No se":
+           return "No se sabe si tiene chip.";
+         case "No":
+           return "No tiene chip.";
+         default:
+           break;
+       }
+     };
 
-    const textOfViralInfo =`${realSex()} en ${departamentoPerdidoMascota}, ${localidadPerdidoMascota}, más específicamente en ${lugarPerdidoMascota}.
-    ${nombreMascota ? `Responde al nombre de ${nombreMascota}.` : 'Se desconoce el nombre.'} ${razaMascota ? `Es de raza ${razaMascota}.` : `${`Se desconoce su raza.`}`}
-    Más información sobre el caso: ${descripcionMascota}. ${chip()} ¡Por favor difundir! #Uruguay #${departamentoPerdidoMascota} #LaCalleNoEsHogarParaNadie .`
+     const textOfViralInfo =`${realSex()} en ${report.departamentoPerdidoMascota}, ${report.localidadPerdidoMascota}, más específicamente en ${report.lugarPerdidoMascota}.
+     ${report.nombreMascota ? `Responde al nombre de ${report.nombreMascota}.` : 'Se desconoce el nombre.'} ${report.razaMascota ? `Es de raza ${report.razaMascota}.` : `${`Se desconoce su raza.`}`}
+     Más información sobre el caso: ${report.descripcionMascota}. ${chip()} ¡Por favor difundir! #Uruguay #${report.departamentoPerdidoMascota} #LaCalleNoEsHogarParaNadie .`
 
-    return textOfViralInfo;
+     return setCaseInfo(textOfViralInfo)
   };
-
-  const updateViralInfo = () => {
-    saveReport(report => ({
-      ...report,
-      viralInfo: ViralInfo()
-    }));
-  }
 
   const handleSubmitFile = () => {
     if (!previewSource) {
@@ -398,7 +381,7 @@ function Report() {
                   id="missing_date"
                   placeholderText="Introduce la fecha"
                   selected={selectedDate}
-                  onChange={(e) => {selectedInputDate(e); updateState(e)}}
+                  onChange={(e) => {selectedInputDate(e)}}
                   locale="es"
                   isClearable={selectedInputDate}
                   dateFormat="dd/MM/yyyy"
@@ -494,7 +477,7 @@ function Report() {
           <div className="owner_form m-3 d-flex flex-column">
             <div className="owner_info m-2">
               <p className="text-center">
-                <strong>Información del usuario</strong>
+                <strong>Información del dueño</strong>
               </p>
             </div>
 
@@ -506,15 +489,8 @@ function Report() {
               id="owner_name"
               onChange={updateState}
             />
-            <label className="mt-4 text_fontstyle">Descripción</label>
-            <textarea
-              rows="10"
-              name="descripcionResponsableMascota"
-              className="text_fontstyle"
-              onChange={updateState}
-              id="owner_description"
-              placeholder="Ej: Ofrezco recompensa, si me llaman y no contesto llamen a este número: 094124356, etc."
-            ></textarea>
+            <label className="mt-4 text_fontstyle">Número de contacto</label>
+            <input type="text" className="mt-4 text_fontstyle" onChange={updateState} /> 
             <div className="report_buttons d-flex justify-content-around">
               <button
                 type="button"
@@ -532,46 +508,10 @@ function Report() {
                 data-toggle="modal"
                 data-target="#previewReport_modal"
                 id="preview_button"
-              >
+                onClick={validateReport}
+                >
                 Vista previa
               </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="previewReport_modal" className="modal fade show" role="dialog">
-        <div className="modal-dialog">
-          <div
-            className="modal-content d-flex align-items-end"
-            id="modal-content"
-          >
-            <i data-dismiss="modal">
-              <img
-                src="../../img/close.png"
-                className="close_button"
-                alt="close button"
-              />
-            </i>
-            <div className="modal-header d-flex align-items-center">
-              <h3 className="modal-title text_fontstyle text-center">
-                <strong>Vista previa del reporte</strong>
-              </h3>
-            </div>
-            <div className="modal-body d-flex flex-column justify-content-center text-center modal_background">
-              <h1 className="title_fontstyle">SE BUSCA</h1>
-              <div className="slideshow-container">
-                <div className="petpic_container d-flex justify-content-center">
-                  <img
-                    src={fileInputState}
-                    alt=""
-                    id="img"
-                    className="petphoto_width"
-                  ></img>
-                </div>
-
-                <div className="text_fontstyle" name="viralInfo" onChange={(e) => {updateState(e); ViralInfo(e)}}>{ViralInfo()}</div>
-              </div>
             </div>
           </div>
         </div>
