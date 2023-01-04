@@ -7,6 +7,7 @@ import { generate } from "shortid";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
+import { propTypes } from "react-bootstrap/esm/Image";
 registerLocale("es", es);
 
 function Report() {
@@ -38,10 +39,8 @@ function Report() {
   //images
   const [fileInputState, setFileInputState] = useState('')
   const [previewSource, setPreviewSource] = useState()
-
-  //viral info state
   const [caseInfo, setCaseInfo] = useState('')
-  
+
   const handleFileInputChange = (e) => {
     const file = e.target.files[0]
     previewFile(file)
@@ -56,12 +55,10 @@ function Report() {
   }
 
   const updateState = (e) => {
-    ViralInfo()   
+    report[e.target.name] = e.target.value;
+    saveReport(report);
 
-    saveReport({
-      ...report,
-      [e.target.name]: e.target.value
-    });  
+    ViralInfo()
   };
 
   const clearHour = (e) => {
@@ -108,54 +105,13 @@ function Report() {
     }
   };
 
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [currentDay] = useState(new Date());
+   const ViralInfo = e => {
 
-  const selectedInputDate = (date) => {
-    setSelectedDate(date);
-  };
-
-  if (selectedDate != null) {
-    var fecha = `${selectedDate.getDate()}/${
-      selectedDate.getMonth() + 1
-    }/${selectedDate.getFullYear()}`;
-  }
-
-   const ViralInfo = () => {
-
-     const realSex = () => {
-       switch (report.sexoMascota) {
-         case "Macho":
-           const macho = `${report.tipoMascota} ${report.estadoMascota.toLowerCase()}`;
-           return macho;
-         case "Hembra":
-           const hembra = `${
-             report.tipoMascota.substr(0, report.tipoMascota.length - 1) + "a"
-           } ${report.estadoMascota.toLowerCase().substr(0, report.estadoMascota.length - 1) + "a"}`;
-           return hembra;
-         default:
-           break;
-       }
-     };
-
-     const chip = () => {
-       switch (report.chipMascota) {
-         case "Si":
-           return "Tiene chip.";
-         case "No se":
-           return "No se sabe si tiene chip.";
-         case "No":
-           return "No tiene chip.";
-         default:
-           break;
-       }
-     };
-
-     const textOfViralInfo =`${realSex()} en ${report.departamentoPerdidoMascota}, ${report.localidadPerdidoMascota}, más específicamente en ${report.lugarPerdidoMascota}.
+    const textOfViralInfo =`${report.tipoMascota} ${report.estadoMascota} en ${report.departamentoPerdidoMascota}, ${report.localidadPerdidoMascota}, más específicamente en ${report.lugarPerdidoMascota}.
      ${report.nombreMascota ? `Responde al nombre de ${report.nombreMascota}.` : 'Se desconoce el nombre.'} ${report.razaMascota ? `Es de raza ${report.razaMascota}.` : `${`Se desconoce su raza.`}`}
-     Más información sobre el caso: ${report.descripcionMascota}. ${chip()} ¡Por favor difundir! #Uruguay #${report.departamentoPerdidoMascota} #LaCalleNoEsHogarParaNadie .`
+     Más información sobre el caso: ${report.descripcionMascota}. ${report.chipMascota} ¡Por favor difundir! #Uruguay #${report.departamentoPerdidoMascota} #LaCalleNoEsHogarParaNadie .`
 
-     return setCaseInfo(textOfViralInfo)
+     setCaseInfo(textOfViralInfo)
   };
 
   const handleSubmitFile = () => {
@@ -175,12 +131,14 @@ function Report() {
       }
      const response = await fetch('http://localhost:9000/api/image', requestInit)
      const data = await response.json()
-     console.log(data)
 
       if(data.url) {
         saveReport({
-          ...report.imagenMascota = data.url
+          ...report.imagenMascota = data.url,
+          ...report.viralInfo = caseInfo
         })
+
+        console.log(report)
 
         const requestInit = {
           method: 'POST',
@@ -269,7 +227,7 @@ function Report() {
               id="pet_type"
               name="tipoMascota"
               required={true}
-              onChange={updateState}
+              onChange={(e) => updateState(e)}
             >
               <option value="">Seleccionar...</option>
               <option value="Perro">Perro</option>
@@ -380,12 +338,8 @@ function Report() {
                 <Datepicker
                   id="missing_date"
                   placeholderText="Introduce la fecha"
-                  selected={selectedDate}
-                  onChange={(e) => {selectedInputDate(e)}}
                   locale="es"
-                  isClearable={selectedInputDate}
                   dateFormat="dd/MM/yyyy"
-                  maxDate={currentDay}
                 />
               </div>
 

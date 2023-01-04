@@ -1,5 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 function LostPetCard({pets}) {
 
@@ -14,9 +15,8 @@ function LostPetCard({pets}) {
                     <h2 className="text_fontstyle text-center mt-2">{pet.nombreMascota ? pet.nombreMascota : pet.tipoMascota}</h2>
                     </div>
                     <p className="text_fontstyle text-center mt-2">{pet.tipoMascota} {pet.estadoMascota} en {pet.departamentoPerdidoMascota}, {pet.localidadPerdidoMascota}</p>
-                    <a className='cta_bottonsstyle text_fontstyle' href="/" data-toggle="modal" data-target=".bd-example-modal-lg">Más información</a>
-                    {/* modal */}
-                    <div className="modal fade bd-example-modal-lg" role="dialog" aria-labelledby="myLargeModalLabel"
+                    <a className='cta_bottonsstyle text_fontstyle'>Más información</a>
+                    {/* <div className="modal fade bd-example-modal-lg" role="dialog" aria-labelledby="myLargeModalLabel"
                     aria-hidden="true">
                         <div className="modal-dialog modal-lg">
                             <div className="modal-content">
@@ -30,12 +30,10 @@ function LostPetCard({pets}) {
                                         <span className="color_numHIW"></span>SE BUSCA
                                     </strong>
                                 </h1>
-                                <p className="text_fontstyle m-2 text-center">
-                                 {pet.viralInfo}
-                                </p>
+                                <p className="text_fontstyle m-2 text-center">{console.log(pet.viralInfo)}</p>
                             </div>
                         </div>
-                   </div>
+                   </div> */}
                 </div>
             )
             )}
