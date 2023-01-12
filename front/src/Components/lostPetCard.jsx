@@ -4,6 +4,13 @@ import Swal from 'sweetalert2'
 
 function LostPetCard({pets}) {
 
+    const moreInfo = (viralInfo) => {
+        Swal.fire({
+            title: 'SE BUSCA',
+            text: viralInfo
+          })
+    }
+
    return (
         <>
             {pets.map( pet => (
@@ -15,25 +22,8 @@ function LostPetCard({pets}) {
                     <h2 className="text_fontstyle text-center mt-2">{pet.nombreMascota ? pet.nombreMascota : pet.tipoMascota}</h2>
                     </div>
                     <p className="text_fontstyle text-center mt-2">{pet.tipoMascota} {pet.estadoMascota} en {pet.departamentoPerdidoMascota}, {pet.localidadPerdidoMascota}</p>
-                    <a className='cta_bottonsstyle text_fontstyle'>Más información</a>
-                    {/* <div className="modal fade bd-example-modal-lg" role="dialog" aria-labelledby="myLargeModalLabel"
-                    aria-hidden="true">
-                        <div className="modal-dialog modal-lg">
-                            <div className="modal-content">
-                                <div className="logoANDclose">
-                                    <a href="/" data-dismiss="modal">
-                                        <img src="./img/close.png" className="close_button" alt="close button" />
-                                    </a>
-                                </div>
-                                <h1 className="subtitle_fontstyle text-center">
-                                    <strong>
-                                        <span className="color_numHIW"></span>SE BUSCA
-                                    </strong>
-                                </h1>
-                                <p className="text_fontstyle m-2 text-center">{console.log(pet.viralInfo)}</p>
-                            </div>
-                        </div>
-                   </div> */}
+                    <button className='cta_bottonsstyle text_fontstyle' onClick={() => moreInfo(pet.viralInfo)}>Más información</button>
+                    <button className='cta_bottonsstyle text_fontstyle mt-1'>Encontrado!</button>
                 </div>
             )
             )}
