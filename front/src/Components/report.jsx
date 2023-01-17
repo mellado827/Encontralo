@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import Swal from 'sweetalert2';
 import Navbar from "./navbar";
@@ -7,7 +7,6 @@ import { generate } from "shortid";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
-import { propTypes } from "react-bootstrap/esm/Image";
 registerLocale("es", es);
 
 function Report() {
@@ -57,7 +56,6 @@ function Report() {
   const updateState = (e) => {
     report[e.target.name] = e.target.value;
     saveReport(report);
-
     ViralInfo()
   };
 
@@ -105,14 +103,28 @@ function Report() {
     }
   };
 
-   const ViralInfo = e => {
+  const sexPet = (typePet, statusPet, sexPet) => {
+    const lastCharacterSexPet = sexPet.slice(-1)
+    const typePetMinusLastCharacter = typePet.slice(0, -1)
+    const statusPetMinusLastCharacter = statusPet.slice(0, -1)
+    if(sexPet != undefined && lastCharacterSexPet == 'a') {
+      let typePetFemale = typePetMinusLastCharacter + lastCharacterSexPet
+      let statusPetFemale = statusPetMinusLastCharacter + lastCharacterSexPet
+    } else { 
+      console.log(typePet)
+    }
+  }
+
+   const ViralInfo = () => {
+
+    sexPet(report.tipoMascota, report.estadoMascota, report.sexoMascota)
 
     const textOfViralInfo =`${report.tipoMascota} ${report.estadoMascota} en ${report.departamentoPerdidoMascota}, ${report.localidadPerdidoMascota}, más específicamente en ${report.lugarPerdidoMascota}.
-     ${report.nombreMascota ? `Responde al nombre de ${report.nombreMascota}.` : 'Se desconoce el nombre.'} ${report.razaMascota ? `Es de raza ${report.razaMascota}.` : `${`Se desconoce su raza.`}`}
-     Más información sobre el caso: ${report.descripcionMascota}. ${report.chipMascota} ¡Por favor difundir! #Uruguay #${report.departamentoPerdidoMascota} #LaCalleNoEsHogarParaNadie .`
+    ${report.nombreMascota ? `Responde al nombre de ${report.nombreMascota}.` : 'Se desconoce el nombre.'} ${report.razaMascota ? `Es de raza ${report.razaMascota}.` : `${`Se desconoce su raza.`}`}
+    Más información sobre el caso: ${report.descripcionMascota}. ${report.chipMascota} ¡Por favor difundir! #Uruguay #${report.departamentoPerdidoMascota} #LaCalleNoEsHogarParaNadie .`
 
-     setCaseInfo(textOfViralInfo)
-  };
+    setCaseInfo(textOfViralInfo)
+    };
 
   const handleSubmitFile = () => {
     if (!previewSource) {
