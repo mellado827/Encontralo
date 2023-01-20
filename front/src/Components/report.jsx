@@ -120,7 +120,7 @@ function Report() {
     sexPet(report.tipoMascota, report.estadoMascota, report.sexoMascota)
 
     const textOfViralInfo =`${report.tipoMascota} ${report.estadoMascota} en ${report.departamentoPerdidoMascota}, ${report.localidadPerdidoMascota}, más específicamente en ${report.lugarPerdidoMascota}.
-    ${report.nombreMascota ? `Responde al nombre de ${report.nombreMascota}.` : 'Se desconoce el nombre.'} ${report.razaMascota ? `Es de raza ${report.razaMascota}.` : `${`Se desconoce su raza.`}`}
+    ${report.nombreMascota ? `Responde al nombre de ${report.nombreMascota}.` : 'Se desconoce el nombre.'} ${report.razaMascota ? `Es de raza ${report.razaMascota}.` : ``}
     Más información sobre el caso: ${report.descripcionMascota}. ${report.chipMascota} ¡Por favor difundir! #Uruguay #${report.departamentoPerdidoMascota} #LaCalleNoEsHogarParaNadie .`
 
     setCaseInfo(textOfViralInfo)
