@@ -107,13 +107,29 @@ function Report() {
     const lastCharacterSexPet = sexPet ? sexPet.slice(-1) : null
     const typePetMinusLastCharacter = typePet.slice(0, -1)
     const statusPetMinusLastCharacter = statusPet.slice(0, -1)
-    if(sexPet != undefined && lastCharacterSexPet == 'a') {
+    if(sexPet != undefined && sexPet == 'Hembra') {
       let typePetFemale = typePetMinusLastCharacter + lastCharacterSexPet
       let statusPetFemale = statusPetMinusLastCharacter + lastCharacterSexPet
       let completePetFemale = typePetFemale + ' ' + statusPetFemale
+
+      saveReport({
+        ...report,
+        tipoMascota:  typePetFemale,
+        estadoMascota: statusPetFemale
+      })
+
       return completePetFemale
-    } else { 
-      let completePetMale = typePet + ' ' + statusPet
+    } else if (sexPet != undefined && sexPet == 'Macho') {
+      let typePetMale = typePetMinusLastCharacter + lastCharacterSexPet
+      let statusPetMale = statusPetMinusLastCharacter + lastCharacterSexPet
+      let completePetMale = typePetMale + ' ' + statusPetMale
+
+      saveReport({
+        ...report,
+        tipoMascota: typePetMale,
+        estadoMascota: statusPetMale
+      })
+
       return completePetMale
     }
   }
