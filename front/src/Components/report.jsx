@@ -104,24 +104,25 @@ function Report() {
   };
 
   const sexPet = (typePet, statusPet, sexPet) => {
-    const lastCharacterSexPet = sexPet.slice(-1)
+    const lastCharacterSexPet = sexPet ? sexPet.slice(-1) : null
     const typePetMinusLastCharacter = typePet.slice(0, -1)
     const statusPetMinusLastCharacter = statusPet.slice(0, -1)
     if(sexPet != undefined && lastCharacterSexPet == 'a') {
       let typePetFemale = typePetMinusLastCharacter + lastCharacterSexPet
       let statusPetFemale = statusPetMinusLastCharacter + lastCharacterSexPet
+      let completePetFemale = typePetFemale + ' ' + statusPetFemale
+      return completePetFemale
     } else { 
-      console.log(typePet)
+      let completePetMale = typePet + ' ' + statusPet
+      return completePetMale
     }
   }
 
    const ViralInfo = () => {
 
-    sexPet(report.tipoMascota, report.estadoMascota, report.sexoMascota)
-
-    const textOfViralInfo =`${report.tipoMascota} ${report.estadoMascota} en ${report.departamentoPerdidoMascota}, ${report.localidadPerdidoMascota}, más específicamente en ${report.lugarPerdidoMascota}.
+    const textOfViralInfo =`${sexPet(report.tipoMascota, report.estadoMascota, report.sexoMascota)} en ${report.departamentoPerdidoMascota}, ${report.localidadPerdidoMascota}, más específicamente en ${report.lugarPerdidoMascota}.
     ${report.nombreMascota ? `Responde al nombre de ${report.nombreMascota}.` : 'Se desconoce el nombre.'} ${report.razaMascota ? `Es de raza ${report.razaMascota}.` : ``}
-    Más información sobre el caso: ${report.descripcionMascota}. ${report.chipMascota} ¡Por favor difundir! #Uruguay #${report.departamentoPerdidoMascota} #LaCalleNoEsHogarParaNadie .`
+    Más información sobre el caso: ${report.descripcionMascota}. ¡Por favor difundir! #Uruguay #${report.departamentoPerdidoMascota} #LaCalleNoEsHogarParaNadie .`
 
     setCaseInfo(textOfViralInfo)
     };
