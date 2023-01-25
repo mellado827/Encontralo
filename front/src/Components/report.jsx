@@ -59,6 +59,19 @@ function Report() {
     ViralInfo()
   };
 
+  const handleChangeDate = (date) => {
+    const formattedDate = date.toLocaleDateString('es-ES', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+
+    saveReport({
+      ...report,
+      fechaMascota: formattedDate
+    });
+  }
+
   const clearHour = (e) => {
     e.preventDefault();
     document.getElementById("missing_hour").value = "";
@@ -134,11 +147,17 @@ function Report() {
     }
   }
 
+  const [maxDate, setMaxDate] = useState(new Date());
+
    const ViralInfo = () => {
 
-    const textOfViralInfo =`${sexPet(report.tipoMascota, report.estadoMascota, report.sexoMascota)} en ${report.departamentoPerdidoMascota}, ${report.localidadPerdidoMascota}, más específicamente en ${report.lugarPerdidoMascota}.
-    ${report.nombreMascota ? `Responde al nombre de ${report.nombreMascota}.` : 'Se desconoce el nombre.'} ${report.razaMascota ? `Es de raza ${report.razaMascota}.` : ``}
-    Más información sobre el caso: ${report.descripcionMascota}. ¡Por favor difundir! #Uruguay #${report.departamentoPerdidoMascota} #LaCalleNoEsHogarParaNadie .`
+    const textOfViralInfo =`${sexPet(report.tipoMascota, report.estadoMascota, report.sexoMascota)} 
+    en ${report.departamentoPerdidoMascota}, ${report.localidadPerdidoMascota}, más específicamente en ${report.lugarPerdidoMascota}.
+    ${report.nombreMascota ? `Responde al nombre de ${report.nombreMascota}.` : 'Se desconoce el nombre.'} 
+    ${report.razaMascota ? `Es de raza ${report.razaMascota}.` : ``}
+    Más información sobre el caso: ${report.descripcionMascota}.
+    ${report.fechaMascota ? `Se perdió el ${report.fechaMascota}.}` : ''}
+    ¡Por favor difundir! #Uruguay #${report.departamentoPerdidoMascota} #LaCalleNoEsHogarParaNadie .`
 
     setCaseInfo(textOfViralInfo)
     };
@@ -368,7 +387,10 @@ function Report() {
                   id="missing_date"
                   placeholderText="Introduce la fecha"
                   locale="es"
-                  dateFormat="dd/MM/yyyy"
+                  name="fechaMascota"
+                  value={report.fechaMascota}
+                  maxDate={maxDate}
+                  onChange={handleChangeDate}
                 />
               </div>
 
