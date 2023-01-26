@@ -60,20 +60,26 @@ function Report() {
   };
 
   const handleChangeDate = (date) => {
-    const formattedDate = date.toLocaleDateString('es-ES', {
+    let dateES = date.toLocaleDateString('es-ES', {
       day: '2-digit',
       month: '2-digit',
-      year: 'numeric',
-    });
+      year: 'numeric'})
+
+    let hourES = date.getHours() + ':' + date.getMinutes()
 
     saveReport({
       ...report,
-      fechaMascota: formattedDate
-    });
+      fechaMascota: dateES,
+      horaPerdidoMascota: hourES
+      })
   }
 
   const clearHour = (e) => {
     e.preventDefault();
+    saveReport({
+      ...report,
+      horaPerdidoMascota: ''
+    })
     document.getElementById("missing_hour").value = "";
   };
 
@@ -147,6 +153,21 @@ function Report() {
     }
   }
 
+  const dateAndHour = () => {
+
+    let hourExist = ''
+    hourExist = report.horaPerdidoMascota ? hourExist = ` a las ` + report.horaPerdidoMascota : hourExist
+
+    if(report.horaPerdidoMascota != undefined && report.fechaMascota != undefined) 
+    {
+      let dateAndHourViralInfo = 'Se perdió el ' + report.fechaMascota + hourExist
+      return dateAndHourViralInfo
+    }     
+    else {
+      return null
+    }
+  }
+
   const [maxDate, setMaxDate] = useState(new Date());
 
    const ViralInfo = () => {
@@ -156,7 +177,7 @@ function Report() {
     ${report.nombreMascota ? `Responde al nombre de ${report.nombreMascota}.` : 'Se desconoce el nombre.'} 
     ${report.razaMascota ? `Es de raza ${report.razaMascota}.` : ``}
     Más información sobre el caso: ${report.descripcionMascota}.
-    ${report.fechaMascota ? `Se perdió el ${report.fechaMascota}.}` : ''}
+    ${dateAndHour()}
     ¡Por favor difundir! #Uruguay #${report.departamentoPerdidoMascota} #LaCalleNoEsHogarParaNadie .`
 
     setCaseInfo(textOfViralInfo)
@@ -381,34 +402,18 @@ function Report() {
             </div>
 
             <div className="last_timeseen d-flex flex-column mt-4">
-              <label className="mt-4 text-center">Fecha</label>
+              <label className="mt-4 text-center">Fecha y hora</label>
               <div className="d-flex justify-content-center text_fontstyle">
                 <Datepicker
                   id="missing_date"
-                  placeholderText="Introduce la fecha"
+                  placeholderText="Introduce la fecha y hora"
                   locale="es"
                   name="fechaMascota"
                   value={report.fechaMascota}
+                  showTimeSelect
                   maxDate={maxDate}
                   onChange={handleChangeDate}
                 />
-              </div>
-
-              <label className="mt-5 text_center">Hora</label>
-              <div className="d-flex justify-content-center">
-                <input
-                  type="time"
-                  name="horaPerdidoMascota"
-                  id="missing_hour"
-                  onChange={updateState}
-                />
-                <button
-                  type="button"
-                  className="clear_hour"
-                  onClick={clearHour}
-                >
-                  x
-                </button>
               </div>
             </div>
 
