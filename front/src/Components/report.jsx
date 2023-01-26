@@ -74,15 +74,6 @@ function Report() {
       })
   }
 
-  const clearHour = (e) => {
-    e.preventDefault();
-    saveReport({
-      ...report,
-      horaPerdidoMascota: ''
-    })
-    document.getElementById("missing_hour").value = "";
-  };
-
   //validate completed report
   const validateReport = () => {
      const {
