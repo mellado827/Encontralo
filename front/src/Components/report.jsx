@@ -65,12 +65,25 @@ function Report() {
       month: '2-digit',
       year: 'numeric'})
 
-    let hourES = date.getHours() + ':' + date.getMinutes()
+    let hour = date.getHours()
+    let minutes = date.getMinutes()
+
+    if(hour < 10) 
+    {
+      hour = "0" + hour
+    } 
+
+    if(minutes < 10) 
+    {
+      minutes = minutes + "0"
+    }
+
+    let hourAndMinutes = hour + ':' + minutes
 
     saveReport({
       ...report,
       fechaMascota: dateES,
-      horaPerdidoMascota: hourES
+      horaPerdidoMascota: hourAndMinutes
       })
   }
 
