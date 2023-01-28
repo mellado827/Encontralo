@@ -97,7 +97,9 @@ function Report() {
        chipMascota,
        departamentoPerdidoMascota,
        localidadPerdidoMascota,
-       lugarPerdidoMascota
+       lugarPerdidoMascota,
+       nombreResponsableMascota,
+       descripcionResponsableMascota
      } = report;
     
      if(
@@ -108,7 +110,9 @@ function Report() {
        chipMascota.length  != ""  &&
        departamentoPerdidoMascota.length  != "" &&
        localidadPerdidoMascota.length != "" &&
-       lugarPerdidoMascota.length != ""
+       lugarPerdidoMascota.length != "" &&
+       nombreResponsableMascota != "" &&
+       descripcionResponsableMascota != ""
      ) {
       Swal.fire({
         title: 'SE BUSCA',
@@ -162,13 +166,14 @@ function Report() {
     let hourExist = ''
     hourExist = report.horaPerdidoMascota ? hourExist = ` a las ` + report.horaPerdidoMascota : hourExist
 
-    if(report.horaPerdidoMascota != undefined && report.fechaMascota != undefined) 
+    if(report.horaPerdidoMascota != "" && report.fechaMascota != "") 
     {
-      let dateAndHourViralInfo = 'Se perdió el ' + report.fechaMascota + hourExist
+      let dateAndHourViralInfo = report.fechaMascota + hourExist
       return dateAndHourViralInfo
     }     
     else {
-      return null
+      let inputDate = 'Introduce la fecha'
+      return inputDate
     }
   }
 
@@ -181,7 +186,8 @@ function Report() {
     ${report.nombreMascota ? `Responde al nombre de ${report.nombreMascota}.` : 'Se desconoce el nombre.'} 
     ${report.razaMascota ? `Es de raza ${report.razaMascota}.` : ``}
     Más información sobre el caso: ${report.descripcionMascota}.
-    ${dateAndHour()}
+    ${report.fechaMascota ? 'Se perdió el ' + dateAndHour() : ''}
+    Quien reporta se llama ${report.nombreResponsableMascota} y su número de celular es: ${report.descripcionResponsableMascota}
     ¡Por favor difundir! #Uruguay #${report.departamentoPerdidoMascota} #LaCalleNoEsHogarParaNadie .`
 
     setCaseInfo(textOfViralInfo)
@@ -382,6 +388,7 @@ function Report() {
                 required={true}
                 id="pet_description"
                 name="descripcionMascota"
+                maxLength={1000}
                 onChange={updateState}
                 placeholder="Es miedoso, le falta un ojo, tiene collar de identificacion, responde a ciertos sonidos, se recompensa a la persona que lo encuentre, etc. "
               ></textarea>
@@ -405,20 +412,19 @@ function Report() {
               </select>
             </div>
 
-            <div className="last_timeseen d-flex flex-column mt-4">
-              <label className="mt-4 text-center">Fecha y hora</label>
-              <div className="d-flex justify-content-center text_fontstyle">
-                <Datepicker
-                  id="missing_date"
-                  placeholderText="Introduce la fecha y hora"
-                  locale="es"
-                  name="fechaMascota"
-                  value={report.fechaMascota}
-                  showTimeSelect
-                  maxDate={maxDate}
-                  onChange={handleChangeDate}
-                />
-              </div>
+            <div className="d-flex flex-column mt-4">
+                <label className="mt-4 text-center">Fecha y hora</label>
+                <div className="d-flex justify-content-center text_fontstyle">
+                  <Datepicker
+                    id="missing_date"
+                    placeholderText={dateAndHour()}
+                    locale="es"
+                    name="fechaMascota"
+                    showTimeSelect
+                    maxDate={maxDate}
+                    onChange={handleChangeDate}
+                  />
+                </div>
             </div>
 
             <label className="mt-4">
@@ -491,11 +497,13 @@ function Report() {
           <div className="owner_form m-3 d-flex flex-column">
             <div className="owner_info m-2">
               <p className="text-center">
-                <strong>Información del dueño</strong>
+                <strong>Información de quien reporta</strong>
               </p>
             </div>
 
-            <label className="mt-4 text_fontstyle">Nombre completo</label>
+            <label className="mt-4 text_fontstyle">
+              <u>Nombre y apellido</u> <strong>*</strong>
+            </label>
             <input
               name="nombreResponsableMascota"
               type="text"
@@ -503,8 +511,10 @@ function Report() {
               id="owner_name"
               onChange={updateState}
             />
-            <label className="mt-4 text_fontstyle">Número de contacto</label>
-            <input type="text" className="mt-4 text_fontstyle" onChange={updateState} /> 
+            <label className="mt-4 text_fontstyle">
+              <u>Número de contacto</u> <strong>*</strong>
+            </label>
+            <input type="text" className="mt-4 text_fontstyle" name="descripcionResponsableMascota" onChange={updateState} /> 
             <div className="report_buttons d-flex justify-content-around">
               <button
                 type="button"
