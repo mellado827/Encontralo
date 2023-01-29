@@ -30,6 +30,10 @@ app.get('/', (req,res) => {
     res.send('Welcome to the API!')
 })
 
+app.get('/encontrados', (req,res) => {
+    res.send('Encontrados!')
+})
+
 app.use('/api', routes)
 
 //server running ---

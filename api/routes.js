@@ -41,12 +41,25 @@ routes.post('/', (req,res) => {
          if(error) return res.send(error)
 
          connection.query('INSERT INTO perdidos SET ?',[req.body], (error, rows) => {
-            console.log(req.body.imagenMascota)
+            console.log(req.body)
              if(error) return res.send(error)
              console.log('post hecho!')
              res.send('post hecho')
          })
      })
+})
+
+//upload found pet
+routes.post('/encontrados', (req,res) => {
+    req.getConnection((error, connection) => {
+        if(error) return res.send(error)
+
+        connection.query('INSERT INTO encontrados SET ?',[req.body], (error, rows) => {
+            if(error) return console.log(error)
+            console.log(console.log(rows))
+            res.send('post hecho')
+        })
+    })
 })
 
 
