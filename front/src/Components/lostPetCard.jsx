@@ -12,30 +12,53 @@ function LostPetCard({pets}) {
     }
 
    const foundPetUpload = async (petsToUpload) => {
-        try {
-            const requestInit = {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    nombreMascota: petsToUpload.nombreMascota,
-                    tipoMascota: petsToUpload.tipoMascota,
-                    estadoMascota: petsToUpload.estadoMascota,
-                    departamentoPerdidoMascota: petsToUpload.departamentoPerdidoMascota,
-                    idPublico: petsToUpload.idPublico,
-                    imagenMascota: petsToUpload.imagenMascota,
-                    encontradoInfo: "Apareció!"
-                })
-              }
-              const response = await fetch('http://localhost:9000/api/encontrados', requestInit)
-              console.log(response)
-              const data = await response.json()
-              console.log(data)
-        } catch (error) {
-            console.log(error)
-        }        
+
+        Swal.fire({
+            title: 'Estás seguro?',
+            text: "No vas a poder revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, apareció!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {                
+                try {
+                    const requestInit = {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            nombreMascota: petsToUpload.nombreMascota,
+                            tipoMascota: petsToUpload.tipoMascota,
+                            estadoMascota: petsToUpload.estadoMascota,
+                            departamentoPerdidoMascota: petsToUpload.departamentoPerdidoMascota,
+                            idPublico: petsToUpload.idPublico,
+                            imagenMascota: petsToUpload.imagenMascota,
+                            encontradoInfo: "Apareció!"
+                        })
+                    }
+                    const response = await fetch('http://localhost:9000/api/encontrados', requestInit)
+                    if(response.status === 200) {
+                        Swal.fire(
+                            '¡Caso resuelto!',
+                            'Ya aparecioooo.',
+                            'success'
+                          )
+                    }
+
+                } catch (error) {
+                    Swal.fire(
+                        'Ha ocurrido un error inesperado!',
+                        'Intentalo más tarde',
+                        'error'
+                      )
+                    console.log(error)
+                }  
+            }
+        })      
     }
 
-   return (
+      return (
         <>
             {pets.map( pet => (
                 <div className="pet1" key ={pet.id}>

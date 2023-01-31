@@ -57,7 +57,9 @@ routes.post('/encontrados', (req,res) => {
         connection.query('INSERT INTO encontrados SET ?',[req.body], (error, rows) => {
             if(error) return console.log(error)
             console.log(console.log(rows))
-            res.send('post hecho')
+            res.status(200).send({
+                message: 'post hecho'
+            });
         })
     })
 })
