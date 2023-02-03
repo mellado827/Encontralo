@@ -24,6 +24,7 @@ function LostPetCard({pets}) {
         }).then(async (result) => {
             if (result.isConfirmed) {                
                 try {
+                    //uploading lost pet into encontrados table
                     const requestInit = {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
@@ -39,11 +40,34 @@ function LostPetCard({pets}) {
                     }
                     const response = await fetch('http://localhost:9000/api/encontrados', requestInit)
                     if(response.status === 200) {
-                        Swal.fire(
-                            '¡Caso resuelto!',
-                            'Ya aparecioooo.',
-                            'success'
-                          )
+
+                        //delete lost pet
+                        const linkToDelete = `http://localhost:9000/api/${petsToUpload.idPerdidos}`
+                        try {
+                            const response = await fetch(linkToDelete, {
+                              method: "DELETE"
+                            });
+                            if (!response.ok) {
+                              throw new Error("No se pudo eliminar el registro");
+                            } else {
+                                if (response.status == 200) {
+                                    Swal.fire(
+                                        '¡Caso resuelto!',
+                                        `Nos alegramos mucho de que ${petsToUpload.nombreMascota ? petsToUpload.nombreMascota : ''} haya aparecido. 
+                                        Cuidalo por favor para que no vuelva a suceder.`,
+                                        'success'
+                                      )
+                                } else {
+                                    Swal.fire(
+                                        'Error!',
+                                        'Hubo un error inesperado. Por favor intentalo más tarde.',
+                                        'error'
+                                      )
+                                }
+                            }
+                          } catch (error) {
+                            console.error(error);
+                          }
                     }
 
                 } catch (error) {
