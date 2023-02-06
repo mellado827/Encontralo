@@ -22,7 +22,15 @@ function LostPetCard({pets}) {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Si, apareció!'
         }).then(async (result) => {
-            if (result.isConfirmed) {                
+            if (result.isConfirmed) {            
+                
+                Swal.fire({
+                    title: "Cargando...",
+                    text: "Espere un momento",
+                    icon: "info",
+                    showConfirmButton: false
+                  });
+                  
                 try {
                     //uploading lost pet into encontrados table
                     const requestInit = {
@@ -48,8 +56,11 @@ function LostPetCard({pets}) {
                               method: "DELETE"
                             });
                             if (!response.ok) {
-                              throw new Error("No se pudo eliminar el registro");
-                            } else {
+                                Swal.fire(
+                                    'Error!',
+                                    'No se pudo reportar el caso como encontrado. Intentalo de nuevo más tarde.',
+                                    'error'
+                                )                            } else {
                                 if (response.status == 200) {
                                     Swal.fire(
                                         '¡Caso resuelto!',

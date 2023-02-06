@@ -202,71 +202,89 @@ function Report() {
   }
 
   const uploadImageAndReport = async () => {
-    try {
-      const requestInit = {
-        method: 'POST',
-        body: JSON.stringify({data: previewSource}),
-        headers: {'Content-Type': 'application/json'}
-      }
-     const response = await fetch('http://localhost:9000/api/image', requestInit)
-     const data = await response.json()
 
-      if(data.url) {
-        saveReport({
-          ...report.imagenMascota = data.url,
-          ...report.viralInfo = caseInfo
-        })
+    Swal.fire({
+          title: 'Estás seguro?',
+          text: "No vas a poder revertir esto!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si, apareció!'
+      }).then(async (result) => {
+        if(result.isConfirmed) {
+          Swal.fire({
+            title: "Cargando...",
+            text: "Espere un momento",
+            icon: "info",
+            showConfirmButton: false
+          });
 
-        console.log(report)
-
-        const requestInit = {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(report)
-        }
-        console.log(report)
-
-      await fetch('http://localhost:9000/api', requestInit)
-        .then(res => {
-          console.log(res)
-          if(res.status == 200) {
-            Swal.fire({
-              icon: 'success',
-              title: 'La publicación ha sido realizada correctamente.',
-              text: `¡No te rindas!. Cualquier novedad te avisaremos. Tomá el ID del caso por cualquier cosa: ${report.idPublico}`
+          try {
+            const requestInit = {
+              method: 'POST',
+              body: JSON.stringify({data: previewSource}),
+              headers: {'Content-Type': 'application/json'}
+            }
+           const response = await fetch('http://localhost:9000/api/image', requestInit)
+           const data = await response.json()
+      
+            if(data.url) {
+              saveReport({
+                ...report.imagenMascota = data.url,
+                ...report.viralInfo = caseInfo
+              })
+      
+              const requestInit = {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(report)
+              }
+              console.log(report)
+      
+            await fetch('http://localhost:9000/api', requestInit)
+              .then(res => {
+                console.log(res)
+                if(res.status == 200) {
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'La publicación ha sido realizada correctamente.',
+                    text: `¡No te rindas!. Cualquier novedad te avisaremos. Tomá el ID del caso por cualquier cosa: ${report.idPublico}`
+                  })
+                }
+              }
+              )
+            
+            //reiniciando state del libro
+            saveReport({
+              tipoMascota: "",
+              estadoMascota: "",
+              razaMascota: "",
+              nombreMascota: "",
+              sexoMascota: "",
+              descripcionMascota: "",
+              chipMascota: "",
+              fechaMascota: "",
+              horaPerdidoMascota: "",
+              departamentoPerdidoMascota: "",
+              localidadPerdidoMascota: "",
+              lugarPerdidoMascota: "",
+              nombreResponsableMascota: "",
+              descripcionResponsableMascota: "",
+              idPublico: "",
+              viralInfo: "",
+              imagenMascota: ""
             })
+      
+            } else {
+              console.log('Imagen no adjuntada.')
+            }
+      
+         } catch (error) {
+            console.log(error)
           }
         }
-        )
-      
-      //reiniciando state del libro
-      saveReport({
-        tipoMascota: "",
-        estadoMascota: "",
-        razaMascota: "",
-        nombreMascota: "",
-        sexoMascota: "",
-        descripcionMascota: "",
-        chipMascota: "",
-        fechaMascota: "",
-        horaPerdidoMascota: "",
-        departamentoPerdidoMascota: "",
-        localidadPerdidoMascota: "",
-        lugarPerdidoMascota: "",
-        nombreResponsableMascota: "",
-        descripcionResponsableMascota: "",
-        idPublico: "",
-        viralInfo: "",
-        imagenMascota: ""
       })
-
-      } else {
-        console.log('Imagen no adjuntada.')
-      }
-
-   } catch (error) {
-      console.log(error)
-    }
   }
 
   return (
