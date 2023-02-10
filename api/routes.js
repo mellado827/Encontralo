@@ -2,7 +2,7 @@ const express = require('express')
 const routes = express.Router()
 const {cloudinary} = require('./utils/cloudinary')
 
-//obtener todos los animales perdidos
+//get all lost pets
 routes.get('/',(req,res) => {
     req.getConnection((error, connection) => {
         if(error) return res.send(error)
@@ -10,6 +10,18 @@ routes.get('/',(req,res) => {
         connection.query('SELECT * FROM perdidos', (error, pets) => {
             if(error) return res.send(error)
             res.json(pets)
+        })
+    })
+})
+
+//get lost pets by pet type
+routes.get('/:petType',(req,res) => {
+    req.getConnection((error, connection) => {
+        if(error) return res.send(error)
+
+        connection.query('SELECT * FROM perdidos WHERE tipoMascota = ?', [req.params.petType], (error, pet) => {
+            if(error) return res.send(error)
+            res.json(pet)
         })
     })
 })

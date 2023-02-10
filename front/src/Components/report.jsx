@@ -32,7 +32,8 @@ function Report() {
     descripcionResponsableMascota: "",
     viralInfo: "",
     idPublico: `${id}`,
-    imagenMascota: ""
+    imagenMascota: "",
+    tipoMascotaOriginal: ""
   });
 
   //images
@@ -141,8 +142,9 @@ function Report() {
 
       saveReport({
         ...report,
-        tipoMascota:  typePetFemale,
-        estadoMascota: statusPetFemale
+        tipoMascota: typePet,
+        estadoMascota: statusPetFemale,
+        tipoMascotaOriginal: typePetFemale
       })
 
       return completePetFemale
@@ -153,8 +155,9 @@ function Report() {
 
       saveReport({
         ...report,
-        tipoMascota: typePetMale,
-        estadoMascota: statusPetMale
+        tipoMascota: typePet,
+        estadoMascota: statusPetMale,
+        tipoMascotaOriginal: typePetMale
       })
 
       return completePetMale
@@ -210,7 +213,7 @@ function Report() {
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
-          confirmButtonText: 'Si, apareció!'
+          confirmButtonText: 'Si, reportar'
       }).then(async (result) => {
         if(result.isConfirmed) {
           Swal.fire({

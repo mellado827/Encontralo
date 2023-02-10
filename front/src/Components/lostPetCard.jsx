@@ -4,7 +4,8 @@ import Swal from 'sweetalert2'
 
 function LostPetCard({pets}) {
 
-    const moreInfo = (viralInfo) => {
+    const moreInfo = (e, viralInfo) => {
+        e.preventDefault()
         Swal.fire({
             title: 'SE BUSCA',
             text: viralInfo
@@ -60,7 +61,8 @@ function LostPetCard({pets}) {
                                     'Error!',
                                     'No se pudo reportar el caso como encontrado. Intentalo de nuevo más tarde.',
                                     'error'
-                                )                            } else {
+                                ) 
+                            } else {
                                 if (response.status == 200) {
                                     Swal.fire(
                                         '¡Caso resuelto!',
@@ -101,10 +103,10 @@ function LostPetCard({pets}) {
                         <img src={pet.imagenMascota} alt="Imagen" className='petPhoto' />
                     </div>
                     <div className="petinfo">
-                    <h2 className="text_fontstyle text-center mt-2">{pet.nombreMascota ? pet.nombreMascota : pet.tipoMascota}</h2>
+                    <h2 className="text_fontstyle text-center mt-2">{pet.nombreMascota ? pet.nombreMascota : ''}</h2>
                     </div>
                     <p className="text_fontstyle text-center mt-2">{pet.tipoMascota} {pet.estadoMascota} en {pet.departamentoPerdidoMascota}, {pet.localidadPerdidoMascota}</p>
-                    <button className='cta_bottonsstyle text_fontstyle' onClick={() => moreInfo(pet.viralInfo)}>Más información</button>
+                    <button className='cta_bottonsstyle text_fontstyle' onClick={(e) => moreInfo(e, pet.viralInfo)}>Más información</button>
                     <button className='cta_bottonsstyle text_fontstyle mt-1' onClick={() => foundPetUpload(pet)}>Encontrado!</button>
                 </div>
             )

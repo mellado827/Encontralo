@@ -11,13 +11,26 @@ function Search() {
     const [pets, setPets] = useState([])
 
     useEffect(() => {
-       const getLostFromDB =  () => {
+       const getLostFromDB = () => {
         fetch('http://localhost:9000/api')
         .then(res => res.json())
         .then(res => setPets(res))
        }
        getLostFromDB()
     }, [])
+
+    const [typePetInputByUser, setTypePetInputByUser] = useState('')
+
+    const getTypePet = (e) => {
+        setTypePetInputByUser(e.target.value)
+    }
+
+    const getTypePetByUser = (e) => {
+        e.preventDefault()
+        fetch(`http://localhost:9000/api/${typePetInputByUser}`)
+        .then(res => res.json())
+        .then(res => setPets(res))
+    }
 
     return (
         <>
@@ -35,13 +48,11 @@ function Search() {
 
                         <div className="finder flex-column m-5">
                             <div className="d-flex flex-row justify-content-center">
-                                <input type="checkbox"
-                                    id="checkbox"
-                                    className="mr-2" />
                                 <select id="pet_type"
                                     name="input"
                                     className="searchtype text_fontstyle d-flex width_search_types"
-                                >
+                                    onChange={(e) => getTypePet(e)}
+                                    >
                                     <option value="">Tipo de mascota</option>
                                     <option value="Perro">Perro</option>
                                     <option value="Gato">Gato</option>
@@ -51,12 +62,8 @@ function Search() {
                             </div>
 
                             <div className="d-flex flex-row justify-content-center mt-5">
-                                <input type="checkbox"
-                                    id="checkbox2"
-                                    name="checkbox"
-                                    className="mr-2" 
-                                />
                                 <select
+                                    disabled
                                     id="departamento"
                                     name="input"
                                     className="text_fontstyle d-flex width_search_types"
@@ -87,7 +94,9 @@ function Search() {
                         <div className="search_button flex-column m-3">
                             <button
                                 id="search_button"
-                                className="text_fontstyle cta_bottonsstyle">Buscar</button>
+                                className="text_fontstyle cta_bottonsstyle"
+                                onClick={(e) => getTypePetByUser(e)}
+                                >Buscar</button>
                         </div>
                         <div className='pets_container'>
                             <LostPetCard pets={pets} />
