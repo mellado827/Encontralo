@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom";
 import Swal from 'sweetalert2';
 import Navbar from "./navbar";
 import Datepicker from "react-datepicker";
-import { generate } from "shortid";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
@@ -13,7 +12,7 @@ function Report() {
 
   document.title = "Reportar / Encontralo";
 
-  const id = generate();
+  const id = Math.floor(100 + Math.random() * 900);
 
   const [report, saveReport] = useState({
     tipoMascota: "",

@@ -2,6 +2,7 @@ import React, {useEffect} from 'react'
 import Navbar from './navbar'
 import { withRouter } from 'react-router-dom'
 import { useState } from 'react';
+import Swal from 'sweetalert2'
 import LostPetCard from './lostPetCard'
 
 function Search() {
@@ -27,9 +28,22 @@ function Search() {
 
     const getTypePetByUser = (e) => {
         e.preventDefault()
-        fetch(`http://localhost:9000/api/${typePetInputByUser}`)
-        .then(res => res.json())
-        .then(res => setPets(res))
+        if(typePetInputByUser == "") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ingresá algún dato para así poder hacer la búsqueda.'
+            })
+        } else if (typePetInputByUser == 'Perro' || typePetInputByUser == 'Gato'
+        || typePetInputByUser == 'Conejo' || typePetInputByUser == 'Loro') {
+            let xd = fetch(`http://localhost:9000/api/tipoMascota/${typePetInputByUser}`)
+            .then(res => res.json())
+            .then(res => setPets(res))
+        } else {
+            fetch(`http://localhost:9000/api/departamento/${typePetInputByUser}`)
+            .then(res => res.json())
+            .then(res => setPets(res))
+        }
     }
 
     return (
@@ -63,10 +77,10 @@ function Search() {
 
                             <div className="d-flex flex-row justify-content-center mt-5">
                                 <select
-                                    disabled
                                     id="departamento"
                                     name="input"
                                     className="text_fontstyle d-flex width_search_types"
+                                    onChange={(e) => getTypePet(e)}
                                 >
                                     <option value="">Departamento...</option>
                                     <option value="Artigas">Artigas</option>

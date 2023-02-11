@@ -15,11 +15,23 @@ routes.get('/',(req,res) => {
 })
 
 //get lost pets by pet type
-routes.get('/:petType',(req,res) => {
+routes.get('/tipoMascota/:petType',(req,res) => {
     req.getConnection((error, connection) => {
         if(error) return res.send(error)
 
         connection.query('SELECT * FROM perdidos WHERE tipoMascota = ?', [req.params.petType], (error, pet) => {
+            if(error) return res.send(error)
+            res.json(pet)
+        })
+    })
+})
+
+//get lost pets by departamento
+routes.get('/departamento/:departament',(req,res) => {
+    req.getConnection((error, connection) => {
+        if(error) return res.send(error)
+
+        connection.query('SELECT * FROM perdidos WHERE departamentoPerdidoMascota = ?', [req.params.departament], (error, pet) => {
             if(error) return res.send(error)
             res.json(pet)
         })
