@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import Navbar from './navbar'
 import { withRouter } from 'react-router-dom'
-import { useState } from 'react';
 import Swal from 'sweetalert2'
 import LostPetCard from './lostPetCard'
 
@@ -10,7 +9,9 @@ function Search() {
     document.title = "Buscar / Encontralo";
 
     const [pets, setPets] = useState([])
+    const [typePetInputByUser, setTypePetInputByUser] = useState('')
 
+    //get all lost pets when page is loaded
     useEffect(() => {
        const getLostFromDB = () => {
         fetch('http://localhost:9000/api')
@@ -20,7 +21,13 @@ function Search() {
        getLostFromDB()
     }, [])
 
-    const [typePetInputByUser, setTypePetInputByUser] = useState('')
+    const modalErrorNotFound = () => {
+        return Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No hemos encontrado ningún registro :('
+        })
+    }
 
     const getTypePet = (e) => {
         setTypePetInputByUser(e.target.value)
@@ -34,15 +41,19 @@ function Search() {
                 title: 'Error',
                 text: 'Ingresá algún dato para así poder hacer la búsqueda.'
             })
+        } else if (!isNaN(typePetInputByUser)) {
+            fetch(`http://localhost:9000/api/idPublico/${typePetInputByUser}`)
+            .then(res => res.status == 404 ? modalErrorNotFound() : res.json()
+            .then(res => setPets(res)))
         } else if (typePetInputByUser == 'Perro' || typePetInputByUser == 'Gato'
         || typePetInputByUser == 'Conejo' || typePetInputByUser == 'Loro') {
-            let xd = fetch(`http://localhost:9000/api/tipoMascota/${typePetInputByUser}`)
-            .then(res => res.json())
-            .then(res => setPets(res))
+            fetch(`http://localhost:9000/api/tipoMascota/${typePetInputByUser}`)
+            .then(res => res.status == 404 ? modalErrorNotFound() : res.json()
+            .then(res => setPets(res)))
         } else {
             fetch(`http://localhost:9000/api/departamento/${typePetInputByUser}`)
-            .then(res => res.json())
-            .then(res => setPets(res))
+            .then(res => res.status == 404 ? modalErrorNotFound() : res.json()
+            .then(res => setPets(res)))
         }
     }
 
@@ -56,14 +67,12 @@ function Search() {
                 <div className="search">
 
                     <h1 className="text-center subtitle_fontstyle search_title mt-5">Buscar un animal perdido</h1>
-                    <h1 className="text_fontstyle text_center"><u>Elija la forma de buscar activándola:</u></h1>
-
-                    <form className="search_form">
+                    <form className="search_form" onChange={getTypePet}>
 
                         <div className="finder flex-column m-5">
                             <div className="d-flex flex-row justify-content-center">
                                 <select id="pet_type"
-                                    name="input"
+                                    name="inputPetType"
                                     className="searchtype text_fontstyle d-flex width_search_types"
                                     onChange={(e) => getTypePet(e)}
                                     >
@@ -78,7 +87,7 @@ function Search() {
                             <div className="d-flex flex-row justify-content-center mt-5">
                                 <select
                                     id="departamento"
-                                    name="input"
+                                    name="inputPetDepartament"
                                     className="text_fontstyle d-flex width_search_types"
                                     onChange={(e) => getTypePet(e)}
                                 >
@@ -102,6 +111,15 @@ function Search() {
                                     <option value="Tacuarembó">Tacuarembó</option>
                                     <option value="Treinta y Tres">Treinta y Tres</option>
                                 </select>
+                            </div>
+                            <div className="d-flex flex-row justify-content-center mt-5">
+                                <input 
+                                name='inputName'
+                                type='text' 
+                                placeholder='ID de caso' 
+                                onChange={(e) => getTypePet(e)}
+                                className='text_fontstyle'>
+                                </input>    
                             </div>
                         </div>
 

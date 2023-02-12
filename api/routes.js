@@ -21,7 +21,11 @@ routes.get('/tipoMascota/:petType',(req,res) => {
 
         connection.query('SELECT * FROM perdidos WHERE tipoMascota = ?', [req.params.petType], (error, pet) => {
             if(error) return res.send(error)
-            res.json(pet)
+            if(pet.length == 0) {
+                res.sendStatus(404)
+            } else {
+                res.json(pet)
+            }
         })
     })
 })
@@ -33,7 +37,27 @@ routes.get('/departamento/:departament',(req,res) => {
 
         connection.query('SELECT * FROM perdidos WHERE departamentoPerdidoMascota = ?', [req.params.departament], (error, pet) => {
             if(error) return res.send(error)
-            res.json(pet)
+            if(pet.length == 0) {
+                res.sendStatus(404)
+            } else {
+                res.json(pet)
+            }
+        })
+    })
+})
+
+//get lost pets by idPublico
+routes.get('/idPublico/:idPublico',(req,res) => {
+    req.getConnection((error, connection) => {
+        if(error) return res.send(error)
+
+        connection.query('SELECT * FROM perdidos WHERE idPublico = ?', [req.params.idPublico], (error, pet) => {
+            if(error) return res.send(error)
+            if(pet.length == 0) {
+                res.sendStatus(404)
+            } else { 
+                res.json(pet)
+            }
         })
     })
 })
