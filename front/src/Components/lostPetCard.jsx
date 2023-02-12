@@ -1,6 +1,8 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { withRouter } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
 function LostPetCard({pets}) {
 
@@ -12,7 +14,8 @@ function LostPetCard({pets}) {
           })
     }
 
-   const foundPetUpload = async (petsToUpload) => {
+   const foundPetUpload = async (e, petsToUpload) => {
+        e.preventDefault()
 
         Swal.fire({
             title: 'Estás seguro?',
@@ -99,15 +102,33 @@ function LostPetCard({pets}) {
         <>
             {pets.map( pet => (
                 <div className="pet1" key ={pet.id}>
-                    <div className="pet_photo">
+                    <div className='petPhotoContainer'>
                         <img src={pet.imagenMascota} alt="Imagen" className='petPhoto' />
+                        <div>
+                            <button className='petButton'>1</button>
+                            <FontAwesomeIcon className='petButton' icon={faTrashAlt} />
+                        </div>
                     </div>
                     <div className="petinfo">
-                    <h2 className="text_fontstyle text-center mt-2">{pet.nombreMascota ? pet.nombreMascota : ''}</h2>
+                    <h2 
+                        className="text_fontstyle text-center mt-2">
+                        {pet.nombreMascota ? pet.nombreMascota : ''}    
+                    </h2>
                     </div>
-                    <p className="text_fontstyle text-center mt-2">{pet.tipoMascota} {pet.estadoMascota} en {pet.departamentoPerdidoMascota}, {pet.localidadPerdidoMascota}</p>
-                    <button className='cta_bottonsstyle text_fontstyle' onClick={(e) => moreInfo(e, pet.viralInfo)}>Más información</button>
-                    <button className='cta_bottonsstyle text_fontstyle mt-1' onClick={() => foundPetUpload(pet)}>Encontrado!</button>
+                    <p className="text_fontstyle text-center mt-2">
+                        {pet.tipoMascota} {pet.estadoMascota} en {pet.departamentoPerdidoMascota}, 
+                        {pet.localidadPerdidoMascota}
+                    </p>
+                    <button 
+                        className='cta_bottonsstyle text_fontstyle' 
+                        onClick={(e) => moreInfo(e, pet.viralInfo)}>
+                        Más información
+                    </button>
+                    <button 
+                        className='cta_bottonsstyle text_fontstyle mt-1' 
+                        onClick={(e) => foundPetUpload(e,pet)}
+                        >Encontrado!
+                    </button>
                 </div>
             )
             )}

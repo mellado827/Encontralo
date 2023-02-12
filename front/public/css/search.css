@@ -80,11 +80,6 @@
   display: none;
 }
 
-.pet_photo:hover + .see_petreport {
-  transition: 0.3s;
-  display: flex;
-}
-
 .flex-column {
   display: flex;
   flex-direction: column;
@@ -113,12 +108,6 @@
   margin-top: 15em;
 }
 
-.petPhotoSize {
-  max-width: 100%;
-  max-height: 100%;
-  cursor: pointer;
-}
-
 .margin_title {
   margin-top: 30em;
 }
@@ -141,33 +130,9 @@
 }
 
 .pet1 {
-  height: 20em;
   width: 15em;
   background-color: #bfecee;
-  margin: 3em;
-}
-
-.pet_photo {
-  height: 65%;
-  background-color: #d7d1d2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.trash_button {
-  width: 75%;
-  height: 75%;
-  cursor: pointer;
-}
-
-.pet_photo:hover {
-  opacity: 80%;
-  transition: 0.3s;
-}
-
-.pet1:hover > .see_petreport {
-  display: block;
+  margin: 5em;
 }
 
 .petinfo {

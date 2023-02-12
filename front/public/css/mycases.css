@@ -2,32 +2,37 @@
     width: 10em;
 }
 
-.cta_bottonsstyle-green:hover {
-    background-color: #00b5bd;
-}
-
 .margin_topp {
     margin-top: 15em;
 }
 
-.cta_bottonstyle-red:hover {
-    background-color: #cc5c42;
-    border-color: #cc5c42;
+.petPhotoContainer {
+    position: relative;
+    width: 100%;
 }
 
+.petButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    display: none;
+    width: 30px;
+    height: 30px;
+  }
 
-.found_case {
-    background-color: #267888;
+.petButton:first-child {
+    left: 10px;
 }
 
-.delete_case {
-    background-color: #cc5c42;
+.petButton:last-child {
+    right: 10px;
+    background-color: rgb(236, 165, 165);
 }
 
-.found_pet_confirmed img {
- max-width: 100%;
- opacity: 50%;
-}
+.petPhotoContainer:hover .petButton {
+    display: block;
+  }
 
 .margin_top {
     margin-top: 2em;

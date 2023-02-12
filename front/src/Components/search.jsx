@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import Navbar from './navbar'
 import { withRouter } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import CeroCases from './cerocases'
 import LostPetCard from './lostPetCard'
 
 function Search() {
@@ -9,6 +10,7 @@ function Search() {
     document.title = "Buscar / Encontralo";
 
     const [pets, setPets] = useState([])
+    const [lostPetLength, setLostPetLength] = useState('')
     const [typePetInputByUser, setTypePetInputByUser] = useState('')
 
     //get all lost pets when page is loaded
@@ -16,17 +18,20 @@ function Search() {
        const getLostFromDB = () => {
         fetch('http://localhost:9000/api')
         .then(res => res.json())
-        .then(res => setPets(res))
+        .then(res => {
+            setPets(res)
+            setLostPetLength(res.length)
+        })
        }
        getLostFromDB()
     }, [])
 
     const modalErrorNotFound = () => {
-        return Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'No hemos encontrado ningún registro :('
-        })
+            return Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No hemos encontrado ningún registro según la búsqueda.'
+            })
     }
 
     const getTypePet = (e) => {
@@ -45,15 +50,30 @@ function Search() {
             fetch(`http://localhost:9000/api/idPublico/${typePetInputByUser}`)
             .then(res => res.status == 404 ? modalErrorNotFound() : res.json()
             .then(res => setPets(res)))
+            setTypePetInputByUser('')
         } else if (typePetInputByUser == 'Perro' || typePetInputByUser == 'Gato'
         || typePetInputByUser == 'Conejo' || typePetInputByUser == 'Loro') {
             fetch(`http://localhost:9000/api/tipoMascota/${typePetInputByUser}`)
             .then(res => res.status == 404 ? modalErrorNotFound() : res.json()
             .then(res => setPets(res)))
+            setTypePetInputByUser('')
         } else {
-            fetch(`http://localhost:9000/api/departamento/${typePetInputByUser}`)
+            var xd = fetch(`http://localhost:9000/api/departamento/${typePetInputByUser}`)
             .then(res => res.status == 404 ? modalErrorNotFound() : res.json()
             .then(res => setPets(res)))
+            setTypePetInputByUser('')
+        }
+    }
+
+    const renderLostPets = () => {
+        if (lostPetLength > 0) {
+            return(
+                <div className='pets_container'>
+                    <LostPetCard pets={pets} />
+                </div>
+            )
+        } else {
+            return <CeroCases />
         }
     }
 
@@ -64,75 +84,34 @@ function Search() {
 
             <div className="search_container">
 
-                <div className="search">
-
-                    <h1 className="text-center subtitle_fontstyle search_title mt-5">Buscar un animal perdido</h1>
+                <div className="search text-center">
+                    <h1 className="subtitle_fontstyle search_title mt-5">Buscar un animal perdido</h1>
+                    <label className='text_fontstyle'>
+                        {lostPetLength > 0 
+                        ? 'Buscá el caso por tipo de mascota, departamento o ID de caso:'
+                        : ''}
+                    </label>
                     <form className="search_form" onChange={getTypePet}>
-
-                        <div className="finder flex-column m-5">
+                        <div className="finder flex-column">
                             <div className="d-flex flex-row justify-content-center">
-                                <select id="pet_type"
-                                    name="inputPetType"
-                                    className="searchtype text_fontstyle d-flex width_search_types"
-                                    onChange={(e) => getTypePet(e)}
-                                    >
-                                    <option value="">Tipo de mascota</option>
-                                    <option value="Perro">Perro</option>
-                                    <option value="Gato">Gato</option>
-                                    <option value="Conejo">Conejo</option>
-                                    <option value="Loro">Loro</option>
-                                </select>
-                            </div>
-
-                            <div className="d-flex flex-row justify-content-center mt-5">
-                                <select
-                                    id="departamento"
-                                    name="inputPetDepartament"
-                                    className="text_fontstyle d-flex width_search_types"
-                                    onChange={(e) => getTypePet(e)}
-                                >
-                                    <option value="">Departamento...</option>
-                                    <option value="Artigas">Artigas</option>
-                                    <option value="Canelones">Canelones</option>
-                                    <option value="Cerro Largo">Cerro Largo</option>
-                                    <option value="Colonia">Colonia</option>
-                                    <option value="Durazno">Durazno</option>
-                                    <option value="Flores">Flores</option>
-                                    <option value="Florida">Florida</option>
-                                    <option value="Lavalleja">Lavalleja</option>
-                                    <option value="Maldonado">Maldonado</option>
-                                    <option value="Montevideo">Montevideo</option>
-                                    <option value="Paysandú">Paysandú</option>
-                                    <option value="Río Negro">Río Negro</option>
-                                    <option value="Rocha">Rocha</option>
-                                    <option value="Salto">Salto</option>
-                                    <option value="San José">San José</option>
-                                    <option value="Soriano">Soriano</option>
-                                    <option value="Tacuarembó">Tacuarembó</option>
-                                    <option value="Treinta y Tres">Treinta y Tres</option>
-                                </select>
-                            </div>
-                            <div className="d-flex flex-row justify-content-center mt-5">
                                 <input 
                                 name='inputName'
                                 type='text' 
-                                placeholder='ID de caso' 
+                                placeholder='Ingresa tu búsqueda aquí.' 
                                 onChange={(e) => getTypePet(e)}
-                                className='text_fontstyle'>
+                                value={typePetInputByUser}
+                                className='text_fontstyle mt-3'>
                                 </input>    
                             </div>
                         </div>
-
                         <div className="search_button flex-column m-3">
                             <button
                                 id="search_button"
-                                className="text_fontstyle cta_bottonsstyle"
+                                className="text_fontstyle cta_bottonsstyle mt-4"
                                 onClick={(e) => getTypePetByUser(e)}
                                 >Buscar</button>
                         </div>
-                        <div className='pets_container'>
-                            <LostPetCard pets={pets} />
-                        </div>
+                        {renderLostPets()}
                     </form>
                 </div>
             </div>
