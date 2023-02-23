@@ -23,9 +23,6 @@ function FoundPetCard({pets}) {
                             className='petPhoto' 
                             onClick={(e) => moreInfo(e, pet.viralInfo)}
                             />
-                        {/* <div>
-                            <FontAwesomeIcon className='petButton' icon={faEye} />
-                        </div> */}
                     </div>
                     <div className="petinfo">
                     <h2 
@@ -34,7 +31,7 @@ function FoundPetCard({pets}) {
                     </h2>
                     </div>
                     <p className="text_fontstyle text-center mt-2">
-                        {pet.tipoMascota} que estaba {pet.estadoMascota} en {pet.departamentoPerdidoMascota}, 
+                        {pet.tipoMascotaOriginal} que estaba {pet.estadoMascota} en {pet.departamentoPerdidoMascota}, 
                         {pet.localidadPerdidoMascota}
                     </p>
                 </div>

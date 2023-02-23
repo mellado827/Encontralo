@@ -12,12 +12,32 @@ function LostPetCard({pets}) {
           })
     }
 
-   const foundPetUpload = async (e, petsToUpload) => {
+    const petFoundViralInfo = (petsToUpload) => {
+
+        const nombreMascota = petsToUpload.nombreMascota
+        const sexoMascota = petsToUpload.sexoMascota
+        const sexoMascotaParaTexto = petsToUpload.tipoMascotaOriginal
+        const estadoMascota = petsToUpload.estadoMascota
+        const departamento = petsToUpload.departamentoPerdidoMascota
+
+        if(nombreMascota) {
+            if(sexoMascota == 'Hembra') {
+                return `¡APARECIÓ ${nombreMascota}!
+                  Nos alegra informarles que la ${sexoMascotaParaTexto} que habíamos reportado como ${estadoMascota} 
+                  en ${departamento} ya está de vuelta con su familia. Sana y salva. ¡Gracias a todos por haber difundido!
+                  #Uruguay 
+                  #${petsToUpload.departamentoPerdidoMascota} 
+                  #LaCalleNoEsHogarParaNadie`
+            }
+        } 
+    }
+
+  const foundPetUpload = async (e, petsToUpload) => {
         e.preventDefault()
 
         Swal.fire({
-            title: 'Estás seguro?',
-            text: "No vas a poder revertir esto!",
+            title: '¿Estás seguro? El texto sería el siguiente:',
+            text: petFoundViralInfo(petsToUpload),
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -45,7 +65,7 @@ function LostPetCard({pets}) {
                             departamentoPerdidoMascota: petsToUpload.departamentoPerdidoMascota,
                             idPublico: petsToUpload.idPublico,
                             imagenMascota: petsToUpload.imagenMascota,
-                            encontradoInfo: "Apareció!"
+                            encontradoInfo: petFoundViralInfo(petsToUpload)
                         })
                     }
                     const response = await fetch('http://localhost:9000/api/encontrados', requestInit)
@@ -118,7 +138,7 @@ function LostPetCard({pets}) {
                     </h2>
                     </div>
                     <p className="text_fontstyle text-center mt-2">
-                        {pet.tipoMascota} actualmente {pet.estadoMascota} en {pet.departamentoPerdidoMascota}, 
+                        {pet.tipoMascotaOriginal} actualmente {pet.estadoMascota} en {pet.departamentoPerdidoMascota}, 
                         {pet.localidadPerdidoMascota}
                     </p>
                     <button 
@@ -129,7 +149,7 @@ function LostPetCard({pets}) {
                     <button 
                         className='cta_bottonsstyle text_fontstyle mt-1' 
                         onClick={(e) => foundPetUpload(e,pet)}
-                        >Encontrado!
+                        >¡Encontrado!
                     </button>
                 </div>
             )

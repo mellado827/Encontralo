@@ -88,7 +88,8 @@ function Search() {
                     <h1 className="subtitle_fontstyle search_title mt-5">Buscar un animal perdido</h1>
                     <label className='text_fontstyle'>
                         {lostPetLength > 0 
-                        ? 'Buscá el caso por tipo de mascota, departamento o ID de caso:'
+                        ? `Actualmente hay ${lostPetLength} animalitos perdidos.
+                          Buscá el tuyo por tipo de mascota, departamento o ID de caso:`
                         : ''}
                     </label>
                     <form className="search_form" onChange={getTypePet}>
