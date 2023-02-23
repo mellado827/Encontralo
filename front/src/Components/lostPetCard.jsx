@@ -21,15 +21,15 @@ function LostPetCard({pets}) {
         const departamento = petsToUpload.departamentoPerdidoMascota
 
         if(nombreMascota) {
-            if(sexoMascota == 'Hembra') {
-                return `¡APARECIÓ ${nombreMascota}!
-                  Nos alegra informarles que la ${sexoMascotaParaTexto} que habíamos reportado como ${estadoMascota} 
-                  en ${departamento} ya está de vuelta con su familia. Sana y salva. ¡Gracias a todos por haber difundido!
-                  #Uruguay 
-                  #${petsToUpload.departamentoPerdidoMascota} 
-                  #LaCalleNoEsHogarParaNadie`
-            }
-        } 
+            return `¡APARECIÓ ${nombreMascota}!
+              Nos alegra informarles que ${sexoMascota == 'Hembra'? `la ${sexoMascotaParaTexto.toLowerCase()}` :
+            `el ${sexoMascotaParaTexto.toLowerCase()}`}
+              que habíamos reportado como ${estadoMascota.toLowerCase()} 
+              en ${departamento} ya está de vuelta con su familia. Sana y salva. ¡Gracias a todos por haber difundido!
+              #Uruguay 
+              #${petsToUpload.departamentoPerdidoMascota} 
+              #LaCalleNoEsHogarParaNadie`
+        }
     }
 
   const foundPetUpload = async (e, petsToUpload) => {
