@@ -64,6 +64,12 @@
   display: flex;
   justify-content: center;
   max-width: 100%;
+  cursor: pointer;
+}
+
+.petPhoto:hover {
+  opacity: 75%;
+  transition: 0.5s;
 }
 
 .petpic {

@@ -97,6 +97,22 @@ routes.post('/', (req,res) => {
      })
 })
 
+//get all found pet
+routes.get('/encontrados', (req,res) => {
+    req.getConnection((error, connection) => {
+        if(error) return res.send(error)
+
+        connection.query('SELECT * FROM encontrados', (error, rows) => {
+            if(error) return res.send(error)
+            if(rows.length == 0) {
+                res.sendStatus(404)
+            } else { 
+                res.json(rows)
+            }            
+        })
+    })
+})
+
 //upload found pet
 routes.post('/encontrados', (req,res) => {
     req.getConnection((error, connection) => {

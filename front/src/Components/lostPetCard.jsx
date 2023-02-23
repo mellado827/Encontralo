@@ -1,8 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import Swal from 'sweetalert2'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
 function LostPetCard({pets}) {
 
@@ -103,11 +101,15 @@ function LostPetCard({pets}) {
             {pets.map( pet => (
                 <div className="pet1" key ={pet.id}>
                     <div className='petPhotoContainer'>
-                        <img src={pet.imagenMascota} alt="Imagen" className='petPhoto' />
-                        <div>
-                            <button className='petButton'>1</button>
-                            <FontAwesomeIcon className='petButton' icon={faTrashAlt} />
-                        </div>
+                        <img 
+                            src={pet.imagenMascota} 
+                            alt="Imagen" 
+                            className='petPhoto' 
+                            onClick={(e) => moreInfo(e, pet.viralInfo)}
+                            />
+                        {/* <div>
+                            <FontAwesomeIcon className='petButton' icon={faEye} />
+                        </div> */}
                     </div>
                     <div className="petinfo">
                     <h2 
@@ -116,13 +118,13 @@ function LostPetCard({pets}) {
                     </h2>
                     </div>
                     <p className="text_fontstyle text-center mt-2">
-                        {pet.tipoMascota} {pet.estadoMascota} en {pet.departamentoPerdidoMascota}, 
+                        {pet.tipoMascota} actualmente {pet.estadoMascota} en {pet.departamentoPerdidoMascota}, 
                         {pet.localidadPerdidoMascota}
                     </p>
                     <button 
                         className='cta_bottonsstyle text_fontstyle' 
-                        onClick={(e) => moreInfo(e, pet.viralInfo)}>
-                        Más información
+                        >
+                        ¡Tengo información!
                     </button>
                     <button 
                         className='cta_bottonsstyle text_fontstyle mt-1' 
