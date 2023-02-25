@@ -4,32 +4,24 @@ import Swal from 'sweetalert2'
 
 function LostPetCard({pets}) {
 
-    const moreInfo = (e, viralInfo) => {
-        e.preventDefault()
-        Swal.fire({
-            title: 'SE BUSCA',
-            text: viralInfo
-          })
-    }
+       const petFoundViralInfo = (petsToUpload) => {
 
-    const petFoundViralInfo = (petsToUpload) => {
+            const nombreMascota = petsToUpload.nombreMascota
+            const sexoMascota = petsToUpload.sexoMascota
+            const sexoMascotaParaTexto = petsToUpload.tipoMascotaOriginal
+            const estadoMascota = petsToUpload.estadoMascota
+            const departamento = petsToUpload.departamentoPerdidoMascota
 
-        const nombreMascota = petsToUpload.nombreMascota
-        const sexoMascota = petsToUpload.sexoMascota
-        const sexoMascotaParaTexto = petsToUpload.tipoMascotaOriginal
-        const estadoMascota = petsToUpload.estadoMascota
-        const departamento = petsToUpload.departamentoPerdidoMascota
-
-        if(nombreMascota) {
-            return `¡APARECIÓ ${nombreMascota}!
-              Nos alegra informarles que ${sexoMascota == 'Hembra'? `la ${sexoMascotaParaTexto.toLowerCase()}` :
-            `el ${sexoMascotaParaTexto.toLowerCase()}`}
-              que habíamos reportado como ${estadoMascota.toLowerCase()} 
-              en ${departamento} ya está de vuelta con su familia. Sana y salva. ¡Gracias a todos por haber difundido!
-              #Uruguay 
-              #${petsToUpload.departamentoPerdidoMascota} 
-              #LaCalleNoEsHogarParaNadie`
-        }
+            if(nombreMascota) {
+                return `¡APARECIÓ ${nombreMascota}!
+                Nos alegra informarles que ${sexoMascota == 'Hembra'? `la ${sexoMascotaParaTexto.toLowerCase()}` :
+                `el ${sexoMascotaParaTexto.toLowerCase()}`}
+                que habíamos reportado como ${estadoMascota.toLowerCase()} 
+                en ${departamento} ya está de vuelta con su familia, ¡Gracias a todos por haber difundido!
+                #Uruguay 
+                #${petsToUpload.departamentoPerdidoMascota} 
+                #LaCalleNoEsHogarParaNadie`
+            }
     }
 
   const foundPetUpload = async (e, petsToUpload) => {
@@ -44,14 +36,15 @@ function LostPetCard({pets}) {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Si, apareció!'
         }).then(async (result) => {
-            if (result.isConfirmed) {            
-                
+            if (result.isConfirmed) {       
+                               
                 Swal.fire({
                     title: "Cargando...",
                     text: "Espere un momento",
                     icon: "info",
                     showConfirmButton: false
                   });
+                  debugger;
                   
                 try {
                     //uploading lost pet into encontrados table
@@ -65,9 +58,11 @@ function LostPetCard({pets}) {
                             departamentoPerdidoMascota: petsToUpload.departamentoPerdidoMascota,
                             idPublico: petsToUpload.idPublico,
                             imagenMascota: petsToUpload.imagenMascota,
-                            encontradoInfo: petFoundViralInfo(petsToUpload)
+                            encontradoInfo: petFoundViralInfo(petsToUpload),
+                            tipoMascotaOriginal: petsToUpload.tipoMascotaOriginal   
                         })
                     }
+                    console.log(requestInit)
                     const response = await fetch('http://localhost:9000/api/encontrados', requestInit)
                     if(response.status === 200) {
 
@@ -87,8 +82,7 @@ function LostPetCard({pets}) {
                                 if (response.status == 200) {
                                     Swal.fire(
                                         '¡Caso resuelto!',
-                                        `Nos alegramos mucho de que ${petsToUpload.nombreMascota ? petsToUpload.nombreMascota : ''} haya aparecido. 
-                                        Cuidalo por favor para que no vuelva a suceder.`,
+                                        `Nos alegramos mucho de que ${petsToUpload.nombreMascota ? petsToUpload.nombreMascota : ''} haya aparecido :).`,
                                         'success'
                                       )
                                 } else {
@@ -125,11 +119,36 @@ function LostPetCard({pets}) {
                             src={pet.imagenMascota} 
                             alt="Imagen" 
                             className='petPhoto' 
-                            onClick={(e) => moreInfo(e, pet.viralInfo)}
-                            />
-                        {/* <div>
-                            <FontAwesomeIcon className='petButton' icon={faEye} />
-                        </div> */}
+                            data-toggle="modal" 
+                            data-target=".lostPetCard"
+                        />
+
+                    {/* comment modal */}
+                    <div className="modal fade lostPetCard" role="dialog"
+                        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div className="modal-dialog modal-lg">
+                            <div className="modal-content">
+                                <div className="logoANDclose">
+                                    <a href="/" data-dismiss="modal">
+                                        <img src="./img/close.png" className="close_button" alt="close button" />
+                                    </a>
+                                </div>
+                                <h1 className="title_fontstyle text-center">
+                                    <strong>
+                                        SE BUSCA
+                                    </strong>
+                                </h1>
+                                <div>
+                                    <img class="text-center petPhoto" src={pet.imagenMascota}></img>
+                                </div>
+                                <p className='text_fontstyle mt-3'>
+                                    {pet.viralInfo}
+                                </p>
+                                <input placeholder='Escribe tu comentario aquí.' />
+                            </div>
+                        </div>
+                    </div>
+            
                     </div>
                     <div className="petinfo">
                     <h2 
@@ -142,14 +161,9 @@ function LostPetCard({pets}) {
                         {pet.localidadPerdidoMascota}
                     </p>
                     <button 
-                        className='cta_bottonsstyle text_fontstyle' 
-                        >
-                        ¡Tengo información!
-                    </button>
-                    <button 
                         className='cta_bottonsstyle text_fontstyle mt-1' 
                         onClick={(e) => foundPetUpload(e,pet)}
-                        >¡Encontrado!
+                        >¡Apareció!
                     </button>
                 </div>
             )

@@ -21,7 +21,7 @@ function FoundPetCard({pets}) {
                             src={pet.imagenMascota} 
                             alt="Imagen" 
                             className='petPhoto' 
-                            onClick={(e) => moreInfo(e, pet.viralInfo)}
+                            onClick={(e) => moreInfo(e, pet.encontradoInfo)}
                             />
                     </div>
                     <div className="petinfo">
@@ -31,7 +31,7 @@ function FoundPetCard({pets}) {
                     </h2>
                     </div>
                     <p className="text_fontstyle text-center mt-2">
-                        {pet.tipoMascotaOriginal} que estaba {pet.estadoMascota} en {pet.departamentoPerdidoMascota}, 
+                        {pet.tipoMascotaOriginal} que estaba {pet.estadoMascota} en {pet.departamentoPerdidoMascota}. 
                         {pet.localidadPerdidoMascota}
                     </p>
                 </div>

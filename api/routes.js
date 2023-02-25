@@ -104,8 +104,9 @@ routes.get('/encontrados', (req,res) => {
 
         connection.query('SELECT * FROM encontrados', (error, rows) => {
             if(error) return res.send(error)
+
             if(rows.length == 0) {
-                res.sendStatus(404)
+                res.status(500);
             } else { 
                 res.json(rows)
             }            
@@ -120,7 +121,11 @@ routes.post('/encontrados', (req,res) => {
 
         connection.query('INSERT INTO encontrados SET ?',[req.body], (error, rows) => {
             if(error) return console.log(error)
-            console.log(console.log(rows))
+            
+            if(rows.errno == 1406) {
+                return 
+            }
+
             res.status(200).send({
                 message: 'post hecho'
             });

@@ -49,7 +49,7 @@ const Tutorial = () => (
                             <h1 className="subtitle_fontstyle text-center">
                                 <strong>
                                     <span className="color_numHIW"> 2 - </span>Nosotros divulgamos la noticia
-                  </strong>
+                                </strong>
                             </h1>
                             <p className="text_fontstyle m-5 text-center">
                                 Una vez hecho el formulario, se empieza a divulgar la noticia en distintos grupos de Facebook

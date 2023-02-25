@@ -331,3 +331,9 @@
     width: 100%;
   }
 }
+
+.swal-wide {
+  width: 85% !important;
+  height: 85% !important;
+}
+

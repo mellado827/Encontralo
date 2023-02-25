@@ -9,7 +9,7 @@ function CeroCases() {
                 <div className="cerocases_container">
 
                     <p className="subtitle_fontstyle text-center nocases_text">
-                        <i>No hay ningún reporte de desaparición realizado.</i>
+                        <i>No hay ningún reporte al momento.</i>
                     </p>
 
                     <div className="d-flex align-items-center text_fontstyle cerocases_buttons">
