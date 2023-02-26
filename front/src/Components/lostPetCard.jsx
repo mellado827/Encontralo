@@ -1,9 +1,38 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import moment from 'moment';
 import { withRouter } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import CommentCard from './CommentCard';
 
 function LostPetCard({pets}) {
+
+    const [commentsLength, setCommentsLength] = useState('')
+    const [comments, setComments] = useState([])
+
+     //get all comments
+    useEffect(() => {
+        pets.forEach(pet => {
+        const getCommentsFromDB = async () => {
+            const response = await fetch(`http://localhost:9000/api/comentarios/${pet.idPerdidos}`);
+            const commentsForPet = await response.json();
+            setComments(prevComments => ({ ...prevComments, [pet.idPerdidos]: commentsForPet }));
+        };
+        getCommentsFromDB();
+        });
+    }, [pets]);
+
+    const renderComments = petId => {
+        const commentsForPet = comments[petId];
+        if (commentsForPet && commentsForPet.length > 0) {
+          return (
+            <div>
+              <CommentCard comments={commentsForPet} />
+            </div>
+          );
+        } else {
+          return 'No hay comentarios.';
+        }
+      };      
 
        const petFoundViralInfo = (petsToUpload) => {
 
@@ -221,18 +250,18 @@ function LostPetCard({pets}) {
       return (
         <>
             {pets.map( pet => (
-                <div className="pet1" key ={pet.id}>
+                <div className="pet1" key ={pet.idPerdidos}>
                     <div className='petPhotoContainer'>
                         <img 
                             src={pet.imagenMascota} 
                             alt="Imagen" 
                             className='petPhoto' 
                             data-toggle="modal" 
-                            data-target=".lostPetCard"
+                            data-target={`#lostPetCard${pet.idPerdidos}`}
                         />
 
-                    {/* comment modal */}
-                    <div className="modal fade lostPetCard" role="dialog"
+                     {/* comment modal */}
+                      <div className="modal fade" id={`lostPetCard${pet.idPerdidos}`} role="dialog"
                         aria-labelledby="myLargeModalLabel" aria-hidden="true">
                         <div className="modal-dialog modal-lg">
                             <div className="modal-content">
@@ -246,7 +275,7 @@ function LostPetCard({pets}) {
                                         SE BUSCA
                                     </strong>
                                 </h1>
-                                <div>
+                                <div className='petPhotoContainer'>
                                     <img className="text-center petPhoto" src={pet.imagenMascota}></img>
                                 </div>
                                 <p className='text_fontstyle mt-3'>
@@ -262,12 +291,15 @@ function LostPetCard({pets}) {
                                             className='text_fontstyle postCommentButton'
                                             onClick={(e) => {postComment(e, pet.idPerdidos, pet.idPublico, pet.nombreMascota)}}
                                             >Publicar
-                                        </button>
+                                        </button>                                        
+                                </div>
+                                <div>
+                                    {renderComments(pet.idPerdidos)}
                                 </div>
                             </div>
                         </div>
                     </div>
-            
+                          
                     </div>
                     <div className="petinfo">
                     <h2 

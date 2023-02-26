@@ -1,4 +1,5 @@
 const express = require('express')
+const connection = require('express-myconnection')
 const routes = express.Router()
 const {cloudinary} = require('./utils/cloudinary')
 
@@ -175,6 +176,18 @@ routes.post('/comentarios', (req,res) => {
             });
             console.log(rows)
          })        
+    })
+})
+
+routes.get('/comentarios/:idCasoPerdido', (req,res) => {
+    req.getConnection((error, connection) => {
+        if(error) res.send(error)
+
+        connection.query('SELECT * FROM comentarios WHERE idCasoPerdido = ?',[req.params.idCasoPerdido], (error, rows) => {
+            if(error) return res.send(error)
+
+            res.json(rows)
+        })
     })
 })
 

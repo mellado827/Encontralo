@@ -183,3 +183,7 @@
   /* margin-left: -6em; */
   width: 25%;
 }
+
+.commentBox {
+  background-color: red;
+}
