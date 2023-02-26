@@ -164,4 +164,15 @@ routes.delete('/:id',(req,res) => {
     })
 })
 
+routes.post('/comentarios', (req,res) => {
+    req.getConnection((error, connection) => {
+        if(error) res.send(error)
+
+        connection.query('INSERT INTO comentarios SET ?',[req.body], (error, rows) => {
+             if(error) return res.send(error)
+             res.send('comentario hecho!')
+         })        
+    })
+})
+
 module.exports = routes

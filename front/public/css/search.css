@@ -163,4 +163,23 @@
   }
 }
 
+.postCommentBox {
+  width: 100%;
+  padding: 1em;
+  display: flex;
+  justify-content: center;
+}
 
+.inputComment {
+  width: 75%;
+  padding: 0.5em;
+  border: 1px solid black;
+}
+
+.postCommentButton {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  /* margin-left: -6em; */
+  width: 25%;
+}

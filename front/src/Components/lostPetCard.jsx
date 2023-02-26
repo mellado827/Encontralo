@@ -1,4 +1,5 @@
-import React from 'react'
+import React, {useState} from 'react'
+import ReactDOMServer from 'react-dom/server';
 import { withRouter } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
@@ -110,6 +111,117 @@ function LostPetCard({pets}) {
         })      
     }
 
+    const [commentMessage, setCommentMessage] = useState('')
+    const [autorComment, setAutorComment] = useState('')
+
+    const commentFunction = (e) => {
+        setCommentMessage(e.target.value)
+    }
+
+    const getAutorName = (e) => {
+        setAutorComment(e.target.value)
+        console.log(e.target.value)
+    }
+
+    const postComment = async (e, idLostPet,idPublicLostPet) => {
+        e.preventDefault()
+
+        Swal.fire({
+            title: 'Ingresa tu nombre por favor',
+            text: 'Es un dato obligatorio.',
+            input: 'text',
+            inputPlaceholder: 'Ingresa tu nombre aquí...',
+            inputValidator: (value) => {
+                if (!value) {
+                  return 'Debes ingresar tu nombre';
+                }
+            },
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Listo',
+            cancelButtonText: 'Cancelar'
+        }).then(async (result) => {
+            if(result.isConfirmed) {
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, apareció!'
+                }).then(async (result) => {
+                    if (result.isConfirmed) {       
+                                       
+                        Swal.fire({
+                            title: "Cargando...",
+                            text: "Espere un momento",
+                            icon: "info",
+                            showConfirmButton: false
+                          });
+                          
+                        // try {
+                        //     //uploading lost pet into encontrados table
+                        //     const requestInit = {
+                        //         method: 'POST',
+                        //         headers: {'Content-Type': 'application/json'},
+                        //         body: JSON.stringify({
+                        //             mensajeComentario: commentMessage,
+                        //             fechaCreacionComentario: new Date(),
+                        //             idCasoPerdido: idLostPet,
+                        //             idPublicoCasoPerdido: idPublicLostPet
+                        //         })
+                        //     }
+                        //     console.log(requestInit)
+                        //     const response = await fetch('http://localhost:9000/api/encontrados', requestInit)
+                        //     if(response.status === 200) {
+        
+                        //         //delete lost pet
+                        //         const linkToDelete = `http://localhost:9000/api/${petsToUpload.idPerdidos}`
+                        //         try {
+                        //             const response = await fetch(linkToDelete, {
+                        //               method: "DELETE"
+                        //             });
+                        //             if (!response.ok) {
+                        //                 Swal.fire(
+                        //                     'Error!',
+                        //                     'No se pudo reportar el caso como encontrado. Intentalo de nuevo más tarde.',
+                        //                     'error'
+                        //                 ) 
+                        //             } else {
+                        //                 if (response.status == 200) {
+                        //                     Swal.fire(
+                        //                         '¡Caso resuelto!',
+                        //                         `Nos alegramos mucho de que ${petsToUpload.nombreMascota ? petsToUpload.nombreMascota : ''} haya aparecido :).`,
+                        //                         'success'
+                        //                       )
+                        //                 } else {
+                        //                     Swal.fire(
+                        //                         'Error!',
+                        //                         'Hubo un error inesperado. Por favor intentalo más tarde.',
+                        //                         'error'
+                        //                       )
+                        //                 }
+                        //             }
+                        //           } catch (error) {
+                        //             console.error(error);
+                        //           }
+                        //     }
+        
+                        // } catch (error) {
+                        //     Swal.fire(
+                        //         'Ha ocurrido un error inesperado!',
+                        //         'Intentalo más tarde',
+                        //         'error'
+                        //       )
+                        //     console.log(error)
+                        // }  
+                    }
+                })     
+            }
+        }) 
+    }
+
       return (
         <>
             {pets.map( pet => (
@@ -139,12 +251,23 @@ function LostPetCard({pets}) {
                                     </strong>
                                 </h1>
                                 <div>
-                                    <img class="text-center petPhoto" src={pet.imagenMascota}></img>
+                                    <img className="text-center petPhoto" src={pet.imagenMascota}></img>
                                 </div>
                                 <p className='text_fontstyle mt-3'>
                                     {pet.viralInfo}
                                 </p>
-                                <input placeholder='Escribe tu comentario aquí.' />
+                                <div className='postCommentBox'>
+                                        <input 
+                                            placeholder='Escribe tu comentario aquí...'
+                                            className='inputComment text_fontstyle' 
+                                            onChange={(e) => {commentFunction(e)}}
+                                            />
+                                        <button 
+                                            className='text_fontstyle postCommentButton'
+                                            onClick={(e) => {postComment(e, pet.idPerdidos, pet.idPublico)}}
+                                            >Publicar
+                                        </button>
+                                </div>
                             </div>
                         </div>
                     </div>
