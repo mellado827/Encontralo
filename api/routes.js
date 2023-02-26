@@ -170,7 +170,10 @@ routes.post('/comentarios', (req,res) => {
 
         connection.query('INSERT INTO comentarios SET ?',[req.body], (error, rows) => {
              if(error) return res.send(error)
-             res.send('comentario hecho!')
+             res.status(200).send({
+                message: '¡Comentario hecho!'
+            });
+            console.log(rows)
          })        
     })
 })

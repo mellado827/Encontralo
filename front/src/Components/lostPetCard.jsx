@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import ReactDOMServer from 'react-dom/server';
+import moment from 'moment';
 import { withRouter } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
@@ -112,44 +112,52 @@ function LostPetCard({pets}) {
     }
 
     const [commentMessage, setCommentMessage] = useState('')
-    const [autorComment, setAutorComment] = useState('')
+    let autorComment = ''
 
     const commentFunction = (e) => {
         setCommentMessage(e.target.value)
     }
 
-    const getAutorName = (e) => {
-        setAutorComment(e.target.value)
-        console.log(e.target.value)
-    }
-
-    const postComment = async (e, idLostPet,idPublicLostPet) => {
+    const postComment = async (e, idLostPet,idPublicLostPet, nombreMascota) => {
         e.preventDefault()
+
+        if(commentMessage === undefined || commentMessage === null || commentMessage === '') {
+        return (Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: 'Si quieres comentar, debes escribir algo. Intentalo de nuevo.',
+            className: 'text_fontstyle'
+            }))
+        }
 
         Swal.fire({
             title: 'Ingresa tu nombre por favor',
             text: 'Es un dato obligatorio.',
             input: 'text',
             inputPlaceholder: 'Ingresa tu nombre aquí...',
-            inputValidator: (value) => {
-                if (!value) {
-                  return 'Debes ingresar tu nombre';
-                }
-            },
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Listo',
-            cancelButtonText: 'Cancelar'
+            cancelButtonText: 'Cancelar',
+            inputValidator: (value) => {
+                if (!value) {
+                  return 'Debes ingresar tu nombre';
+                } else { 
+                    autorComment = value
+                }
+            }
         }).then(async (result) => {
             if(result.isConfirmed) {
+                console.log(autorComment)
                 Swal.fire({
                     title: '¿Estás seguro?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, apareció!'
+                    confirmButtonText: 'Si',
+                    cancelButtonText: 'No'
                 }).then(async (result) => {
                     if (result.isConfirmed) {       
                                        
@@ -160,62 +168,50 @@ function LostPetCard({pets}) {
                             showConfirmButton: false
                           });
                           
-                        // try {
-                        //     //uploading lost pet into encontrados table
-                        //     const requestInit = {
-                        //         method: 'POST',
-                        //         headers: {'Content-Type': 'application/json'},
-                        //         body: JSON.stringify({
-                        //             mensajeComentario: commentMessage,
-                        //             fechaCreacionComentario: new Date(),
-                        //             idCasoPerdido: idLostPet,
-                        //             idPublicoCasoPerdido: idPublicLostPet
-                        //         })
-                        //     }
-                        //     console.log(requestInit)
-                        //     const response = await fetch('http://localhost:9000/api/encontrados', requestInit)
-                        //     if(response.status === 200) {
-        
-                        //         //delete lost pet
-                        //         const linkToDelete = `http://localhost:9000/api/${petsToUpload.idPerdidos}`
-                        //         try {
-                        //             const response = await fetch(linkToDelete, {
-                        //               method: "DELETE"
-                        //             });
-                        //             if (!response.ok) {
-                        //                 Swal.fire(
-                        //                     'Error!',
-                        //                     'No se pudo reportar el caso como encontrado. Intentalo de nuevo más tarde.',
-                        //                     'error'
-                        //                 ) 
-                        //             } else {
-                        //                 if (response.status == 200) {
-                        //                     Swal.fire(
-                        //                         '¡Caso resuelto!',
-                        //                         `Nos alegramos mucho de que ${petsToUpload.nombreMascota ? petsToUpload.nombreMascota : ''} haya aparecido :).`,
-                        //                         'success'
-                        //                       )
-                        //                 } else {
-                        //                     Swal.fire(
-                        //                         'Error!',
-                        //                         'Hubo un error inesperado. Por favor intentalo más tarde.',
-                        //                         'error'
-                        //                       )
-                        //                 }
-                        //             }
-                        //           } catch (error) {
-                        //             console.error(error);
-                        //           }
-                        //     }
-        
-                        // } catch (error) {
-                        //     Swal.fire(
-                        //         'Ha ocurrido un error inesperado!',
-                        //         'Intentalo más tarde',
-                        //         'error'
-                        //       )
-                        //     console.log(error)
-                        // }  
+                        try {
+                            //uploading comment of lost pet into comentarios table
+                            const postComment = {
+                                method: 'POST',
+                                headers: {'Content-Type': 'application/json'},
+                                body: JSON.stringify({
+                                    creadorComentario: autorComment,
+                                    mensajeComentario: commentMessage,
+                                    fechaCreacionComentario: moment().format('YYYY-MM-DD HH:mm:ss'),
+                                    idCasoPerdido: idLostPet,
+                                    idPublicoCasoPerdido: idPublicLostPet
+                                })
+                            }
+                            const response = await fetch('http://localhost:9000/api/comentarios', postComment)
+                            const data = await response.json()
+                            console.log(data)
+                            if (data.errno) {
+                                Swal.fire(
+                                    'Ha ocurrido un error inesperado!',
+                                    'Intentalo más tarde',
+                                    'error'
+                                  )
+                            }
+                             if(response.status === 200) {
+
+                                 Swal.fire({
+                                     icon:'success',
+                                     title:'¡Comentario subido!',
+                                     text:`¡Gracias por apoyar en la búsqueda ${nombreMascota ? `de ${nombreMascota}` : ``}!`
+                                 }) } else {
+                                     Swal.fire({
+                                         text: 'Ha ocurrido un error inesperado, intentalo de nuevo más tarde.',
+                                         title: '¡Error!',
+                                         icon:'error'
+                                     })
+                                 }        
+                        } catch (error) {
+                            Swal.fire(
+                                'Ha ocurrido un error inesperado!',
+                                'Intentalo más tarde',
+                                'error'
+                              )
+                            console.log(error)
+                        }  
                     }
                 })     
             }
@@ -264,7 +260,7 @@ function LostPetCard({pets}) {
                                             />
                                         <button 
                                             className='text_fontstyle postCommentButton'
-                                            onClick={(e) => {postComment(e, pet.idPerdidos, pet.idPublico)}}
+                                            onClick={(e) => {postComment(e, pet.idPerdidos, pet.idPublico, pet.nombreMascota)}}
                                             >Publicar
                                         </button>
                                 </div>
