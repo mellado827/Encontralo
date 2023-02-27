@@ -136,29 +136,29 @@ routes.post('/encontrados', (req,res) => {
 
 
 //actualizar animal perdido
-routes.put('/:id',(req,res) => {
-try {
-    req.getConnection((error, connection) => {
-        if(error) return console.log(error)
+// routes.put('/:id',(req,res) => {
+// try {
+//     req.getConnection((error, connection) => {
+//         if(error) return console.log(error)
 
-        connection.query('UPDATE PERDIDOS SET ? WHERE idPerdidos = ?',[req.body, req.params.id], (error, rows) => {
-            if(error) return res.send(error)
-            console.log(req.body)
-            res.send('update hecho!')
-        })
-    })
-} catch (error) {
-    console.error(error)
-}
-})
+//         connection.query('UPDATE PERDIDOS SET ? WHERE idPerdidos = ?',[req.body, req.params.id], (error, rows) => {
+//             if(error) return res.send(error)
+//             console.log(req.body)
+//             res.send('update hecho!')
+//         })
+//     })
+// } catch (error) {
+//     console.error(error)
+// }
+// })
 
 //eliminar animal perdido
 routes.delete('/:id',(req,res) => {
     req.getConnection((error, connection) => {
         if(error) return res.send(error)
 
-        connection.query('DELETE FROM perdidos where idPerdidos = ?',[req.params.id], (error, rows) => {
-            if(error) return res.send(error)
+         connection.query('DELETE FROM perdidos where idPerdidos = ?',[req.params.id], (error, rows) => {
+             if(error) return res.send(error)
 
             res.send('delete hecho!')
         })
@@ -199,6 +199,54 @@ routes.get('/comentarios/:idCasoPerdido', (req,res) => {
             });
 
             res.json(comentariosFormateados);
+        })
+    })
+})
+
+//get found pets by pet type
+routes.get('/encontradosTipoMascota/:petType',(req,res) => {
+    req.getConnection((error, connection) => {
+        if(error) return res.send(error)
+
+        connection.query('SELECT * FROM encontrados WHERE tipoMascota = ?', [req.params.petType], (error, pet) => {
+            if(error) return res.send(error)
+            if(pet.length == 0) {
+                res.sendStatus(404)
+            } else {
+                res.json(pet)
+            }
+        })
+    })
+})
+
+//get lost pets by pet type
+routes.get('/encontradosDepartamentoMascota/:petDepartment',(req,res) => {
+    req.getConnection((error, connection) => {
+        if(error) return res.send(error)
+
+        connection.query('SELECT * FROM encontrados WHERE departamentoPerdidoMascota = ?', [req.params.petDepartment], (error, pet) => {
+            if(error) return res.send(error)
+            if(pet.length == 0) {
+                res.sendStatus(404)
+            } else {
+                res.json(pet)
+            }
+        })
+    })
+})
+
+//get lost pets by pet type
+routes.get('/encontradosidPublico/:idPublic',(req,res) => {
+    req.getConnection((error, connection) => {
+        if(error) return res.send(error)
+
+        connection.query('SELECT * FROM encontrados WHERE idPublico = ?', [req.params.idPublic], (error, pet) => {
+            if(error) return res.send(error)
+            if(pet.length == 0) {
+                res.sendStatus(404)
+            } else {
+                res.json(pet)
+            }
         })
     })
 })

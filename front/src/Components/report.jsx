@@ -12,7 +12,7 @@ function Report() {
 
   document.title = "Reportar / Encontralo";
 
-  const id = Math.floor(100 + Math.random() * 900);
+  const id = Math.floor(100000 + Math.random() * 900);
 
   const [report, saveReport] = useState({
     tipoMascota: "",
