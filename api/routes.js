@@ -1,7 +1,7 @@
 const express = require('express')
-const connection = require('express-myconnection')
 const routes = express.Router()
 const {cloudinary} = require('./utils/cloudinary')
+const moment = require('moment');
 
 //get all lost pets
 routes.get('/',(req,res) => {
@@ -183,10 +183,22 @@ routes.get('/comentarios/:idCasoPerdido', (req,res) => {
     req.getConnection((error, connection) => {
         if(error) res.send(error)
 
-        connection.query('SELECT * FROM comentarios WHERE idCasoPerdido = ?',[req.params.idCasoPerdido], (error, rows) => {
+        connection.query('SELECT * FROM comentarios WHERE idCasoPerdido = ? ORDER BY fechaCreacionComentario desc',[req.params.idCasoPerdido], (error, rows) => {
             if(error) return res.send(error)
 
-            res.json(rows)
+            const comentariosFormateados = rows.map((comment) => {
+                const fechaHora = moment(comment.fechaCreacionComentario);
+                const fechaFormateada = fechaHora.format('DD/MM/YYYY');
+                const horaFormateada = fechaHora.format('HH:mm');
+                
+                return {
+                    ...comment,
+                    fechaCreacionComentario: fechaFormateada,
+                    horaCreacionComentario: horaFormateada
+                }
+            });
+
+            res.json(comentariosFormateados);
         })
     })
 })

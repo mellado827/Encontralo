@@ -16,6 +16,7 @@ function LostPetCard({pets}) {
             const response = await fetch(`http://localhost:9000/api/comentarios/${pet.idPerdidos}`);
             const commentsForPet = await response.json();
             setComments(prevComments => ({ ...prevComments, [pet.idPerdidos]: commentsForPet }));
+            setCommentsLength(commentsForPet.length)
         };
         getCommentsFromDB();
         });
@@ -30,7 +31,7 @@ function LostPetCard({pets}) {
             </div>
           );
         } else {
-          return 'No hay comentarios.';
+          return <p className='text_fontstyle'>Este caso no tiene comentarios, ¡Pero puedes dejar el tuyo acá arriba!</p>
         }
       };      
 
@@ -226,13 +227,17 @@ function LostPetCard({pets}) {
                                      icon:'success',
                                      title:'¡Comentario subido!',
                                      text:`¡Gracias por apoyar en la búsqueda ${nombreMascota ? `de ${nombreMascota}` : ``}!`
-                                 }) } else {
+                                 }) 
+                                  
+                                } else {
                                      Swal.fire({
                                          text: 'Ha ocurrido un error inesperado, intentalo de nuevo más tarde.',
                                          title: '¡Error!',
                                          icon:'error'
                                      })
                                  }        
+
+                                 
                         } catch (error) {
                             Swal.fire(
                                 'Ha ocurrido un error inesperado!',

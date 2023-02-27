@@ -167,7 +167,6 @@
   width: 100%;
   padding: 1em;
   display: flex;
-  justify-content: center;
 }
 
 .inputComment {
@@ -184,6 +183,3 @@
   width: 25%;
 }
 
-.commentBox {
-  background-color: red;
-}

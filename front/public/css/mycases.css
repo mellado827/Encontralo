@@ -9,6 +9,7 @@
 .petPhotoContainer {
     position: relative;
     width: 100%;
+    justify-content: center;
 }
 
 .petButton {

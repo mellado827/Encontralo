@@ -1,19 +1,7 @@
 .commentBox {
-    background-color: rgba(255,255,255,0.7);;
-    margin: 1em;
-    display: flex;
-    flex-wrap: wrap;
-    overflow: visible;
-    width: 20em;
-    overflow: scroll visible;
-}
-
-.delete_button {
-    width: 2em;
-    cursor: pointer;
-}
-
-.delete_button:hover{
-    width: 2.5em;
-    transition: 0.3s;
+   background-color: rgb(234, 230, 230);
+   display: flex;
+   margin: 2em;
+   padding: 1em;
+   text-align: start;
 }
