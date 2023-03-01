@@ -220,7 +220,7 @@ routes.post('/formulario', (req, res) => {
         html: `
             <h1>¡Nuevo formulario recibido!</h1>
             <p>Hola Nico! Soy Nico del pasado xd. Te enviaron un formulario, de seguro es alguien interesado en Encontralo. 
-            Respondele cuanto antes al correo y/o número de teléfono que te adjuntó:
+            Respondele cuanto antes al correo y/o número de teléfono que el usuario te adjuntó:
             <p><strong>Nombre:</strong> ${req.body.name}</p>
             <p><strong>Correo electrónico:</strong> ${req.body.email}</p>
             <p><strong>Número de teléfono:</strong> ${req.body.whatsapp}</p>
