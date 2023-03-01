@@ -2,6 +2,7 @@ const express = require('express')
 const routes = express.Router()
 const {cloudinary} = require('./utils/cloudinary')
 const moment = require('moment');
+const nodemailer = require('nodemailer');
 
 //get all lost pets
 routes.get('/',(req,res) => {
@@ -202,5 +203,41 @@ routes.get('/comentarios/:idCasoPerdido', (req,res) => {
         })
     })
 })
+
+routes.post('/formulario', (req, res) => {
+    const transporter = nodemailer.createTransport({
+        service: 'outlook',
+        auth: {
+            user: 'encontraloformulario@outlook.com',
+            pass: process.env.EMAIL_PASSWORD
+        }
+    });
+
+    const mailOptions = {
+        from: 'encontraloformulario@outlook.com',
+        to: 'encontraloformulario@gmail.com',
+        subject: 'Nuevo mensaje - Encontralo',
+        html: `
+            <h1>¡Nuevo formulario recibido!</h1>
+            <p>Hola Nico! Soy Nico del pasado xd. Te enviaron un formulario, de seguro es alguien interesado en Encontralo. 
+            Respondele cuanto antes al correo y/o número de teléfono que te adjuntó:
+            <p><strong>Nombre:</strong> ${req.body.name}</p>
+            <p><strong>Correo electrónico:</strong> ${req.body.email}</p>
+            <p><strong>Número de teléfono:</strong> ${req.body.whatsapp}</p>
+            <p><strong>Asunto:</strong> ${req.body.subject}</p>
+            <p><strong>Mensaje:</strong> ${req.body.message}</p>
+        `
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log(error);
+            res.status(500).send({ message: 'Lo sentimos, hubo un error al enviar tu mensaje. Por favor, inténtalo de nuevo más tarde.' });
+        } else {
+            console.log('Email enviado: ' + info.response);
+            res.status(200).send({ message: 'Gracias por contactarnos. Te responderemos lo antes posible.' });
+        }
+    });
+});
 
 module.exports = routes
