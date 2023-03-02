@@ -24,7 +24,7 @@
     "react-helmet": "^6.1.0",
     "react-router-dom": "^5.2.0",
     "react-safe": "^1.3.0",
-    "react-scripts": "^3.4.4",
+    "react-scripts": "^5.0.1",
     "react-scroll": "^1.8.9",
     "shortid": "^2.2.15",
     "sweetalert2": "^10.1.0",
