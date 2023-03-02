@@ -1,8 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
 
-const Navbar = () => (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+const Navbar = () => {
+
+    return (<nav className="navbar navbar-expand-lg navbar-light bg-light">
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
         </button>
@@ -12,24 +13,24 @@ const Navbar = () => (
                     <Link className="nav-link text_fontstyle" to="/">Inicio</Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link text_fontstyle" to="/">¿Qué querés hacer?</Link>
+                    <Link className="nav-link text_fontstyle" to="/quehacer">¿Qué querés hacer?</Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link text_fontstyle" to="/tutorial">¿Cómo funciona?</Link>
+                    <Link className="nav-link text_fontstyle" to="/comofunciona">¿Cómo funciona?</Link>
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link text_fontstyle" to="/tips">Tips</Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link text_fontstyle" to="/about">Acerca de</Link>
+                    <Link className="nav-link text_fontstyle" to="/acercade">Acerca de</Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link text_fontstyle" to="/contact">Contacto</Link>
+                    <Link className="nav-link text_fontstyle" to="/contacto">Contacto</Link>
                 </li>
             </ul>
         </div>
     </nav>
-
-)
+    )
+}
 
 export default Navbar
