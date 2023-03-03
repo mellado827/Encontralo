@@ -1,13 +1,75 @@
-import React from 'react'
-import emailjs from 'emailjs-com'
+import { faWindowRestore } from '@fortawesome/free-solid-svg-icons';
+import React, {useState} from 'react'
 import Swal from 'sweetalert2'
 import Navbar from '../Components/navbar'
-import { init } from 'emailjs-com';
-init("user_mOJKehHBkb7ul8DMSXNQF");
 
-export default function Form(props) {
+export default function Form() {
 
-    document.title = "Encontralo / formulario "
+    const [formState, setFormState] = useState({
+        name: "",
+        email: "",
+        whatsapp: "",
+        subject: "",
+        message: "",
+      });
+
+    const handleInputChange = (event) => {
+        setFormState({
+          ...formState,
+          [event.target.name]: event.target.value,
+        });
+      };      
+
+    document.title = "Encontralo / Formulario "
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+                
+        Swal.fire({
+            icon: 'info',
+            title: 'Enviando...',
+            text: 'Se está enviando el correo, esperá un momento por favor.'
+        })
+    
+        fetch("http://localhost:9000/api/formulario", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formState),
+        })
+          .then((response) => {
+            
+            if (response.ok) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Enviado correctamente!',
+                    text: 'Gracias por contactarte con Encontralo. El moderador principal se contactará contigo a la casilla de correo que ingresaste.'
+                })
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
+
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'Lamentamos que no se haya podido enviar el formulario, pero intentalo de nuevo más tarde.'
+              })
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'Lamentamos que no se haya podido enviar el formulario, pero intentalo de nuevo más tarde.'
+              })
+          });
+      };
+    
 
     return (
         <>
@@ -21,7 +83,7 @@ export default function Form(props) {
 
                 </div>
 
-                <form className="form d-flex flex-column justify-content-start">
+                <form className="form d-flex flex-column justify-content-start" onSubmit={handleSubmit}>
                     <div className="d-flex flex-column align-items-center">
                         <div className="form-group m-3 pt-3 input_sizeForm">
                             <label htmlFor="formGroupExampleInput"
@@ -32,7 +94,9 @@ export default function Form(props) {
                                 className="form-control text_fontstyle"
                                 name="name"
                                 required={true}
-                                placeholder="Ingresa tu nombre" />
+                                placeholder="Ingresa tu nombre" 
+                                onChange={handleInputChange}
+                                />
                         </div>
                         <div className="form-group m-3 pt-3 input_sizeForm">
                             <label htmlFor="exampleInputEmail1" className="text_fontstyle"><u>Correo electrónico</u> *</label>
@@ -41,7 +105,19 @@ export default function Form(props) {
                                 aria-describedby="emailHelp"
                                 name="email"
                                 required={true}
-                                placeholder="Ingresa tu correo" />
+                                placeholder="Ingresa tu correo" 
+                                onChange={handleInputChange}
+                                />
+                        </div>
+                        <div className="form-group m-3 pt-3 input_sizeForm">
+                            <label htmlFor="exampleInputEmail1" className="text_fontstyle"><u>Número de celular</u> *</label>
+                            <input type="text"
+                                className="form-control text_fontstyle"
+                                name="whatsapp"
+                                required={true}
+                                placeholder="Ingresa tu número de teléfono" 
+                                onChange={handleInputChange}
+                                />
                         </div>
                         <div className="form-group m-3 pt-3 input_sizeForm">
                             <label htmlFor="formGroupExampleInput" className="text_fontstyle"><u>Asunto</u> *</label>
@@ -49,14 +125,18 @@ export default function Form(props) {
                                 name="subject"
                                 required={true}
                                 className="form-control text_fontstyle"
-                                placeholder="Ingresa el asunto" />
+                                placeholder="Ingresa el asunto" 
+                                onChange={handleInputChange}
+                                />
                         </div>
                         <div className="form-group m-3 pt-3 input_sizeForm">
                             <label htmlFor="exampleFormControlTextarea1" className="text_fontstyle"><u>Mensaje</u> *</label>
                             <textarea className="form-control text_fontstyle"
                                 name="message"
                                 required={true}
-                                rows="8"></textarea>
+                                onChange={handleInputChange}
+                                rows="8">
+                            </textarea>
                         </div>
                         <button type="submit"
                             className="mt-3 cta_bottonsstyle text_fontstyle mb-3">Enviar

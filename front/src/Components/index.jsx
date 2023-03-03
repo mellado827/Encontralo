@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Navbar from '../Components/navbar';
 import Actions from '../Components/actions'
 import Tutorial from '../Components/tutorial'
