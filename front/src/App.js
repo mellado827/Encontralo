@@ -4,7 +4,7 @@ import Report from "./Components/report";
 import Error from "./Components/error";
 import Login from "./Components/login";
 import Signup from "./Components/signup";
-import { Switch, Route} from "react-router-dom";
+import { BrowserRouter, Switch, Route} from "react-router-dom";
 import Password from "./Components/password";
 import Search from "./Components/search";
 import MyCases from "./Components/mycases";
@@ -12,7 +12,6 @@ import Form from "./Components/form";
 import Tracing from "./Components/tracing";
 import CeroCases from "./Components/cerocases";
 import Found from "./Components/found";
-import { HashRouter } from "react-router-dom";
 
 function App() {
   return (
