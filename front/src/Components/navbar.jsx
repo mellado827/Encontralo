@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
+import navbarValidation from '../Functions/navbarValidation'
 
 const Navbar = () => (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -7,26 +7,7 @@ const Navbar = () => (
             <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul className="navbar-nav">
-                <li className="nav-item">
-                    <Link className="nav-link text_fontstyle" to="/">Inicio</Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link text_fontstyle" to="/">¿Qué querés hacer?</Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link text_fontstyle" to="/tutorial">¿Cómo funciona?</Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link text_fontstyle" to="/tips">Tips</Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link text_fontstyle" to="/about">Acerca de</Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link text_fontstyle" to="/contact">Contacto</Link>
-                </li>
-            </ul>
+            {navbarValidation()}
         </div>
     </nav>
 

@@ -3,7 +3,7 @@ import React from 'react'
 const About = () => (
     <>
         <div className="containerAC">
-            <div className="about d-flex flex-column align-items-center" id="about">
+            <div className="about d-flex flex-column align-items-center" id="acercade">
                 <h1 className="title_fontstyle text-center p-5">Acerca de Encontralo</h1>
                 <p className="text_fontstyle text-center m-2">Nuestra <u>misión</u> es hacer posible ese preciado reencuentro.
                     <i> La calle no es hogar para nadie.</i>

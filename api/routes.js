@@ -90,10 +90,9 @@ routes.post('/', (req,res) => {
          if(error) return res.send(error)
 
          connection.query('INSERT INTO perdidos SET ?',[req.body], (error, rows) => {
-            console.log(req.body)
              if(error) return res.send(error)
              console.log('post hecho!')
-             res.send('post hecho')
+             res.send(rows)
          })
      })
 })

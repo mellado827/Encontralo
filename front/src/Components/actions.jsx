@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 
 const Actions = () => (
 
-    <div className="calltoaction" id="calltoaction">
+    <div className="calltoaction" id="quehacer">
         <h1 className="title_fontstyle text-center margin_calltoactions">¿Qué querés hacer?</h1>
         <div className="calltoaction_buttons text_fontstyle">
             <Link to="/difundir">
