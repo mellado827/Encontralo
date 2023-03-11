@@ -40,6 +40,7 @@ function Search() {
 
     const getTypePetByUser = (e) => {
         e.preventDefault()
+        debugger;
         if(typePetInputByUser == "") {
             Swal.fire({
                 icon: 'error',
@@ -51,8 +52,8 @@ function Search() {
             .then(res => res.status == 404 ? modalErrorNotFound() : res.json()
             .then(res => setPets(res)))
             setTypePetInputByUser('')
-        } else if (typePetInputByUser == 'Perro' || typePetInputByUser == 'Gato'
-        || typePetInputByUser == 'Conejo' || typePetInputByUser == 'Loro') {
+        } else if (typePetInputByUser.toLowerCase() == 'perro' || typePetInputByUser.toLowerCase() == 'gato'
+        || typePetInputByUser.toLowerCase() == 'conejo' || typePetInputByUser.toLowerCase() == 'loro') {
             fetch(`http://localhost:9000/api/tipoMascota/${typePetInputByUser}`)
             .then(res => res.status == 404 ? modalErrorNotFound() : res.json()
             .then(res => setPets(res)))

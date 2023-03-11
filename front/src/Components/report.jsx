@@ -12,7 +12,8 @@ function Report() {
 
   document.title = "Reportar / Encontralo";
 
-  const id = Math.floor(100000 + Math.random() * 900);
+  const id = Math.floor(Math.random() * 16000);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   const [report, saveReport] = useState({
     tipoMascota: "",
@@ -60,32 +61,24 @@ function Report() {
   };
 
   const handleChangeDate = (date) => {
-    let dateES = date.toLocaleDateString('es-ES', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'})
+    setSelectedDate(date)
 
-    let hour = date.getHours()
-    let minutes = date.getMinutes()
-
-    if(hour < 10) 
-    {
-      hour = "0" + hour
-    } 
-
-    if(minutes < 10) 
-    {
-      minutes = minutes + "0"
-    }
-
-    let hourAndMinutes = hour + ':' + minutes
-
-    saveReport({
-      ...report,
-      fechaMascota: dateES,
-      horaPerdidoMascota: hourAndMinutes
+    if(date != null) {
+      saveReport({
+        ...report,
+        fechaMascota: date.toLocaleDateString('es-ES', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric'
+        })
       })
-  }
+    } else {
+      saveReport({
+        ...report, 
+        fechaMascota: ''
+      })
+    }
+  }; 
 
   //validate completed report
   const validateReport = () => {
@@ -163,22 +156,6 @@ function Report() {
     }
   }
 
-  const dateAndHour = () => {
-
-    let hourExist = ''
-    hourExist = report.horaPerdidoMascota ? hourExist = ` a las ` + report.horaPerdidoMascota : hourExist
-
-    if(report.horaPerdidoMascota != "" && report.fechaMascota != "") 
-    {
-      let dateAndHourViralInfo = report.fechaMascota + hourExist
-      return dateAndHourViralInfo
-    }     
-    else {
-      let inputDate = 'Introduce la fecha'
-      return inputDate
-    }
-  }
-
   const [maxDate, setMaxDate] = useState(new Date());
 
    const ViralInfo = () => {
@@ -188,7 +165,7 @@ function Report() {
     ${report.nombreMascota ? `Responde al nombre de ${report.nombreMascota}.` : 'Se desconoce el nombre.'} 
     ${report.razaMascota ? `Es de raza ${report.razaMascota}.` : ``}
     Más información sobre el caso: ${report.descripcionMascota}.
-    ${report.fechaMascota ? 'Se perdió el ' + dateAndHour() : ''}
+    ${report.fechaMascota ? `Se perdió el ${report.fechaMascota}${report.horaPerdidoMascota ? ` a las ${report.horaPerdidoMascota}` : ''}` : ''}
     Quien reporta se llama ${report.nombreResponsableMascota} y su número de celular es: ${report.descripcionResponsableMascota}
     ¡Por favor difundir! #Uruguay #${report.departamentoPerdidoMascota} #LaCalleNoEsHogarParaNadie .`
 
@@ -207,7 +184,7 @@ function Report() {
 
     Swal.fire({
           title: 'Estás seguro?',
-          text: "No vas a poder revertir esto!",
+          text: "¡No vas a poder revertir esto!",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
@@ -296,7 +273,7 @@ function Report() {
       <div className="report">
         <div className="report_title">
           <h1 className="text-center subtitle_fontstyle report_title mt-5">
-            Difundir desaparición
+            Difundir desaparición/encontrado
           </h1>
           <p className="text-center text_fontstyle">
             Completá el siguiente formulario:
@@ -336,7 +313,7 @@ function Report() {
             </select>
 
             <label className="mt-4">
-              <u>Estado</u> *
+              <u>¿Qué pasó?</u> *
             </label>
             <select
               id="itwas"
@@ -345,9 +322,9 @@ function Report() {
               onChange={updateState}
             >
               <option value="">Seleccionar...</option>
-              <option value="Perdido">Perdido</option>
-              <option value="Encontrado">Encontrado</option>
-              <option value="Robado">Robado</option>
+              <option value="Perdido">Se me perdió</option>
+              <option value="Encontrado">Lo encontré perdido/a</option>
+              <option value="Robado">Fue robado/a</option>
             </select>
 
             <label className="mt-4"> Raza </label>
@@ -433,17 +410,26 @@ function Report() {
             </div>
 
             <div className="d-flex flex-column mt-4">
-                <label className="mt-4 text-center">Fecha y hora</label>
+                <label className="mt-4 text-center">Fecha</label>
                 <div className="d-flex justify-content-center text_fontstyle">
                   <Datepicker
                     id="missing_date"
-                    placeholderText={dateAndHour()}
+                    selected={selectedDate}
                     locale="es"
+                    dateFormat={"dd/MM/yyyy"}
                     name="fechaMascota"
-                    showTimeSelect
+                    placeholderText="Introduce la fecha"
                     maxDate={maxDate}
                     onChange={handleChangeDate}
                   />
+                </div>
+                <label className="mt-4 text-center">Hora</label>
+                <div className="d-flex justify-content-center text_fontstyle">
+                  <input 
+                  type="time"
+                  name="horaPerdidoMascota"
+                   onChange={updateState}>
+                   </input>
                 </div>
             </div>
 

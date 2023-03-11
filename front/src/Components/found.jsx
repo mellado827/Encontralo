@@ -37,8 +37,8 @@ function Found() {
             .then(res => res.status == 404 ? modalErrorNotFound() : res.json()
             .then(res => setFoundPets(res)))
             setFoundPets('')
-        } else if (inputUser == 'Perro' || inputUser == 'Gato'
-        || inputUser == 'Conejo' || inputUser == 'Loro') {
+        } else if (inputUser.toLowerCase() == 'perro' || inputUser.toLowerCase() == 'gato'
+        || inputUser.toLowerCase() == 'conejo' || inputUser.toLowerCase() == 'loro') {
             fetch(`http://localhost:9000/api/encontradosTipoMascota/${inputUser}`)
             .then(res => res.status == 404 ? modalErrorNotFound() : res.json()
             .then(res => setFoundPets(res)))
