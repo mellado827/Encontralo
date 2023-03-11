@@ -43,8 +43,7 @@ function LostPetCard({pets}) {
             const estadoMascota = petsToUpload.estadoMascota
             const departamento = petsToUpload.departamentoPerdidoMascota
 
-            if(nombreMascota) {
-                return `¡APARECIÓ ${nombreMascota}!
+                return `¡APARECIÓ ${ nombreMascota ? nombreMascota : ''}!
                 Nos alegra informarles que ${sexoMascota == 'Hembra'? `la ${sexoMascotaParaTexto.toLowerCase()}` :
                 `el ${sexoMascotaParaTexto.toLowerCase()}`}
                 que habíamos reportado como ${estadoMascota.toLowerCase()} 
@@ -52,7 +51,6 @@ function LostPetCard({pets}) {
                 #Uruguay 
                 #${petsToUpload.departamentoPerdidoMascota} 
                 #LaCalleNoEsHogarParaNadie`
-            }
     }
 
   const foundPetUpload = async (e, petsToUpload) => {
