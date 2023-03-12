@@ -36,6 +36,7 @@ function LostPetCard({pets}) {
       };      
 
        const petFoundViralInfo = (petsToUpload) => {
+            debugger;
 
             const nombreMascota = petsToUpload.nombreMascota
             const sexoMascota = petsToUpload.sexoMascota
@@ -43,27 +44,25 @@ function LostPetCard({pets}) {
             const estadoMascota = petsToUpload.estadoMascota
             const departamento = petsToUpload.departamentoPerdidoMascota
 
-                return `¡APARECIÓ ${ nombreMascota ? nombreMascota : ''}!
-                Nos alegra informarles que ${sexoMascota == 'Hembra'? `la ${sexoMascotaParaTexto.toLowerCase()}` :
-                `el ${sexoMascotaParaTexto.toLowerCase()}`}
-                que habíamos reportado como ${estadoMascota.toLowerCase()} 
-                en ${departamento} ya está de vuelta con su familia, ¡Gracias a todos por haber difundido!
-                #Uruguay 
-                #${petsToUpload.departamentoPerdidoMascota} 
-                #LaCalleNoEsHogarParaNadie`
+                return `Apareció ${ nombreMascota ? nombreMascota + '.' : sexoMascota == 'Hembra' ? 
+            `la ${sexoMascotaParaTexto} que estaba en ${departamento}.` : 
+            `el ${sexoMascotaParaTexto} que estaba en ${departamento}`}
+                Gracias a todos por haber apoyado. 
+                #Uruguay #${departamento} #lacallenoeshogarparanadie`
     }
 
   const foundPetUpload = async (e, petsToUpload) => {
         e.preventDefault()
 
         Swal.fire({
-            title: '¿Estás seguro? El texto sería el siguiente:',
+            title: '¿Estás seguro? ¡No se podrá deshacer!',
             text: petFoundViralInfo(petsToUpload),
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, apareció!'
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No'
         }).then(async (result) => {
             if (result.isConfirmed) {       
                                
