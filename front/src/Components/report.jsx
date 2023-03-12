@@ -81,46 +81,23 @@ function Report() {
   }; 
 
   //validate completed report
-  const validateReport = () => {
-     const {
-       tipoMascota,
-       estadoMascota,
-       sexoMascota,
-       descripcionMascota,
-       chipMascota,
-       departamentoPerdidoMascota,
-       localidadPerdidoMascota,
-       lugarPerdidoMascota,
-       nombreResponsableMascota,
-       descripcionResponsableMascota
-     } = report;
-    
+  const validateReport = () => { 
      if(
-       tipoMascota.length != "" &&
-       estadoMascota.length  != "" &&
-       sexoMascota.length  != "" &&
-       descripcionMascota.length  != "" &&
-       chipMascota.length  != ""  &&
-       departamentoPerdidoMascota.length  != "" &&
-       localidadPerdidoMascota.length != "" &&
-       lugarPerdidoMascota.length != "" &&
-       nombreResponsableMascota != "" &&
-       descripcionResponsableMascota != ""
+       report.tipoMascota.length != "" &&
+       report.estadoMascota.length  != "" &&
+       report.sexoMascota.length  != "" &&
+       report.descripcionMascota.length  != "" &&
+       report.chipMascota.length  != ""  &&
+       report.departamentoPerdidoMascota.length  != "" &&
+       report.localidadPerdidoMascota.length != "" &&
+       report.lugarPerdidoMascota.length != "" &&
+       report.nombreResponsableMascota != "" &&
+       report.descripcionResponsableMascota != ""
      ) {
-      Swal.fire({
-        title: 'SE BUSCA',
-        text: caseInfo,
-        imageUrl: previewSource
-       }) 
+      return true
+     } else {
+       return false
      }
-    else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Completa todos los campos obligatorios.'
-      })
-      return false;
-    }
   };
 
   const sexPet = (typePet, statusPet, sexPet) => {
@@ -174,7 +151,11 @@ function Report() {
 
   const handleSubmitFile = () => {
     if (!previewSource) {
-      console.log("no seleccionaste nada")
+      Swal.fire({
+        icon: 'error',
+        title: '¡Error!',
+        text: 'No adjuntaste imagen.'
+      })
     } else {
       uploadImageAndReport()
     }
@@ -182,88 +163,109 @@ function Report() {
 
   const uploadImageAndReport = async () => {
 
-    Swal.fire({
-          title: 'Estás seguro?',
-          text: "¡No vas a poder revertir esto!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Si, reportar'
-      }).then(async (result) => {
-        if(result.isConfirmed) {
-          Swal.fire({
-            title: "Cargando...",
-            text: "Espere un momento",
-            icon: "info",
-            showConfirmButton: false
-          });
+    if(validateReport() == false) { 
+      Swal.fire({
+         icon: 'error',
+         title: 'Error',
+         text: 'Completa todos los campos obligatorios.'
+       })
+    } else {
 
-          try {
+      Swal.fire({
+        title: 'Estás seguro?',
+        text: "¡No vas a poder revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, reportar'
+    }).then(async (result) => {
+      if(result.isConfirmed) {
+        Swal.fire({
+          title: "Cargando...",
+          text: "Espere un momento",
+          icon: "info",
+          showConfirmButton: false
+        });
+
+        try {
+          const requestInit = {
+            method: 'POST',
+            body: JSON.stringify({data: previewSource}),
+            headers: {'Content-Type': 'application/json'}
+          }
+         const response = await fetch('http://localhost:9000/api/image', requestInit)
+         const data = await response.json()
+    
+          if(data.url) {
+            saveReport({
+              ...report.imagenMascota = data.url,
+              ...report.viralInfo = caseInfo
+            })
+    
             const requestInit = {
               method: 'POST',
-              body: JSON.stringify({data: previewSource}),
-              headers: {'Content-Type': 'application/json'}
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify(report)
             }
-           const response = await fetch('http://localhost:9000/api/image', requestInit)
-           const data = await response.json()
-      
-            if(data.url) {
-              saveReport({
-                ...report.imagenMascota = data.url,
-                ...report.viralInfo = caseInfo
-              })
-      
-              const requestInit = {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(report)
+            console.log(report)
+    
+          await fetch('http://localhost:9000/api', requestInit)
+            .then(res => {
+              console.log(res)
+              if(res.status == 200) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'La publicación ha sido realizada correctamente.',
+                  text: `¡No te rindas!. Cualquier novedad te avisaremos. Tomá el ID del caso por cualquier cosa: ${report.idPublico}`
+                })
               }
-              console.log(report)
-      
-            await fetch('http://localhost:9000/api', requestInit)
-              .then(res => {
-                console.log(res)
-                if(res.status == 200) {
-                  Swal.fire({
-                    icon: 'success',
-                    title: 'La publicación ha sido realizada correctamente.',
-                    text: `¡No te rindas!. Cualquier novedad te avisaremos. Tomá el ID del caso por cualquier cosa: ${report.idPublico}`
-                  })
-                }
-              }
-              )
-            
-            //reiniciando state del libro
-            saveReport({
-              tipoMascota: "",
-              estadoMascota: "",
-              razaMascota: "",
-              nombreMascota: "",
-              sexoMascota: "",
-              descripcionMascota: "",
-              chipMascota: "",
-              fechaMascota: "",
-              horaPerdidoMascota: "",
-              departamentoPerdidoMascota: "",
-              localidadPerdidoMascota: "",
-              lugarPerdidoMascota: "",
-              nombreResponsableMascota: "",
-              descripcionResponsableMascota: "",
-              idPublico: "",
-              viralInfo: "",
-              imagenMascota: ""
+
+              setTimeout(() => {
+                window.location.href = "http://localhost:3000/buscar";
+              }, 2000);
+            }
+            )
+          
+          //reiniciando state del libro
+          saveReport({
+            tipoMascota: "",
+            estadoMascota: "",
+            razaMascota: "",
+            nombreMascota: "",
+            sexoMascota: "",
+            descripcionMascota: "",
+            chipMascota: "",
+            fechaMascota: "",
+            horaPerdidoMascota: "",
+            departamentoPerdidoMascota: "",
+            localidadPerdidoMascota: "",
+            lugarPerdidoMascota: "",
+            nombreResponsableMascota: "",
+            descripcionResponsableMascota: "",
+            idPublico: "",
+            viralInfo: "",
+            imagenMascota: ""
+          })
+    
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: '¡Error!',
+              text: `No adjuntaste una imagen.`
             })
-      
-            } else {
-              console.log('Imagen no adjuntada.')
-            }
-      
-         } catch (error) {
-            console.log(error)
           }
+    
+       } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: '¡Error!',
+          text: `Hubo un error. Intentalo de nuevo más tarde.`
+        })
         }
-      })
+      }
+    })
+    }
   }
 
   return (

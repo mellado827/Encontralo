@@ -32,6 +32,39 @@ routes.get('/tipoMascota/:petType',(req,res) => {
     })
 })
 
+//get found pets by pet type
+routes.get('/encontradosTipoMascota/:petType',(req,res) => {
+    req.getConnection((error, connection) => {
+        if(error) return res.send(error)
+
+        connection.query('SELECT * FROM encontrados WHERE tipoMascota = ?', [req.params.petType], (error, pet) => {
+            if(error) return res.send(error)
+            if(pet.length == 0) {
+                res.sendStatus(404)
+            } else {
+                res.json(pet)
+            }
+        })
+    })
+})
+
+//get found pets by department
+routes.get('/encontradosDepartamentoMascota/:departament',(req,res) => {
+    req.getConnection((error, connection) => {
+        if(error) return res.send(error)
+
+        connection.query('SELECT * FROM encontrados WHERE departamentoPerdidoMascota = ?', [req.params.departament], (error, pet) => {
+            if(error) return res.send(error)
+            if(pet.length == 0) {
+                res.sendStatus(404)
+            } else {
+                res.json(pet)
+            }
+        })
+    })
+})
+
+
 //get lost pets by departamento
 routes.get('/departamento/:departament',(req,res) => {
     req.getConnection((error, connection) => {

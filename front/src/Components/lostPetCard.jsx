@@ -114,6 +114,12 @@ function LostPetCard({pets}) {
                                         `Nos alegramos mucho de que ${petsToUpload.nombreMascota ? petsToUpload.nombreMascota : ''} haya aparecido :).`,
                                         'success'
                                       )
+
+                                      
+                                setTimeout(() => {
+                                    window.location.href = "http://localhost:3000/encontrados";
+                                }, 2000);
+
                                 } else {
                                     Swal.fire(
                                         'Error!',
@@ -226,6 +232,10 @@ function LostPetCard({pets}) {
                                      title:'¡Comentario subido!',
                                      text:`¡Gracias por apoyar en la búsqueda ${nombreMascota ? `de ${nombreMascota}` : ``}!`
                                  }) 
+
+                                 setTimeout(() => {
+                                    window.location.reload()
+                                 }, 2000);
                                   
                                 } else {
                                      Swal.fire({

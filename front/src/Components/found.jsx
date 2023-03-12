@@ -88,8 +88,8 @@ function Found() {
                     </h1>
                     <label className='text_fontstyle'>
                         {allFoundPets > 0 
-                        ? `Actualmente hay ${allFoundPets} animalitos perdidos.
-                          Buscá el tuyo por tipo de mascota, departamento o ID de caso:`
+                        ? `Actualmente hay ${allFoundPets} animalitos perdidos en total, pero
+                          podés buscar el tuyo por tipo de mascota, departamento o ID de caso:`
                         : ''}
                     </label>
                     <div>
@@ -109,7 +109,8 @@ function Found() {
                                 id="search_button"
                                 className="text_fontstyle cta_bottonsstyle mt-4"
                                 onClick={(e) => getTypePetByUser(e)}
-                                >Buscar</button>
+                                >Buscar
+                            </button>
                         </div>
                         {renderLostPets()}
                     </form>
