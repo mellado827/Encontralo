@@ -81,24 +81,31 @@ function Report() {
   }; 
 
   //validate completed report
-  const validateReport = () => { 
-     if(
-       report.tipoMascota.length != "" &&
-       report.estadoMascota.length  != "" &&
-       report.sexoMascota.length  != "" &&
-       report.descripcionMascota.length  != "" &&
-       report.chipMascota.length  != ""  &&
-       report.departamentoPerdidoMascota.length  != "" &&
-       report.localidadPerdidoMascota.length != "" &&
-       report.lugarPerdidoMascota.length != "" &&
-       report.nombreResponsableMascota != "" &&
-       report.descripcionResponsableMascota != ""
-     ) {
-      return true
-     } else {
-       return false
-     }
-  };
+  // const validateReport = () => { 
+  //    if(
+  //      report.tipoMascota.length != "" &&
+  //      report.estadoMascota.length  != "" &&
+  //      report.sexoMascota.length  != "" &&
+  //      report.descripcionMascota.length  != "" &&
+  //      report.chipMascota.length  != ""  &&
+  //      report.departamentoPerdidoMascota.length  != "" &&
+  //      report.localidadPerdidoMascota.length != "" &&
+  //      report.lugarPerdidoMascota.length != "" &&
+  //      report.nombreResponsableMascota != "" &&
+  //      report.descripcionResponsableMascota != ""
+  //    ) {
+  //     return true
+  //    } else {
+  //      return false
+  //    }
+  // };
+
+  const viralInfoBeforeReport = (viralInfo) => {
+    return (Swal.fire({
+      title: 'SE BUSCA',
+      text: viralInfo
+    }))
+  }
 
   const sexPet = (typePet, statusPet, sexPet) => {
     const lastCharacterSexPet = sexPet ? sexPet.slice(-1) : null
@@ -163,13 +170,13 @@ function Report() {
 
   const uploadImageAndReport = async () => {
 
-    if(validateReport() == false) { 
-      Swal.fire({
-         icon: 'error',
-         title: 'Error',
-         text: 'Completa todos los campos obligatorios.'
-       })
-    } else {
+    // if(validateReport() == false) { 
+    //   Swal.fire({
+    //      icon: 'error',
+    //      title: 'Error',
+    //      text: 'Completa todos los campos obligatorios.'
+    //    })
+    // }  
 
       Swal.fire({
         title: 'Estás seguro?',
@@ -178,7 +185,8 @@ function Report() {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, reportar'
+        confirmButtonText: 'Si, reportar',
+        cancelButtonText: 'Cancelar'
     }).then(async (result) => {
       if(result.isConfirmed) {
         Swal.fire({
@@ -265,7 +273,7 @@ function Report() {
         }
       }
     })
-    }
+    
   }
 
   return (
@@ -540,7 +548,7 @@ function Report() {
                 data-toggle="modal"
                 data-target="#previewReport_modal"
                 id="preview_button"
-                onClick={validateReport}
+                onClick={() => {viralInfoBeforeReport(caseInfo)}}
                 >
                 Vista previa
               </button>
